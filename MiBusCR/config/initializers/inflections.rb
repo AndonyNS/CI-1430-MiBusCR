@@ -14,3 +14,9 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym 'RESTful'
 # end
+
+ActiveSupport::Inflector.inflections do |inflect| 
+ inflect.irregular 'ruta', 'rutas' 
+ inflect.irregular 'bus', 'buses' 
+ inflect.irregular 'gps', 'gps_s' 
+end
