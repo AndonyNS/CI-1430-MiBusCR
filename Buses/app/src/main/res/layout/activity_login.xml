@@ -31,38 +31,40 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="32dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="32dp">
+        android:layout_marginTop="32dp"
+        android:fillViewport="false">
 
-            <LinearLayout
-                android:id="@+id/email_login_form"
-                android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/email_login_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <AutoCompleteTextView
+                android:id="@+id/email"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:hint="@string/prompt_email"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:layout_marginTop="120dp"
+                android:layout_marginLeft="15dp" />
 
-                <AutoCompleteTextView
-                    android:id="@+id/email"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_email"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:layout_marginTop="120dp"
-                    android:layout_marginLeft="20dp" />
-
-            </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 
     <Button
-        android:id="@+id/email_sign_in_button"
+        android:id="@+id/Login"
         style="?android:textAppearanceSmall"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="@string/action_sign_in_short"
+        android:text="@string/action_sign_in"
         android:textStyle="bold"
-        android:layout_marginBottom="120dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="120dp" />
+        android:layout_marginTop="58dp"
+        android:layout_below="@+id/password"
+        android:layout_alignLeft="@+id/Register"
+        android:layout_alignStart="@+id/Register" />
 
     <EditText
         android:id="@+id/password"
@@ -70,7 +72,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/prompt_password"
         android:imeActionId="@+id/login"
-        android:imeActionLabel="@string/action_sign_in_short"
+        android:imeActionLabel="@string/action_sign_up"
         android:imeOptions="actionUnspecified"
         android:inputType="textPassword"
         android:maxLines="1"
@@ -78,7 +80,15 @@
         android:layout_marginTop="210dp"
         android:layout_marginLeft="50dp" />
 
+    <Button
+        style="?android:textAppearanceSmall"
+        android:id="@+id/Register"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="@string/action_sign_up"
+        android:textStyle="bold"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/Login"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
-
-
-
