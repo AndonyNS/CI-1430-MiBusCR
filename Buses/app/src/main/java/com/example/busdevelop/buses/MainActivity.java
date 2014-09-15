@@ -1,5 +1,8 @@
 package com.example.busdevelop.buses;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -10,13 +13,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.Button;
+import android.widget.Toast;
 
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 
 
 public class MainActivity extends ActionBarActivity {
 
+    private static final String mFIREBASE_URL = "https://blazing-fire-9075.firebaseio.com/";
+    private String mgps;
+    private String mlocation;
+    private String mlatitud;
+    private String mlongitud;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
@@ -24,7 +41,10 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-    }
+
+
+
+     }
 
 
     @Override
@@ -45,6 +65,49 @@ public class MainActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+    public void getLocation(View v){
+
+
+
+           Firebase firebaseRef = new Firebase(mFIREBASE_URL);
+
+            firebaseRef.addChildEventListener(new ChildEventListener(){
+
+                @Override
+                public void onChildChanged(DataSnapshot snapshot, String previousChildName){
+
+                   mgps = (String) snapshot.child("GpsID").getValue();
+                   mlocation = (String) snapshot.child("Location").getValue();
+                   String[] parts = mlocation.split(" ");
+                    mlatitud = parts[0];
+                    mlongitud = parts[1];
+
+
+                }
+
+                @Override
+                public void onChildAdded(DataSnapshot snapshot, String previousChildName){}
+
+                @Override
+                public void onChildRemoved(DataSnapshot snapshot){}
+
+                @Override
+                public void onChildMoved(DataSnapshot snapshot, String previousChildName){}
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+                    System.out.println("The read failed: " + firebaseError.getMessage());
+                }
+
+            });
+
+
+
+    }
+
+
 
     /**
      * A placeholder fragment containing a simple view.
