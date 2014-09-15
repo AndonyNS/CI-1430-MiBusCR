@@ -89,6 +89,8 @@
         android:textStyle="bold"
         android:layout_marginTop="25dp"
         android:layout_below="@+id/Login"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="registrarCuenta"/>
+
 
 </RelativeLayout>
