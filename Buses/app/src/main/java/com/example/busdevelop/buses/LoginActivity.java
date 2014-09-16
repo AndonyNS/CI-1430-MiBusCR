@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -221,11 +222,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         }
     }
 
+    /** Metodo para pasar a a la actividad CrearCuenta*/
     public void goToRegister(){
-        /*Llama a la clase que Alexis va a crear para registrarse,
-        en caso de que ya haya ingresado un usuario no registrado y una contraseña,
-        sería buena idea que mandara como parámetros los datos ingresados
-        */
+        Intent i = new Intent(this, CrearCuentaActivity.class);
+        startActivity(i);
     }
 
     @Override
