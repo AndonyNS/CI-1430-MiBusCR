@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_activity_rutas">Rutas</string>
+    <!--temporal-->
+    <string name="ruta_alajuela_ucr">Alajuela-UCR</string>
+    <string name="ruta_pavas_ucr">Pavas-UCR</string>
+    <string name="ruta_tibas_ucr">Tibas-UCR</string>
+    <string name="search_hint">Tibas-UCR</string>
+
+</resources>

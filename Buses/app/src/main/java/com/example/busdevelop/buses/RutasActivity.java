@@ -39,10 +39,10 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         mpd = ProgressDialog
                 .show(this, "Localización", "Esperando localización");
-        // Recordatorio: en este mŽtodo indicamos la frecuencia con la
-        // que obtenemos una nueva posici—n.
-        // En este caso cada 5 segundos y que me haya desplazado 5 metro
-        // obtendrŽ una nueva localizaci—n
+        // Recordatorio: en este metodo indicamos la frecuencia con la
+        // que obtenemos una nueva posicion.
+        // En este caso cada 5 segundos y que me haya desplazado 20 metros
+        // obtendra una nueva localizacion
         mLocationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER, 5000, 20, this);
     }
