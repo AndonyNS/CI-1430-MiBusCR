@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sgoliver="http://schemas.android.com/apk/res-auto" >
+    <item android:id="@+id/action_search"
+        android:orderInCategory="100"
+        sgoliver:showAsAction="ifRoom"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="search"></item>
+    <item android:id="@+id/MnuOpc1"
+        android:title="@string/ruta_alajuela_ucr"
+        android:icon="@drawable/logo"
+        android:actionViewClass="android.widget.SearchView"></item>
+    <item android:id="@+id/MnuOpc2"
+        android:title="@string/ruta_pavas_ucr"
+        android:icon="@drawable/logo"
+        android:actionViewClass="android.widget.SearchView"></item>
+    <item android:id="@+id/MnuOpc3" android:title="@string/ruta_tibas_ucr"
+        android:icon="@drawable/logo"
+        android:actionViewClass="android.widget.SearchView"></item>
+</menu>
