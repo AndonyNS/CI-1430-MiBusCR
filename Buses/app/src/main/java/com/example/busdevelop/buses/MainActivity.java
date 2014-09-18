@@ -25,10 +25,10 @@ import com.firebase.client.FirebaseError;
 public class MainActivity extends ActionBarActivity {
 
     private static final String mFIREBASE_URL = "https://blazing-fire-9075.firebaseio.com/";
-    private String mgps;
-    private String mlocation;
-    private String mlatitud;
-    private String mlongitud;
+    private String mGps;
+    private String mLocation;
+    private String mLatitud;
+    private String mLongitud;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,11 +78,11 @@ public class MainActivity extends ActionBarActivity {
                 @Override
                 public void onChildChanged(DataSnapshot snapshot, String previousChildName){
 
-                   mgps = (String) snapshot.child("GpsID").getValue();
-                   mlocation = (String) snapshot.child("Location").getValue();
-                   String[] parts = mlocation.split(" ");
-                    mlatitud = parts[0];
-                    mlongitud = parts[1];
+                   mGps = (String) snapshot.child("GpsID").getValue();
+                   mLocation = (String) snapshot.child("Location").getValue();
+                   String[] parts = mLocation.split(" ");
+                    mLatitud = parts[0];
+                    mLongitud = parts[1];
 
 
                 }
