@@ -12,8 +12,8 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build.VERSION;
 import android.os.Build;
+import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
@@ -25,7 +25,9 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +43,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
      * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
+            "foo@example.com:hello", "bar@example.com:world",
+            "andony91@gmail.com:123456789", "micorreo@hotmail.com:password"
     };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -59,11 +62,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
+        mPasswordView = (EditText) findViewById(R.id.encrypted_password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -75,11 +79,19 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.Login);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        Button mLoginButton = (Button) findViewById(R.id.Login);
+        mLoginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
+            }
+        });
+
+        Button mRegisterButton = (Button) findViewById(R.id.Register);
+        mRegisterButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToRegister();
             }
         });
 
@@ -145,6 +157,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
+            makeTransparent();
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
@@ -160,6 +173,19 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         return password.length() > 4;
     }
 
+    private void makeTransparent(){
+        View disappearLogin = findViewById(R.id.Register);
+        disappearLogin.setVisibility(View.GONE);
+        disappearLogin = findViewById(R.id.Login);
+        disappearLogin.setVisibility(View.GONE);
+        disappearLogin = findViewById(R.id.email);
+        disappearLogin.setVisibility(View.GONE);
+        disappearLogin = findViewById(R.id.encrypted_password);
+        disappearLogin.setVisibility(View.GONE);
+
+        RelativeLayout relative = (RelativeLayout) findViewById(R.id.login_view);
+        relative.setBackgroundResource(0);
+    }
     /**
      * Shows the progress UI and hides the login form.
      */
@@ -194,6 +220,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
+    }
+
+    /** Metodo para pasar a a la actividad CrearCuenta*/
+    public void goToRegister(){
+        Intent i = new Intent(this, CrearCuentaActivity.class);
+        startActivity(i);
     }
 
     @Override
@@ -312,7 +344,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
                 }
             }
 
-            // TODO: register the new account here.
             return true;
         }
 
@@ -335,13 +366,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             showProgress(false);
         }
     }
-
-    /** Metodo para pasar a a la actividad CrearCuenta*/
-    public void registrarCuenta(View vista){
-        Intent i = new Intent(this, CrearCuentaActivity.class);
-        startActivity(i);
-    }
-
 }
 
 
