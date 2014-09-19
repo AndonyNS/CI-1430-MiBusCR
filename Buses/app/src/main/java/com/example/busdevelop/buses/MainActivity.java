@@ -1,5 +1,7 @@
 package com.example.busdevelop.buses;
 
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 
 
@@ -33,6 +35,7 @@ public class MainActivity extends ActionBarActivity {
     private String mLocation;
     private String mLatitud;
     private String mLongitud;
+    private final String mPrefs_Name = "MyPrefsFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,22 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new MainMenuFragment())
                     .commit();
         }
+
+        SharedPreferences settings = getSharedPreferences(mPrefs_Name, 0);
+
+        if (settings.getBoolean("my_first_time", true)){
+
+            Log.d("Comments", "First time");
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            settings.edit().putBoolean("my_first_time", false).commit();
+        }else{
+
+            Intent intent2 = new Intent(this, RutasActivity.class);
+            startActivity(intent2);
+        }
+
+
 
     }
 
