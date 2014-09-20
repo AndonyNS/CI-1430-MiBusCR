@@ -20,7 +20,7 @@
         <activity
             android:name=".LoginActivity"
             android:label="Sign in"
-            android:windowSoftInputMode="adjustResize|stateVisible">
+            android:windowSoftInputMode="stateVisible|adjustPan">
         </activity>
         <activity
             android:name=".CrearCuentaActivity"
@@ -32,6 +32,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
 <!-- Para hacer una ventana pantalla completa: android:theme="@android:style/Theme.NoTitleBar.Fullscreen" -->

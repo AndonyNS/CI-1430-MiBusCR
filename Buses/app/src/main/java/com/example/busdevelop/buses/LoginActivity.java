@@ -9,6 +9,7 @@ import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -17,6 +18,7 @@ import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,6 +30,12 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,14 +46,6 @@ import java.util.List;
  */
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world",
-            "andony91@gmail.com:123456789", "micorreo@hotmail.com:password"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -132,12 +132,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         View focusView = null;
 
 
-        // Check for a valid password, if the user entered one.
+        //Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
+
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
@@ -157,34 +158,47 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            makeTransparent();
+            //makeTransparent();
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
         }
     }
+
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 2;
     }
 
     private void makeTransparent(){
         View disappearLogin = findViewById(R.id.Register);
-        disappearLogin.setVisibility(View.GONE);
+        disappearLogin.setVisibility(View.INVISIBLE);
         disappearLogin = findViewById(R.id.Login);
-        disappearLogin.setVisibility(View.GONE);
+        disappearLogin.setVisibility(View.INVISIBLE);
         disappearLogin = findViewById(R.id.email);
-        disappearLogin.setVisibility(View.GONE);
+        disappearLogin.setVisibility(View.INVISIBLE);
         disappearLogin = findViewById(R.id.password);
-        disappearLogin.setVisibility(View.GONE);
+        disappearLogin.setVisibility(View.INVISIBLE);
 
         RelativeLayout relative = (RelativeLayout) findViewById(R.id.login_view);
         relative.setBackgroundResource(0);
+    }
+
+    private void makeVisible(){
+        View appearLogin = findViewById(R.id.Register);
+        appearLogin.setVisibility(View.VISIBLE);
+        appearLogin = findViewById(R.id.Login);
+        appearLogin.setVisibility(View.VISIBLE);
+        appearLogin = findViewById(R.id.email);
+        appearLogin.setVisibility(View.VISIBLE);
+        appearLogin = findViewById(R.id.password);
+        appearLogin.setVisibility(View.VISIBLE);
+
+        RelativeLayout relative = (RelativeLayout) findViewById(R.id.login_view);
+        relative.setBackgroundResource(R.drawable.bus_logo);
     }
     /**
      * Shows the progress UI and hides the login form.
@@ -197,28 +211,28 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mLoginFormView.setVisibility(show ? View.INVISIBLE : View.VISIBLE);
             mLoginFormView.animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                    mLoginFormView.setVisibility(show ? View.INVISIBLE : View.VISIBLE);
                 }
             });
 
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
             mProgressView.animate().setDuration(shortAnimTime).alpha(
                     show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
                 }
             });
         } else {
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mProgressView.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+            mLoginFormView.setVisibility(show ? View.INVISIBLE : View.VISIBLE);
         }
     }
 
@@ -317,8 +331,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
+        private final String LOG_TAG = LoginActivity.class.getSimpleName();
         private final String mEmail;
         private final String mPassword;
+        private boolean mValid = false;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -327,24 +343,65 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            // These two need to be declared outside the try/catch
+            // so that they can be closed in the finally block.
+            HttpURLConnection urlConnection = null;
+            BufferedReader reader = null;
+
+            // Will contain the raw JSON response as a string.
+            String usersJsonStr = null;
 
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+                URL url = new URL("http://murmuring-anchorage-1614.herokuapp.com/users");
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+
+                // Read the input stream into a String
+                InputStream inputStream = urlConnection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                if (inputStream == null) {
+                    return null;
+                }
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
+                    // But it does make debugging a *lot* easier if you print out the completed
+                    // buffer for debugging.
+                    buffer.append(line + "\n");
+                }
+
+                if (buffer.length() == 0) {
+                    return null;
+                }
+                usersJsonStr = buffer.toString();
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "Error ", e);
+                return null;
+            } finally{
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e(LOG_TAG, "Error closing stream", e);
+                    }
                 }
             }
 
-            return true;
+            mValid = validateData(usersJsonStr);
+            if(mValid)
+                saveUser();
+
+            //Solo para debugging
+            String a = ""+mValid;
+            Log.d(LOG_TAG, a);
+            return mValid;
         }
 
         @Override
@@ -364,6 +421,22 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+
+        private boolean validateData(String values){
+            return (values.contains(mEmail) && values.contains("password\":\""+mPassword));
+        }
+
+        public boolean validUser(){
+            return mValid;
+        }
+
+        //Guarda dentro del SharedPreferences el email del usuario para saber que ya ingreso correctamente
+        private void saveUser(){
+            SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("UserEmail",mEmail);
+            editor.commit();
         }
     }
 }

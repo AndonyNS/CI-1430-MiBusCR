@@ -10,4 +10,5 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     public ApplicationTest() {
         super(Application.class);
     }
+// TODO: Comenzar a implementar pruebas, que empiezan con la palabra test para que compilador. ¿Cómo llamar una instancia como LoginActivity?
 }
