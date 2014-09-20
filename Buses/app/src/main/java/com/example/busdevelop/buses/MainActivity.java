@@ -51,17 +51,17 @@ public class MainActivity extends ActionBarActivity {
         }
 
         SharedPreferences settings = getSharedPreferences(mPrefs_Name, 0);
-
+        Intent intent;
         if (settings.getBoolean("my_first_time", true)){
 
             Log.d("Comments", "First time");
-            Intent intent = new Intent(this, LoginActivity.class);
+             intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             settings.edit().putBoolean("my_first_time", false).commit();
         }else{
 
-            Intent intent2 = new Intent(this, RutasActivity.class);
-            startActivity(intent2);
+            intent = new Intent(this, RutasActivity.class);
+            startActivity(intent);
         }
 
 
@@ -104,8 +104,8 @@ public class MainActivity extends ActionBarActivity {
                    mGps = (String) snapshot.child("GpsID").getValue();
                    mLocation = (String) snapshot.child("Location").getValue();
                    String[] parts = mLocation.split(" ");
-                    mLatitud = parts[0];
-                    mLongitud = parts[1];
+                   mLatitud = parts[0];
+                   mLongitud = parts[1];
 
 
                 }
