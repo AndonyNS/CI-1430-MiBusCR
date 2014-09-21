@@ -1,6 +1,5 @@
 package com.example.busdevelop.buses;
 
-<<<<<<< HEAD
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,13 +11,10 @@ import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
-=======
->>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-<<<<<<< HEAD
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
@@ -30,8 +26,6 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-=======
->>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
 
 
 public class MainActivity extends ActionBarActivity {
@@ -56,7 +50,6 @@ public class MainActivity extends ActionBarActivity {
                     .commit();
         }
 
-<<<<<<< HEAD
         SharedPreferences settings = getSharedPreferences(mPrefs_Name, 0);
         Intent intent;
         if (settings.getBoolean("my_first_time", true)){
@@ -73,8 +66,6 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-=======
->>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
     }
 
 
@@ -99,7 +90,6 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-<<<<<<< HEAD
     public void getLocation(View v){
 
 
@@ -158,6 +148,4 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-=======
->>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
 }

@@ -1,11 +1,7 @@
 package com.example.busdevelop.buses;
 
 /**
-<<<<<<< HEAD
  *
-=======
- * Created by jossue on 19/09/14.
->>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
  * Clase que guardara los datos de un usuario
  * para poder enviar objetos JSON o recibirlos
  * y manejarlos de mejor manera
@@ -71,8 +67,4 @@ public class Usuario {
         this.ciudad = ciudad;
     }
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160

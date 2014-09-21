@@ -30,15 +30,12 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-<<<<<<< HEAD
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-=======
->>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,17 +47,6 @@ import java.util.List;
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
 
     /**
-<<<<<<< HEAD
-=======
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world",
-            "andony91@gmail.com:123456789", "micorreo@hotmail.com:password"
-    };
-    /**
->>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
@@ -81,7 +67,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.encrypted_password);
+        mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -172,11 +158,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-<<<<<<< HEAD
             //makeTransparent();
-=======
-            makeTransparent();
->>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
@@ -193,7 +175,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
 
     private void makeTransparent(){
         View disappearLogin = findViewById(R.id.Register);
-<<<<<<< HEAD
         disappearLogin.setVisibility(View.INVISIBLE);
         disappearLogin = findViewById(R.id.Login);
         disappearLogin.setVisibility(View.INVISIBLE);
@@ -201,20 +182,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         disappearLogin.setVisibility(View.INVISIBLE);
         disappearLogin = findViewById(R.id.password);
         disappearLogin.setVisibility(View.INVISIBLE);
-=======
-        disappearLogin.setVisibility(View.GONE);
-        disappearLogin = findViewById(R.id.Login);
-        disappearLogin.setVisibility(View.GONE);
-        disappearLogin = findViewById(R.id.email);
-        disappearLogin.setVisibility(View.GONE);
-        disappearLogin = findViewById(R.id.encrypted_password);
-        disappearLogin.setVisibility(View.GONE);
->>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
 
         RelativeLayout relative = (RelativeLayout) findViewById(R.id.login_view);
         relative.setBackgroundResource(0);
     }
-<<<<<<< HEAD
 
     private void makeVisible(){
         View appearLogin = findViewById(R.id.Register);
@@ -229,8 +200,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         RelativeLayout relative = (RelativeLayout) findViewById(R.id.login_view);
         relative.setBackgroundResource(R.drawable.bus_logo);
     }
-=======
->>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
     /**
      * Shows the progress UI and hides the login form.
      */
@@ -425,7 +394,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
                 }
             }
 
-<<<<<<< HEAD
             mValid = validateData(usersJsonStr);
             if(mValid)
                 saveUser();
@@ -434,9 +402,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             String a = ""+mValid;
             Log.d(LOG_TAG, a);
             return mValid;
-=======
-            return true;
->>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
         }
 
         @Override
@@ -457,7 +422,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             mAuthTask = null;
             showProgress(false);
         }
-<<<<<<< HEAD
 
         private boolean validateData(String values){
             return (values.contains(mEmail) && values.contains("password\":\""+mPassword));
@@ -474,8 +438,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             editor.putString("UserEmail",mEmail);
             editor.commit();
         }
-=======
->>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
     }
 }
 
