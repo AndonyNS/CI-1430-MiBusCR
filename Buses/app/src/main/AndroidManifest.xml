@@ -9,21 +9,33 @@
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+<<<<<<< HEAD
         <uses-library android:name="com.google.android.maps" />
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
         <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="@string/google_maps_key"/>
         <activity
           android:name=".MainActivity"
+=======
+
+
+        <activity
+            android:name=".MainActivity"
+>>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
             android:label="@string/app_name" >
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+<<<<<<< HEAD
             </intent-filter>
+=======
+            </intent-filter> -->
+>>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
         </activity>
 
         <activity
             android:name=".LoginActivity"
+<<<<<<< HEAD
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateVisible" >
@@ -34,6 +46,11 @@
             android:windowSoftInputMode="stat Hidden" >
             android:theme="@style/AppTheme"
             <!--intent-filter>
+=======
+            android:label="Sign in"
+            android:windowSoftInputMode="adjustResize|stateVisible">
+            <intent-filter>
+>>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -52,11 +69,15 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
+<<<<<<< HEAD
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+=======
+>>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
 
 </manifest>
+<!-- Para hacer una ventana pantalla completa: android:theme="@android:style/Theme.NoTitleBar.Fullscreen" -->

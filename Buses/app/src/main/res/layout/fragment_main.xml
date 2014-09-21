@@ -11,6 +11,7 @@
 
     <TextView
 
+<<<<<<< HEAD
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView" />
@@ -25,5 +26,10 @@
         android:layout_centerHorizontal="true"
         android:onClick="getLocation"/>
 
+=======
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView" />
+>>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
 
 </RelativeLayout>

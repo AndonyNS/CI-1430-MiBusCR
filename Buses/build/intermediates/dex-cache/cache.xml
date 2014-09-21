@@ -20,12 +20,15 @@
         revision="20.0.0"
         sha1="9d9013e9ff35fc3756411e62873c363c70c638fa"/>
     <item
+<<<<<<< HEAD
         dex="/home/jossue/inge/Buses/app/build/intermediates/pre-dexed/debug/firebase-client-jvm-1.0.18-61fd14e0297b4c2fafa7169c42e284b476380ed4.jar"
         jar="/home/jossue/inge/Buses/app/libs/firebase-client-jvm-1.0.18.jar"
         jumboMode="false"
         revision="20.0.0"
         sha1="3ddc46a4d17c90cafd55720171dd0a2af28617d9"/>
     <item
+=======
+>>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
         dex="/home/jossue/inge/Buses/app/build/intermediates/pre-dexed/debug/internal_impl-20.0.0-46fc468e8819a1240dd50cb5aa0f4c138a5935fc.jar"
         jar="/home/jossue/inge/Buses/app/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/libs/internal_impl-20.0.0.jar"
         jumboMode="false"

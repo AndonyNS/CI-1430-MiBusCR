@@ -137,6 +137,10 @@ public class CrearCuentaActivity extends ActionBarActivity {
         //TODO: Validar campos
         new HttpAsyncTask().execute("http://murmuring-anchorage-1614.herokuapp.com/users");
 
+<<<<<<< HEAD
+=======
+        Toast.makeText(getBaseContext(), "Cuenta Creada", Toast.LENGTH_LONG);
+>>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
     }
 
     /**
@@ -161,8 +165,12 @@ public class CrearCuentaActivity extends ActionBarActivity {
          */
         @Override
         protected void onPostExecute(String resultado){
+<<<<<<< HEAD
             Toast.makeText(getBaseContext(), "Cuenta Creada", Toast.LENGTH_LONG).show();
 
+=======
+            Toast.makeText(getBaseContext(), "Cuenta Creada", Toast.LENGTH_LONG);
+>>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
         }
     }
 
@@ -184,4 +192,8 @@ public class CrearCuentaActivity extends ActionBarActivity {
     }
 
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 138fb32b243a3b86f0b7927d3f00d8270547f160
