@@ -6,5 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="login">Login</string>
     <string name="title_activity_crear_cuenta">Crear Cuenta</string>
+    <string name="title_activity_get">Obteniendo rutas</string>
+    <string name="title_activity_obt_rutas">ObtRutasActivity</string>
 
 </resources>

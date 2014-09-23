@@ -136,7 +136,6 @@ public class CrearCuentaActivity extends ActionBarActivity {
     public void registrar(View vista){
         //TODO: Validar campos
         new HttpAsyncTask().execute("http://murmuring-anchorage-1614.herokuapp.com/users");
-
     }
 
     /**
@@ -162,7 +161,6 @@ public class CrearCuentaActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(String resultado){
             Toast.makeText(getBaseContext(), "Cuenta Creada", Toast.LENGTH_LONG).show();
-
         }
     }
 
