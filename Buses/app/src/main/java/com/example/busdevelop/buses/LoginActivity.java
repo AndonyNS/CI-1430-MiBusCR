@@ -27,7 +27,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -61,8 +60,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setUp();
+    }
 
-
+    private void setUp(){
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -109,7 +110,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         }
     }
 
-
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
@@ -125,12 +125,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        String email = getCurrentEmail();
+        String password = getCurrentPassword();
 
         boolean cancel = false;
         View focusView = null;
-
 
         //Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
@@ -138,7 +137,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             focusView = mPasswordView;
             cancel = true;
         }
-
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
@@ -165,40 +163,30 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         }
     }
 
-    private boolean isEmailValid(String email) {
+    /*Returns the current value at the email field*/
+    public String getCurrentEmail(){
+        try {
+            return mEmailView.getText().toString();
+        }catch(NullPointerException e){
+            return null;
+        }
+    }
+
+    /*Returns the current value at the password field*/
+    public String getCurrentPassword(){
+        try{
+            return mPasswordView.getText().toString();
+        }catch(NullPointerException e){
+            return null;
+        }
+    }
+
+    public boolean isEmailValid(String email) {
         return email.contains("@");
     }
 
-    private boolean isPasswordValid(String password) {
+    public boolean isPasswordValid(String password) {
         return password.length() > 2;
-    }
-
-    private void makeTransparent(){
-        View disappearLogin = findViewById(R.id.Register);
-        disappearLogin.setVisibility(View.INVISIBLE);
-        disappearLogin = findViewById(R.id.Login);
-        disappearLogin.setVisibility(View.INVISIBLE);
-        disappearLogin = findViewById(R.id.email);
-        disappearLogin.setVisibility(View.INVISIBLE);
-        disappearLogin = findViewById(R.id.password);
-        disappearLogin.setVisibility(View.INVISIBLE);
-
-        RelativeLayout relative = (RelativeLayout) findViewById(R.id.login_view);
-        relative.setBackgroundResource(0);
-    }
-
-    private void makeVisible(){
-        View appearLogin = findViewById(R.id.Register);
-        appearLogin.setVisibility(View.VISIBLE);
-        appearLogin = findViewById(R.id.Login);
-        appearLogin.setVisibility(View.VISIBLE);
-        appearLogin = findViewById(R.id.email);
-        appearLogin.setVisibility(View.VISIBLE);
-        appearLogin = findViewById(R.id.password);
-        appearLogin.setVisibility(View.VISIBLE);
-
-        RelativeLayout relative = (RelativeLayout) findViewById(R.id.login_view);
-        relative.setBackgroundResource(R.drawable.bus_logo);
     }
     /**
      * Shows the progress UI and hides the login form.
@@ -398,9 +386,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             if(mValid)
                 saveUser();
 
-            //Solo para debugging
+            /*Solo para debugging
             String a = ""+mValid;
-            Log.d(LOG_TAG, a);
+            Log.d(LOG_TAG, a);*/
             return mValid;
         }
 
@@ -423,7 +411,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             showProgress(false);
         }
 
-        private boolean validateData(String values){
+        public boolean validateData(String values){
             return (values.contains(mEmail) && values.contains("password\":\""+mPassword));
         }
 
