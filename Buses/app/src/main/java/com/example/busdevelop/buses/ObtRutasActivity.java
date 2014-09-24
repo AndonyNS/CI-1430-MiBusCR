@@ -20,12 +20,15 @@ import org.json.JSONArray;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ListView;
 
 
 public class ObtRutasActivity extends ActionBarActivity {
 
     TextView mResultRutas;
-    ArrayList<Ruta> mRutasArray  = new ArrayList<Ruta>(9);
+    ArrayList<Ruta> mRutasArray  = new ArrayList<Ruta>();
+    ListView mList;
+    ListViewAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +36,17 @@ public class ObtRutasActivity extends ActionBarActivity {
         setContentView(R.layout.activity_obt_rutas);
 
         //referencia a la vista
-        mResultRutas = (TextView) findViewById(R.id.resultRutas);
+        //mResultRutas = (TextView) findViewById(R.id.resultRutas);
         new HttpAsyncTask().execute("http://murmuring-anchorage-1614.herokuapp.com/rutas");
+
+        // Locate the ListView in activity_obt_rutas.xml
+        mList = (ListView) findViewById(R.id.listviewRutas);
+
+        // Pass results to ListViewAdapter Class
+        mAdapter = new ListViewAdapter(this, mRutasArray);
+
+        // Binds the Adapter to the ListView
+        mList.setAdapter(mAdapter);
     }
 
 
@@ -145,7 +157,7 @@ public class ObtRutasActivity extends ActionBarActivity {
                     mRutasArray.add(ruta);
                 }
 
-                for(int i = 0; i < mRutasArray.size(); i++){
+                /*for(int i = 0; i < mRutasArray.size(); i++){
                     impr += "\n------------------------\n";
                     impr += mRutasArray.get(i).getId() + "\n";
                     impr += mRutasArray.get(i).getNombre() + "\n";
@@ -154,7 +166,7 @@ public class ObtRutasActivity extends ActionBarActivity {
                     impr += mRutasArray.get(i).getHorario() + "\n";
                 }
 
-                mResultRutas.setText(impr);
+                mResultRutas.setText(impr);*/
 
 
             }catch(JSONException e){

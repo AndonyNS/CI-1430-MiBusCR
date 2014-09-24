@@ -8,5 +8,11 @@
     <string name="title_activity_crear_cuenta">Crear Cuenta</string>
     <string name="title_activity_get">Obteniendo rutas</string>
     <string name="title_activity_obt_rutas">ObtRutasActivity</string>
+    <string name="search_title">Buscar</string>
+    <string name="nombreRlabel">Nombre:</string>
+    <string name="frecuenciaRlabel">Frecuencia:</string>
+    <string name="precioRlabel">Precio:</string>
+    <string name="horarioRlabel">Horario:</string>
+    <string name="title_activity_single_item_view">SingleItemView</string>
 
 </resources>

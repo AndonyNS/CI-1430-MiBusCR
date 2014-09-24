@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <TextView
+        android:id="@+id/nombreRlabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nombreRlabel" />
+
+    <TextView
+        android:id="@+id/nombreR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/nombreRlabel" />
+
+    <TextView
+        android:id="@+id/frecuenciaRlabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nombreRlabel"
+        android:text="@string/frecuenciaRlabel" />
+
+    <TextView
+        android:id="@+id/frecuenciaR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nombreRlabel"
+        android:layout_toRightOf="@+id/frecuenciaRlabel" />
+
+
+
+</RelativeLayout>
