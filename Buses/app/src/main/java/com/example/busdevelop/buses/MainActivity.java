@@ -58,10 +58,6 @@ public class MainActivity extends ActionBarActivity {
              intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             settings.edit().putBoolean("my_first_time", false).commit();
-        }else{
-
-            intent = new Intent(this, RutasActivity.class);
-            startActivity(intent);
         }
 
 
@@ -129,6 +125,16 @@ public class MainActivity extends ActionBarActivity {
 
 
     }
+
+    public void iniciarRutas(View view){
+
+        Intent intent = new Intent(this, RutasActivity.class);
+        startActivity(intent);
+    }
+
+
+
+
 
 
 

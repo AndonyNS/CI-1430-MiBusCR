@@ -9,21 +9,26 @@
     tools:context="com.example.busdevelop.buses.MainMenuFragment"
     android:background="@color/teal">
 
-    <TextView
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="rastrear"
         android:id="@+id/buttonRastreo"
-        android:layout_marginTop="96dp"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:onClick="getLocation"/>
+        android:onClick="getLocation"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rutas"
+        android:onClick="iniciarRutas"
+        android:drawableTop="@drawable/ruta"
+        android:id="@+id/Rutasbutton"
+        android:padding="60dp"
+        android:layout_marginTop="70dp"
+        android:background="#ff8a0808" />
 
 
 </RelativeLayout>
