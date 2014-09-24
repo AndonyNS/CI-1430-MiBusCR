@@ -21,20 +21,13 @@ import android.os.Build;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+
 
 
 
 public class MainActivity extends ActionBarActivity {
 
-    private static final String mFIREBASE_URL = "https://blazing-fire-9075.firebaseio.com/";
-    private String mGps;
-    private String mLocation;
-    private String mLatitud;
-    private String mLongitud;
+
     private final String mPrefs_Name = "MyPrefsFile";
 
     @Override
@@ -86,45 +79,7 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void getLocation(View v){
 
-
-
-           Firebase firebaseRef = new Firebase(mFIREBASE_URL);
-
-            firebaseRef.addChildEventListener(new ChildEventListener(){
-
-                @Override
-                public void onChildChanged(DataSnapshot snapshot, String previousChildName){
-
-                   mGps = (String) snapshot.child("GpsID").getValue();
-                   mLocation = (String) snapshot.child("Location").getValue();
-                   String[] parts = mLocation.split(" ");
-                   mLatitud = parts[0];
-                   mLongitud = parts[1];
-
-
-                }
-
-                @Override
-                public void onChildAdded(DataSnapshot snapshot, String previousChildName){}
-
-                @Override
-                public void onChildRemoved(DataSnapshot snapshot){}
-
-                @Override
-                public void onChildMoved(DataSnapshot snapshot, String previousChildName){}
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-                    System.out.println("The read failed: " + firebaseError.getMessage());
-                }
-
-            });
-
-
-
-    }
 
     public void iniciarRutas(View view){
 

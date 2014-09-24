@@ -12,16 +12,6 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="rastrear"
-        android:id="@+id/buttonRastreo"
-        android:onClick="getLocation"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Rutas"
         android:onClick="iniciarRutas"
         android:drawableTop="@drawable/ruta"
