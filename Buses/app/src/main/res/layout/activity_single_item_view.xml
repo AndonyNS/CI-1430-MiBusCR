@@ -1,0 +1,65 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.busdevelop.buses.SingleItemView">
+
+    <TextView
+        android:id="@+id/nombreRlabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nombreRlabel" />
+
+    <TextView
+        android:id="@+id/nombreR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/nombreRlabel" />
+
+    <TextView
+        android:id="@+id/frecuenciaRlabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nombreRlabel"
+        android:text="@string/frecuenciaRlabel" />
+
+    <TextView
+        android:id="@+id/frecuenciaR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nombreRlabel"
+        android:layout_toRightOf="@+id/frecuenciaRlabel" />
+
+    <TextView
+        android:id="@+id/precioRlabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/frecuenciaRlabel"
+        android:text="@string/precioRlabel" />
+
+    <TextView
+        android:id="@+id/precioR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/frecuenciaRlabel"
+        android:layout_toRightOf="@+id/precioRlabel" />
+
+    <TextView
+        android:id="@+id/horarioRlabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/precioRlabel"
+        android:text="@string/horarioRlabel" />
+
+    <TextView
+        android:id="@+id/horarioR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/precioRlabel"
+        android:layout_toRightOf="@+id/horarioRlabel" />
+
+</RelativeLayout>
