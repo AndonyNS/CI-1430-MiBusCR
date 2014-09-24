@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   def index
     @users = User.all
 
-    render json: @users.as_json(only: [:email, :encrypted_password, :nombre, :fechaNac, :ciudad])
+    render json: @users.as_json(only: [:email, :password, :nombre, :fechaNac, :ciudad])
   end
 
   # GET /users/1
@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
 
-    render json: @user.as_json(only: [:email, :encrypted_password, :nombre, :fechaNac, :ciudad], include: [ruta:{only: [:id]}])
+    render json: @user.as_json(only: [:email, :password, :nombre, :fechaNac, :ciudad], include: [ruta:{only: [:id]}])
   end
 
   # POST /users
@@ -51,6 +51,6 @@ class UsersController < ApplicationController
   private 
     # Never trust parameters from the scary internet, only allow the white list through. 
     def user_params
-          params.permit(:email, :encrypted_password, :nombre, :fechaNac, :ciudad)
+          params.permit(:email, :password, :nombre, :fechaNac, :ciudad)
     end
 end
