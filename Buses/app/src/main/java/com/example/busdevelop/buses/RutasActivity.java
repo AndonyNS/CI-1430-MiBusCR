@@ -55,6 +55,8 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
         // obtendra una nueva localizacion
         mLocationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER, 5000, 20, this);
+
+        getLocation();
     }
 
     @Override
@@ -115,7 +117,7 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
 
     }
 
-    public void getLocation(View v){
+    public void getLocation(){
 
 
 
