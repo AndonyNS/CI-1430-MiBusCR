@@ -1,6 +1,6 @@
-class CreateRutasUsuarios < ActiveRecord::Migration
+class CreateRutaUsers < ActiveRecord::Migration
   def change
-    create_table :rutas_usuarios do |t|
+    create_table :ruta_users do |t|
       t.belongs_to :ruta
       t.belongs_to :user
 

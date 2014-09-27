@@ -1,4 +1,4 @@
-class RutasUsuario < ActiveRecord::Base
+class RutaUser < ActiveRecord::Base
   belongs_to :ruta
   belongs_to :user
 end
