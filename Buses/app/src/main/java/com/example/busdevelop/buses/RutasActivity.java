@@ -15,6 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -29,6 +33,12 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
     private LocationManager mLocationManager;
     private ProgressDialog mpd;
     private Marker mMarcadorPosicion = null;
+
+    private static final String mFIREBASE_URL = "https://blazing-fire-9075.firebaseio.com/";
+    private String mGps;
+    private String mLocation;
+    private double mLatitud;
+    private double mLongitud;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +55,8 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
         // obtendra una nueva localizacion
         mLocationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER, 5000, 20, this);
+
+        getLocation();
     }
 
     @Override
@@ -102,6 +114,50 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
         Intent intent = new Intent(
                 android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
         startActivity(intent);
+
+    }
+
+    public void getLocation(){
+
+
+
+        Firebase firebaseRef = new Firebase(mFIREBASE_URL);
+
+        firebaseRef.addChildEventListener(new ChildEventListener(){
+
+            @Override
+            public void onChildChanged(DataSnapshot snapshot, String previousChildName){
+
+                Location location = new Location("dummyprovider");
+
+                mGps = (String) snapshot.child("GpsID").getValue();
+                mLocation = (String) snapshot.child("Location").getValue();
+                String[] parts = mLocation.split(" ");
+                mLatitud = Double.parseDouble(parts[0]);
+                mLongitud = Double.parseDouble(parts[1]);
+                location.setLatitude(mLatitud);
+                location.setLongitude(mLongitud);
+                onLocationChanged(location);
+
+            }
+
+            @Override
+            public void onChildAdded(DataSnapshot snapshot, String previousChildName){}
+
+            @Override
+            public void onChildRemoved(DataSnapshot snapshot){}
+
+            @Override
+            public void onChildMoved(DataSnapshot snapshot, String previousChildName){}
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+            }
+
+        });
+
+
 
     }
 

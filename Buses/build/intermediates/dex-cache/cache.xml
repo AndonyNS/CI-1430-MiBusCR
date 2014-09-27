@@ -2,11 +2,11 @@
 <pre-dex-items>
 
     <item
-        dex="/home/jossue/inge/Buses/app/build/intermediates/pre-dexed/debug/classes-8b901ec8d38df993ecbe3429413efc3275311a24.jar"
-        jar="/home/jossue/inge/Buses/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.2.42/classes.jar"
+        dex="/home/jossue/inge/Buses/app/build/intermediates/pre-dexed/debug/classes-93655f95a859f47b4049b584c458ed8cbf73ee04.jar"
+        jar="/home/jossue/inge/Buses/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.2.08/classes.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="e5f81129dfb3d02df80126512bc98278ed2bb40a"/>
+        sha1="1ed7a7a05185651f9af41ad93711cb96b66f331c"/>
     <item
         dex="/home/jossue/inge/Buses/app/build/intermediates/pre-dexed/debug/classes-2b91fecfa0e066e81e6cc8fb927564600861170e.jar"
         jar="/home/jossue/inge/Buses/app/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/classes.jar"

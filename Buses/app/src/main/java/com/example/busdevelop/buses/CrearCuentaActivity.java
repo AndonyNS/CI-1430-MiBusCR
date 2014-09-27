@@ -91,8 +91,8 @@ public class CrearCuentaActivity extends ActionBarActivity {
             // se acumulan los campos necesarios, el primer parametro
             // es la etiqueta json que tendran los campos de la base
             jsonObject.accumulate("email", usuario.getEmail());
+            jsonObject.accumulate("password", usuario.getEncrypted_password());
             jsonObject.accumulate("nombre", usuario.getNombre());
-            jsonObject.accumulate("encrypted_password", usuario.getEncrypted_password());
             jsonObject.accumulate("fechaNac", usuario.getFechaNac());
             jsonObject.accumulate("ciudad", usuario.getCiudad());
 
@@ -136,7 +136,6 @@ public class CrearCuentaActivity extends ActionBarActivity {
     public void registrar(View vista){
         //TODO: Validar campos
         new HttpAsyncTask().execute("http://murmuring-anchorage-1614.herokuapp.com/users");
-
     }
 
     /**
@@ -162,7 +161,6 @@ public class CrearCuentaActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(String resultado){
             Toast.makeText(getBaseContext(), "Cuenta Creada", Toast.LENGTH_LONG).show();
-
         }
     }
 
