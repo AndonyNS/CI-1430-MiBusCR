@@ -27,7 +27,11 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -54,7 +58,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
-    private View mLoginFormView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +99,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             }
         });
 
-        mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
 
@@ -156,11 +158,35 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            //makeTransparent();
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
         }
+    }
+
+    private void makeInvisible(){
+        View appearLogin = findViewById(R.id.Register);
+        appearLogin.setVisibility(View.INVISIBLE);
+        appearLogin = findViewById(R.id.Login);
+        appearLogin.setVisibility(View.INVISIBLE);
+        appearLogin = findViewById(R.id.email);
+        appearLogin.setVisibility(View.INVISIBLE);
+        appearLogin = findViewById(R.id.password);
+        appearLogin.setVisibility(View.INVISIBLE);
+    }
+
+    private void makeVisible(){
+        View appearLogin = findViewById(R.id.Register);
+        appearLogin.setVisibility(View.VISIBLE);
+        appearLogin = findViewById(R.id.Login);
+        appearLogin.setVisibility(View.VISIBLE);
+        appearLogin = findViewById(R.id.email);
+        appearLogin.setVisibility(View.VISIBLE);
+        appearLogin = findViewById(R.id.password);
+        appearLogin.setVisibility(View.VISIBLE);
+
+        RelativeLayout relative = (RelativeLayout) findViewById(R.id.login_view);
+        relative.setBackgroundResource(R.drawable.bus_logo);
     }
 
     /*Returns the current value at the email field*/
@@ -199,15 +225,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginFormView.setVisibility(show ? View.INVISIBLE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.INVISIBLE : View.VISIBLE);
-                }
-            });
-
             mProgressView.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
             mProgressView.animate().setDuration(shortAnimTime).alpha(
                     show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
@@ -220,13 +237,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
-            mLoginFormView.setVisibility(show ? View.INVISIBLE : View.VISIBLE);
         }
     }
 
     /** Metodo para pasar a a la actividad CrearCuenta*/
     public void goToRegister(){
         Intent i = new Intent(this, CrearCuentaActivity.class);
+        if(getCurrentEmail()!=null){
+            i.putExtra("emailIngresado", getCurrentEmail());
+        }
         startActivity(i);
     }
 
@@ -313,6 +332,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         mEmailView.setAdapter(adapter);
     }
 
+    public boolean validarDatos(String value,String email, String password){
+        UserLoginTask u = new UserLoginTask(email,password);
+        return u.validateData(value);
+    }
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
@@ -340,7 +363,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             String usersJsonStr = null;
 
             try {
-                URL url = new URL("http://murmuring-anchorage-1614.herokuapp.com/users");
+                URL url = new URL("https://murmuring-anchorage-1614.herokuapp.com/users");
 
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
@@ -411,8 +434,29 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             showProgress(false);
         }
 
-        public boolean validateData(String values){
-            return (values.contains(mEmail) && values.contains("password\":\""+mPassword));
+        //Valida si los datos están dentro del json de todos los usuarios
+        private boolean validateData(String jsonString){
+            boolean found = false;
+            try{
+                // una vez recibido el string con  el json
+                //  se parsea guardando en un array
+                JSONArray valores = new JSONArray(jsonString);
+                String e;
+                String p;
+                //Se verifica si en el elemento i existen el email
+                //y la contraseña
+                for(int i = 0; i < jsonString.length(); i++){
+                    e = valores.getJSONObject(i).getString("email");
+                    p = valores.getJSONObject(i).getString("password");
+                    if(e.equals(mEmail)&&p.equals(mPassword)){
+                        found = true;
+                        i = jsonString.length();
+                    }
+                }
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
+            return found;
         }
 
         public boolean validUser(){
@@ -424,6 +468,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
             SharedPreferences.Editor editor = settings.edit();
             editor.putString("UserEmail",mEmail);
+            editor.putBoolean("SinRegistrar",false);
             editor.commit();
         }
     }

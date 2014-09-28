@@ -1,6 +1,5 @@
 package com.example.busdevelop.buses;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -29,10 +28,11 @@ public class MainMenuFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        /* No es necesario tener un botón para hacer login porque se hace al primer ingreso
         if (id == R.id.action_login) {
             Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
             startActivity(loginIntent);
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -46,13 +46,5 @@ public class MainMenuFragment extends Fragment {
 
 
         return rootView;
-    }
-
-    /*Llama al login, debido a que se está haciendo desde un fragment activity
-      no se puede hacer solamente Intent(this, a.class), sino que ocupa saber quien
-      es el dueño del fragment */
-    public void goToLogin(){
-        Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
-        getActivity().startService(loginIntent);
     }
 }

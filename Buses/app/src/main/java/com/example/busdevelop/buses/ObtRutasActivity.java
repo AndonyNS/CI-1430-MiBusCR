@@ -1,26 +1,27 @@
 package com.example.busdevelop.buses;
 
-import android.support.v7.app.ActionBarActivity;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import android.os.AsyncTask;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONArray;
-import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ListView;
 
 
 public class ObtRutasActivity extends ActionBarActivity {
@@ -37,7 +38,7 @@ public class ObtRutasActivity extends ActionBarActivity {
 
         //referencia a la vista
         //mResultRutas = (TextView) findViewById(R.id.resultRutas);
-        new HttpAsyncTask().execute("http://murmuring-anchorage-1614.herokuapp.com/rutas");
+        new HttpAsyncTask().execute("https://murmuring-anchorage-1614.herokuapp.com/rutas");
 
         // Locate the ListView in activity_obt_rutas.xml
         mList = (ListView) findViewById(R.id.listviewRutas);
