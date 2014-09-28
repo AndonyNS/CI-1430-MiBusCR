@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :users, except: [:new, :edit]
   resources :paradas, except: [:new, :edit]
   resources :rutas, except: [:new, :edit]
+  post "/tokens", to: "tokens#create"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
