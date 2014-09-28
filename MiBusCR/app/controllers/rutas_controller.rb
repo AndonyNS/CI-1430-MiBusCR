@@ -1,4 +1,6 @@
 class RutasController < ApplicationController
+  before_action :set_ruta, only: [:show]
+
   # GET /rutas
   # GET /rutas.json
   def index
@@ -10,8 +12,6 @@ class RutasController < ApplicationController
   # GET /rutas/1
   # GET /rutas/1.json
   def show
-    @ruta = Ruta.find(params[:id])
-
     render json: @ruta.as_json(only: [:id, :nombre, :frecuencia, :precio, :horario],include: [parada:{only: [:id]}])
   end
 
@@ -37,5 +37,13 @@ class RutasController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through. 
     def ruta_params 
           params.permit(:nombre, :frecuencia, :precio, :horario)
+    end
+
+    def set_ruta
+      begin  
+        @ruta = Ruta.find(params[:id])
+      rescue Exception => e  
+        head 404
+      end
     end
 end

@@ -1,4 +1,4 @@
 class User < ActiveRecord::Base
-  has_many :rutas_usuario
-  has_many :ruta, through: :rutas_usuario
+ has_many :ruta_user
+ has_many :ruta, through: :ruta_user
 end

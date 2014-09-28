@@ -1,4 +1,6 @@
 class BusesController < ApplicationController
+  before_action :set_bus, only: [:show]
+
   # GET /buses
   # GET /buses.json
   def index
@@ -10,8 +12,6 @@ class BusesController < ApplicationController
   # GET /buses/1
   # GET /buses/1.json
   def show
-    @bus = Bus.find(params[:id])
-
     render json: @bus.as_json(only: [:id, :placa],include: [gps:{only: [:id_gps]}])
   end
 
@@ -37,5 +37,13 @@ class BusesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def bus_params
       params.require(:bus).permit(:placa)
+    end
+
+    def set_bus
+      begin  
+        @bus = Bus.find(params[:id])
+      rescue Exception => e  
+        head 404
+      end
     end
 end

@@ -1,4 +1,6 @@
 class ParadasController < ApplicationController
+  before_action :set_parada, only: [:show]
+
   # GET /paradas
   # GET /paradas.json
   def index
@@ -10,8 +12,6 @@ class ParadasController < ApplicationController
   # GET /paradas/1
   # GET /paradas/1.json
   def show
-    @parada = Parada.find(params[:id])
-
     render json: @parada.as_json(only: [:nombre, :techo, :latitud, :longitud ])
   end
 
@@ -37,5 +37,13 @@ class ParadasController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through. 
     def parada_params 
           params.permit(:nombre, :techo, :latitud, :longitud)
+    end
+
+    def set_parada
+      begin  
+        @parada = Parada.find(params[:id])
+      rescue Exception => e  
+        head 404
+      end
     end
 end
