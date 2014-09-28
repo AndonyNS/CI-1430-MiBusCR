@@ -1,31 +1,26 @@
 package com.example.busdevelop.buses;
 
-import android.support.v7.app.ActionBarActivity;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import  java.io.InputStreamReader;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.app.Activity;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 
 public class CrearCuentaActivity extends ActionBarActivity {
@@ -43,6 +38,13 @@ public class CrearCuentaActivity extends ActionBarActivity {
         mPasswordUsuarioN = (EditText) findViewById(R.id.passwordUsuarioN);
         mFechaNacUsuarioN = (EditText) findViewById(R.id.fechaNacUsuarioN);
         mCiudad = (EditText) findViewById(R.id.ciudad);
+
+        if(getIntent()!=null){
+            String givenEmail = (String) getIntent().getStringExtra("emailIngresado");
+            mEmailUsuario.setText(givenEmail);
+        }
+
+
 
     }
 
@@ -135,7 +137,7 @@ public class CrearCuentaActivity extends ActionBarActivity {
      */
     public void registrar(View vista){
         //TODO: Validar campos
-        new HttpAsyncTask().execute("http://murmuring-anchorage-1614.herokuapp.com/users");
+        new HttpAsyncTask().execute("https://murmuring-anchorage-1614.herokuapp.com/users");
     }
 
     /**

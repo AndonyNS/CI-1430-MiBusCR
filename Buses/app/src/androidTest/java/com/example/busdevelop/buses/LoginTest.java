@@ -40,4 +40,16 @@ public class LoginTest extends InstrumentationTestCase {
         LoginActivity l = new LoginActivity();
         assertNull(l.getCurrentPassword());
     }
+
+    public void testValidateData(){
+        LoginActivity l = new LoginActivity();
+        String valor = "[{\"email\":\"aa@aa.aa\",\"password\"" +
+                ":\"123456\",\"nombre\":\"manuel\",\"fechaNac\":\"" +
+                "2014-09-24\",\"ciudad\":\"san jose\"}";
+        String email = "aa@aa.aa";
+        String pass = "123456";
+
+        l.validarDatos(valor,email,pass);
+        assertFalse(l.validarDatos(valor, email, pass));
+    }
 }
