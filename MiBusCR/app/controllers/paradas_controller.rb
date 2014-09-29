@@ -1,5 +1,6 @@
 class ParadasController < ApplicationController
   before_action :set_parada, only: [:show]
+  before_filter :restrict_access
 
   # GET /paradas
   # GET /paradas.json

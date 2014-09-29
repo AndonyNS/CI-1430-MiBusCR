@@ -1,5 +1,6 @@
 class RutasController < ApplicationController
   before_action :set_ruta, only: [:show]
+  before_filter :restrict_access
 
   # GET /rutas
   # GET /rutas.json

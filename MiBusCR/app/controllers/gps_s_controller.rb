@@ -1,5 +1,6 @@
 class GpsSController < ApplicationController
   before_action :set_gps, only: [:show]
+  before_filter :restrict_access
 
   # GET /gps_s
   # GET /gps_s.json
