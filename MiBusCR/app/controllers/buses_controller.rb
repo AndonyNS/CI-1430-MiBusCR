@@ -1,5 +1,6 @@
 class BusesController < ApplicationController
   before_action :set_bus, only: [:show]
+  before_filter :restrict_access
 
   # GET /buses
   # GET /buses.json

@@ -6,6 +6,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :nombre
       t.date :fechaNac
       t.string :ciudad
+      t.string :token
 
       t.timestamps
     end

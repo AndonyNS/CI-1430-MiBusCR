@@ -1,7 +1,6 @@
 class RutaUsersController < ApplicationController
-  before_action :user_set
-  before_action :authenticate_user
   before_action :set_ruta_user, only: [:show, :edit, :update, :destroy]
+  before_filter :restrict_access
 
   # GET /ruta_users
   # GET /ruta_users.json
