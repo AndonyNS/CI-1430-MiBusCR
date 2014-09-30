@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    android:shape="oval">
+    android:shape="ring">
     <gradient android:type="radial"
-        android:gradientRadius="100"
+        android:gradientRadius="180"
         android:startColor="#dbdb02"
         android:endColor="#ff6200" />
     <corners android:bottomLeftRadius="300dp"
@@ -11,4 +11,6 @@
         android:topLeftRadius="300dp"
         android:topRightRadius="300dp"
         />
+    <stroke android:color="@color/gray"
+        android:width="8px"/>
 </shape>
