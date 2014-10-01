@@ -1,0 +1,153 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@color/black"
+    tools:context="com.example.busdevelop.buses.EditarCuentaActivity"
+    android:baselineAligned="false"
+    android:orientation="horizontal">
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/silver"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email:"
+            android:id="@+id/textViewEdit"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="46dp"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre: "
+            android:id="@+id/textViewEdit2"
+            android:layout_below="@+id/textViewEdit"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="46dp"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contraseña:"
+            android:id="@+id/textViewEdit3"
+            android:layout_below="@+id/textViewEdit2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="46dp"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha de Nacimiento:"
+            android:id="@+id/textViewEdit4"
+            android:layout_below="@+id/textViewEdit3"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="46dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toLeftOf="@+id/passwordUsuarioEdit"
+            android:layout_toStartOf="@+id/passwordUsuarioEdit" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ciudad:"
+            android:id="@+id/textViewEdit5"
+            android:layout_alignLeft="@+id/textViewEdit4"
+            android:layout_alignStart="@+id/textViewEdit4"
+            android:layout_below="@+id/textViewEdit4"
+            android:layout_marginTop="46dp" />
+
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/emailUsuarioEdit"
+            android:layout_above="@+id/textViewEdit2"
+            android:layout_alignLeft="@+id/nombreUsuarioEdit"
+            android:layout_alignStart="@+id/nombreUsuarioEdit"
+            android:layout_marginRight="5dp"/>
+
+
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/nombreUsuarioEdit"
+            android:layout_above="@+id/textViewEdit3"
+            android:layout_alignLeft="@+id/passwordUsuarioEdit"
+            android:layout_alignStart="@+id/passwordUsuarioEdit"
+            android:layout_marginRight="5dp"/>
+
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/passwordUsuarioEdit"
+            android:layout_alignBottom="@+id/textViewEdit3"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="5dp"/>
+
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:ems="10"
+            android:id="@+id/fechaNacUsuarioEdit"
+            android:layout_alignLeft="@+id/passwordUsuarioEdit"
+            android:layout_alignTop="@+id/textViewEdit4"
+            android:layout_toRightOf="@+id/textViewEdit4"
+            android:layout_toEndOf="@+id/textViewEdit4"
+            android:layout_marginRight="5dp"/>
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:text="Actualizar Cuenta"
+            android:id="@+id/btnActualizarCuenta"
+            android:background="@color/black"
+            android:layout_toEndOf="@+id/textViewEdit"
+            android:textColor="#ffffffff"
+            android:onClick="actualizar"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/textViewEdit"
+            android:layout_marginBottom="50dp" />
+
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ciudadEdit"
+            android:layout_alignLeft="@+id/passwordUsuarioEdit"
+            android:layout_alignStart="@+id/passwordUsuarioEdit"
+            android:layout_toEndOf="@+id/textViewEdit5"
+            android:layout_toRightOf="@+id/textViewEdit5"
+            android:layout_below="@+id/textViewEdit4"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="5dp"  />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>
