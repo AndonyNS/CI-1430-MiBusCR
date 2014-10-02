@@ -14,5 +14,6 @@
     <string name="precioRlabel">Precio:</string>
     <string name="horarioRlabel">Horario:</string>
     <string name="title_activity_single_item_view">SingleItemView</string>
+    <string name="editar_cuenta">Editar cuenta</string>
 
 </resources>
