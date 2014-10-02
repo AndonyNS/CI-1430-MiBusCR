@@ -1,36 +1,36 @@
 package com.example.busdevelop.buses;
 
-import android.support.v7.app.ActionBarActivity;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import  java.io.InputStreamReader;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.app.Activity;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 
 public class CrearCuentaActivity extends ActionBarActivity {
     Usuario mUsuario; //crear objeto que se manda por json
-    EditText mEmailUsuario,mNombreUsuario,mPasswordUsuarioN,mFechaNacUsuarioN,mCiudad;
+    EditText mEmailUsuario,mNombreUsuario,mPasswordUsuarioN,mFechaNacUsuarioN,mCiudad,
+            mConfPass;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +41,16 @@ public class CrearCuentaActivity extends ActionBarActivity {
         mEmailUsuario = (EditText) findViewById(R.id.emailUsuario);
         mNombreUsuario = (EditText) findViewById(R.id.nombreUsuario);
         mPasswordUsuarioN = (EditText) findViewById(R.id.passwordUsuarioN);
+        mConfPass = (EditText) findViewById(R.id.confPass);
         mFechaNacUsuarioN = (EditText) findViewById(R.id.fechaNacUsuarioN);
         mCiudad = (EditText) findViewById(R.id.ciudad);
+
+        if(getIntent()!=null){
+            String givenEmail = (String) getIntent().getStringExtra("emailIngresado");
+            mEmailUsuario.setText(givenEmail);
+        }
+
+
 
     }
 
@@ -134,8 +142,24 @@ public class CrearCuentaActivity extends ActionBarActivity {
      * Metodo llamado por el boton crear cuenta
      */
     public void registrar(View vista){
-        //TODO: Validar campos
-        new HttpAsyncTask().execute("http://murmuring-anchorage-1614.herokuapp.com/users");
+        boolean ejecutarPost = true;
+        if(!validCamposRequeridos()){
+            ejecutarPost = false;
+            Toast.makeText(getBaseContext(), "Llene los campos email, nombre y contraseña",
+                    Toast.LENGTH_LONG).show();
+        }
+
+        if(!validarPass()){
+            ejecutarPost = false;
+            Toast.makeText(getBaseContext(), "Las contraseñas no coinciden",
+                    Toast.LENGTH_LONG).show();
+        }
+
+        //si los datos en el formulario estan bien crea la cuenta
+        if(ejecutarPost){
+            new HttpAsyncTask(this).execute("https://murmuring-anchorage-1614.herokuapp.com/users");
+        }
+
     }
 
     /**
@@ -143,6 +167,11 @@ public class CrearCuentaActivity extends ActionBarActivity {
      * no se congele la UI
      */
     private  class HttpAsyncTask extends AsyncTask<String, Void, String>{
+        Activity mActivity;
+        private HttpAsyncTask(Activity activity){
+            this.mActivity = activity;
+        }
+
         @Override
         protected String doInBackground(String... urls){
             mUsuario = new Usuario();
@@ -161,6 +190,8 @@ public class CrearCuentaActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(String resultado){
             Toast.makeText(getBaseContext(), "Cuenta Creada", Toast.LENGTH_LONG).show();
+            mActivity.startActivity(new Intent(mActivity,MainActivity.class));
+
         }
     }
 
@@ -181,5 +212,30 @@ public class CrearCuentaActivity extends ActionBarActivity {
         return resultado;
     }
 
+    /**
+     * Metodo que valida que el usuario digito los campos requeridos
+     * para crear la cuenta.
+     */
+    private boolean validCamposRequeridos(){
+        if(mEmailUsuario.getText().toString().trim().equals("") ||
+                mNombreUsuario.getText().toString().trim().equals("") ||
+                mPasswordUsuarioN.getText().toString().trim().equals("")){
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Metodo que valida que la contraseña y la confirmación de
+     * contraseña sean iguales
+     */
+    private boolean validarPass(){
+        String pass = mPasswordUsuarioN.getText().toString().trim();
+        String confirmarPass = mConfPass.getText().toString().trim();
+        if(pass.equals(confirmarPass)){
+            return true;
+        }
+        return false;
+    }
 
 }
