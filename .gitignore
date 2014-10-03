@@ -26,10 +26,14 @@ build.xml
 ant.properties
 local.properties
 project.properties
+cache.xml
 
 # Eclipse project files
 .classpath
 .project
+
+# Windows thumbnail db
+Thumbs.db
 
 # idea project files
 .idea/
@@ -37,7 +41,19 @@ project.properties
 *.iml
 *.ipr
 *.iws
+*.bat
 
 ##Gradle-based build
 .gradle
 build/
+
+# Ignore bundler config.
+/.bundle
+
+# Ignore the default SQLite database.
+/db/*.sqlite3
+/db/*.sqlite3-journal
+
+# Ignore all logfiles and tempfiles.
+/log/*.log
+/tmp
