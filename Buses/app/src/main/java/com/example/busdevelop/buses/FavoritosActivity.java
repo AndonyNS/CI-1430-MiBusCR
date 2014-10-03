@@ -35,6 +35,7 @@ public class FavoritosActivity extends ActionBarActivity {
         mGoogleMap.animateCamera(zoom);
 
         } catch (Exception e) {
+
             e.printStackTrace();
         }
     }
