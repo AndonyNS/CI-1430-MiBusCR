@@ -2,6 +2,7 @@ package com.example.busdevelop.buses;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -37,6 +38,7 @@ public class FavoritosActivity extends ActionBarActivity {
         } catch (Exception e) {
 
             e.printStackTrace();
+            Log.e("Mapa", "exception", e);
         }
     }
 
