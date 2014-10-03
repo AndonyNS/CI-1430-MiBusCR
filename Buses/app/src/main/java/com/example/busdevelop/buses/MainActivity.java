@@ -72,6 +72,12 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
+    public void iniciarFavoritos(View view){
+
+        Intent intent = new Intent(this, FavoritosActivity.class);
+        startActivity(intent);
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
