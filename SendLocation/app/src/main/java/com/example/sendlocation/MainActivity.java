@@ -30,12 +30,13 @@ public class MainActivity extends Activity {
         SharedPreferences settings = getSharedPreferences(mPrefs_Name, 0);
         continueButtonListener();
 
+        //Si no ha marcado que quiere dejar de recibir la notificación al principio, seguirá apareciendo cada vez que inicie
         if (settings.getBoolean("show_agreement", true)){
-            Log.d("Comments", "First time");
             View v = (View)findViewById(R.id.warningDialog);
             v.setVisibility(View.VISIBLE);
         }
 
+        //Especifíca el locationManager y le indica que use tanto GPS como el proveedor de servicio (internet móvil)
 		LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 		LocationListener mlocListener = new MyLocationListener();
 		mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
@@ -51,6 +52,9 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+    /*Termina la aplicación al darle el botón de cerrar. Aunque no es lo ideal para android, se realiza
+    * debido a que la aplicación va a estar constantemente actualizada si no se cierra, entonces
+    * por seguridad se agrega este botón */
 	private void stopButtonListener(){
     	Button button = (Button) findViewById(R.id.stopButton);
     	 
@@ -64,6 +68,7 @@ public class MainActivity extends Activity {
 		});
     }
 
+    //Si selecciona no mostrar de nuevo, guarda el SharedPreference
     public void itemClicked(View v){
         if(findViewById(R.id.checkBox)==v){
             CheckBox cb = (CheckBox)v;
@@ -86,10 +91,13 @@ public class MainActivity extends Activity {
         });
     }
 	
+    
 	public class MyLocationListener implements LocationListener
 	{
+    //Este es el número único generado por cada dispositivo android
 	String UUID = Installation.id(getApplicationContext());
-		//Este es el número único generado por cada dispositivo android
+    
+    //Llama (o crea) la instancia de Firebase para el dispositivo
 	Firebase firebaseRef = new Firebase("https://blazing-fire-9075.firebaseio.com/Device-"+UUID);
 	
 	@Override
@@ -102,6 +110,7 @@ public class MainActivity extends Activity {
 
 		String location = loc.getLatitude() + " " + loc.getLongitude();
 		//firebaseRef.setValue(location);
+        //Pone en firebase el id del teléfono con su ubicación actual, que se llama con el onLocationChanged
 		firebaseRef.child("GpsID").setValue(UUID);
 		firebaseRef.child("Location").setValue(location);
 
