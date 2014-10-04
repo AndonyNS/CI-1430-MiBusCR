@@ -20,6 +20,13 @@ import android.widget.ListView;
 
 public class MainActivity extends ActionBarActivity {
 
+<<<<<<< HEAD
+=======
+    private String[] mOpcionesMenu;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+
+>>>>>>> esr91
     private final String mPrefs_Name = "MyPrefsFile";
     private String[] mOpcionesMenu;
     private DrawerLayout mDrawerLayout;
@@ -32,7 +39,11 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+<<<<<<< HEAD
         mOpcionesMenu = new String[] {"Opcion 1", "Opcion 2", "Opcion 3"};
+=======
+        mOpcionesMenu = new String[] {"Opción 1", "Opción 2", "Opción 3"};
+>>>>>>> esr91
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -79,7 +90,7 @@ public class MainActivity extends ActionBarActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new MainMenuFragment())
+                    .add(R.id.content_frame, new MainMenuFragment())
                     .commit();
         }
 
