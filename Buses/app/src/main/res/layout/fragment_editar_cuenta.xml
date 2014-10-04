@@ -12,8 +12,5 @@
         android:layout_height="wrap_content"
         android:text="@string/editar_cuenta" />
 
-<<<<<<< HEAD
 </LinearLayout>
-=======
-</LinearLayout>
->>>>>>> esr91
+
