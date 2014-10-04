@@ -20,9 +20,9 @@ import android.widget.ListView;
 
 public class MainActivity extends ActionBarActivity {
 
-    private String[] opcionesMenu;
-    private DrawerLayout drawerLayout;
-    private ListView drawerList;
+    private String[] mOpcionesMenu;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
 
     private final String mPrefs_Name = "MyPrefsFile";
 
@@ -33,17 +33,17 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        opcionesMenu = new String[] {"Opción 1", "Opción 2", "Opción 3"};
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerList = (ListView) findViewById(R.id.left_drawer);
+        mOpcionesMenu = new String[] {"Opción 1", "Opción 2", "Opción 3"};
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-        drawerList.setAdapter(new ArrayAdapter<String>(
+        mDrawerList.setAdapter(new ArrayAdapter<String>(
                 getSupportActionBar().getThemedContext(),
 //                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) ?
 //                android.R.layout.simple_list_item_activated_1 :
-                android.R.layout.simple_list_item_1, opcionesMenu));
+                android.R.layout.simple_list_item_1, mOpcionesMenu));
 
-        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view,
                                     int position, long id) {
@@ -69,12 +69,12 @@ public class MainActivity extends ActionBarActivity {
                         .replace(R.id.content_frame, fragment)
                         .commit();
 
-                drawerList.setItemChecked(position, true);
+                mDrawerList.setItemChecked(position, true);
 
-                String tituloSeccion = opcionesMenu[position];
+                String tituloSeccion = mOpcionesMenu[position];
                 getSupportActionBar().setTitle(tituloSeccion);
 
-                drawerLayout.closeDrawer(drawerList);
+                mDrawerLayout.closeDrawer(mDrawerList);
             }
         });
 
