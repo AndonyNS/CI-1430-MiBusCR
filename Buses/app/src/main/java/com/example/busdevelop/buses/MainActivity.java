@@ -52,7 +52,7 @@ public class MainActivity extends ActionBarActivity {
 
                 switch (position) {
                     case 0:
-                        fragment = new Fragment1();
+                        fragment = new FragmentEditarCuenta();
                         break;
 /*                    case 2:
                         fragment = new Fragment2();
