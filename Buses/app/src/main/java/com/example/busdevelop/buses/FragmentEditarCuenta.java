@@ -18,8 +18,6 @@ public class FragmentEditarCuenta extends Fragment {
 
         return inflater.inflate(R.layout.fragment_editar_cuenta, container, false);
     }
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> esr91
+
