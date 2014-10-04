@@ -10,11 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-<<<<<<< HEAD
     <!-- Menu Lateral -->
-=======
-    <!-- Menú Lateral -->
->>>>>>> esr91
     <ListView
         android:id="@+id/left_drawer"
         android:layout_width="240dp"
