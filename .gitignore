@@ -57,3 +57,5 @@ build/
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+SendLocation/build.gradle
+SendLocation/settings.gradle

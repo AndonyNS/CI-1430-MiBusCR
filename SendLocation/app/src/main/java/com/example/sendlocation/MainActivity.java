@@ -2,14 +2,17 @@ package com.example.sendlocation;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
@@ -17,17 +20,28 @@ import com.firebase.client.Firebase;
 
 public class MainActivity extends Activity {
 
+    private final String mPrefs_Name = "MyPrefsFile";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
+        SharedPreferences settings = getSharedPreferences(mPrefs_Name, 0);
+        continueButtonListener();
+
+        if (settings.getBoolean("show_agreement", true)){
+            Log.d("Comments", "First time");
+            View v = (View)findViewById(R.id.warningDialog);
+            v.setVisibility(View.VISIBLE);
+        }
+
 		LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 		LocationListener mlocListener = new MyLocationListener();
 		mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
 		mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
 
-		buttonListener();
+		stopButtonListener();
 	}
 
 	@Override
@@ -37,8 +51,8 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-	private void buttonListener(){
-    	Button button = (Button) findViewById(R.id.stop);
+	private void stopButtonListener(){
+    	Button button = (Button) findViewById(R.id.stopButton);
     	 
 		button.setOnClickListener(new OnClickListener() {
 
@@ -48,6 +62,28 @@ public class MainActivity extends Activity {
 				finish();
 			}
 		});
+    }
+
+    public void itemClicked(View v){
+        if(findViewById(R.id.checkBox)==v){
+            CheckBox cb = (CheckBox)v;
+            if(cb.isChecked()){
+                SharedPreferences settings = getSharedPreferences(mPrefs_Name, 0);
+                settings.edit().putBoolean("show_agreement", false).commit();
+            }
+        }
+    }
+
+    private void continueButtonListener(){
+        Button button = (Button) findViewById(R.id.continueButton);
+        button.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                View v = (View)findViewById(R.id.warningDialog);
+                v.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 	
 	public class MyLocationListener implements LocationListener

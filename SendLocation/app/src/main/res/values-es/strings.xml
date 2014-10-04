@@ -3,5 +3,20 @@
     <string name="app_name">Enviar Ubicación</string>
     <string name="action_settings">Ajustes</string>
     <string name="app_text">Enviando \nubicación al \nservidor</string>
-    <string name="close">Cerrar</string>
+    <string name="close">Detener</string>
+
+    <string name="warning">
+        ADVERTENCIA!
+        \n
+        \nEsta app envia la ubicación
+        \nde este teléfono a un servidor,
+        \nsi no está seguro del uso que
+        \nla compañía que recibe su
+        \nubicación puede darle a la
+        \nmisma, no continúe
+    </string>
+
+    <string name="not_again">No mostrar de nuevo</string>
+    <string name="cont_button">Continuar</string>
+
 </resources>
