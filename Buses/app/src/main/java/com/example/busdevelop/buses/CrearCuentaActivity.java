@@ -1,6 +1,7 @@
 package com.example.busdevelop.buses;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -114,7 +115,7 @@ public class CrearCuentaActivity extends ActionBarActivity {
             //  incluir header con el token del usuario general
             //  para crear usuario de manera segura
             httpPost.setHeader("Authorization",
-                    "Token token=\"65e1bb266ccce5a35c2d68d3c834ae40\"");
+                    "Token token=\"b0936d7e239775e770ce002307f0acda\"");
 
             // incluir los headers para que el Api sepa que es json
             httpPost.setHeader("Accept", "application/json");
@@ -189,11 +190,14 @@ public class CrearCuentaActivity extends ActionBarActivity {
 
         /**
          * Despliega el resultado del post request
+         * y guarda en el Shared Preferences el email de la cuenta creada
          */
         @Override
         protected void onPostExecute(String resultado){
+            guardarUsuario();
+
             Toast.makeText(getBaseContext(), "Cuenta Creada", Toast.LENGTH_LONG).show();
-            mActivity.startActivity(new Intent(mActivity,MainActivity.class));
+            mActivity.startActivity(new Intent(mActivity,EditarCuentaActivity.class));
 
         }
     }
@@ -239,6 +243,19 @@ public class CrearCuentaActivity extends ActionBarActivity {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Guarda el email del usuario en shared preferences
+     * para saber que ya esta logueado
+     */
+    private void guardarUsuario(){
+        SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("UserEmail",mUsuario.getEmail());
+        editor.putString("UserPass",mUsuario.getEncrypted_password());
+        editor.putBoolean("SinRegistrar",false);
+        editor.commit();
     }
 
 }
