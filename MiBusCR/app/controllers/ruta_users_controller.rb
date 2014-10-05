@@ -27,10 +27,10 @@ class RutaUsersController < ApplicationController
   # POST /ruta_users.json
   def create
     if @current_user != nil
-      if params[:id_ruta] != ""
-        @ruta_user = @current_user.ruta_user.find_by(ruta_id: params[:id_ruta])
+      if params[:ruta_id] != ""
+        @ruta_user = @current_user.ruta_user.find_by(ruta_id: params[:ruta_id])
         if @ruta_user.nil?
-          @ruta = Ruta.find(params[:id_ruta])
+          @ruta = Ruta.find(params[:ruta_id])
           @ruta_user = RutaUser.new(ruta:@ruta, user:@current_user)
         end
       end
@@ -50,7 +50,7 @@ class RutaUsersController < ApplicationController
   # DELETE /ruta_users/1
   # DELETE /ruta_users/1.json
   def destroy
-    @ruta_user = @current_user.ruta_user.find_by(ruta_id: params[:id_ruta])
+    @ruta_user = @current_user.ruta_user.find_by(ruta_id: params[:ruta_id])
     @ruta_user.destroy
     head :no_content
   end
