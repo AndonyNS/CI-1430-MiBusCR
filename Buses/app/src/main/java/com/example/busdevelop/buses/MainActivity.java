@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,12 +13,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 
 public class MainActivity extends ActionBarActivity {
 
-
     private final String mPrefs_Name = "MyPrefsFile";
+    private String[] mOpcionesMenu;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +32,54 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mOpcionesMenu = new String[] {"Opción 1", "Opción 2", "Opción 3"};
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        mDrawerList.setAdapter(new ArrayAdapter<String>(
+                getSupportActionBar().getThemedContext(),
+//                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) ?
+//                android.R.layout.simple_list_item_activated_1 :
+                android.R.layout.simple_list_item_1, mOpcionesMenu));
+
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView parent, View view,
+                                    int position, long id) {
+
+                Fragment fragment = null;
+
+                switch (position) {
+                    case 0:
+                        fragment = new FragmentEditarCuenta();
+                        break;
+/*                    case 2:
+                        fragment = new Fragment2();
+                        break;
+                    case 3:
+                        fragment = new Fragment3();
+                        break;
+*/                }
+
+                FragmentManager fragmentManager =
+                        getSupportFragmentManager();
+
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragment)
+                        .commit();
+
+                mDrawerList.setItemChecked(position, true);
+
+                String tituloSeccion = mOpcionesMenu[position];
+                getSupportActionBar().setTitle(tituloSeccion);
+
+                mDrawerLayout.closeDrawer(mDrawerList);
+            }
+        });
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new MainMenuFragment())
+                    .add(R.id.content_frame, new MainMenuFragment())
                     .commit();
         }
 

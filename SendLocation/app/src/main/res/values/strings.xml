@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Share Location</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_text">Sending \nlocation to \nserver</string>
+    <string name="close">Stop</string>
+
+    <string name="warning">
+        WARNING!
+        \n
+        \nThis app sends the location
+        \nof your phone to a server, if you
+        \nare not sure of the use
+        \nthat the company that
+        \nreceives your location
+        \nmay do with it, do not
+        \ncontinue
+    </string>
+
+    <string name="not_again">Don\'t show this again</string>
+    <string name="cont_button">Continue</string>
+
+</resources>
