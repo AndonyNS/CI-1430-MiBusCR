@@ -11,7 +11,7 @@ class TokensController < ApplicationController
   def create
     @user = User.find_by_email(params[:email])
     if !@user.nil? and @user.password == params[:password]
-      render json: @user.as_json(only: [:token])
+      render json: @user.as_json(only: [:id, :token])
     else
       head :unauthorized
     end

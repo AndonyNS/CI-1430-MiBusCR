@@ -1,6 +1,9 @@
 .gradle
 .DS_Store
 
+# ignore backup files
+*~
+
 # built application files
 *.apk
 *.ap_
