@@ -111,6 +111,11 @@ public class CrearCuentaActivity extends ActionBarActivity {
             // setear la Entity de httpPost
             httpPost.setEntity(se);
 
+            //  incluir header con el token del usuario general
+            //  para crear usuario de manera segura
+            httpPost.setHeader("Authorization",
+                    "Token token=\"65e1bb266ccce5a35c2d68d3c834ae40\"");
+
             // incluir los headers para que el Api sepa que es json
             httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Content-type", "application/json");
