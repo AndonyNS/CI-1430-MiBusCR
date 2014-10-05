@@ -1,16 +1,17 @@
 class RutaUsersController < ApplicationController
-  before_action :set_ruta_user, only: [:show, :edit, :update, :destroy]
   before_filter :restrict_access
 
   # GET /ruta_users
   # GET /ruta_users.json
   def index
-    @ruta_users = RutaUser.all
+    @ruta_users = @current_user.ruta_user
+    render json: @ruta_users.as_json(only: [:ruta_id])
   end
 
   # GET /ruta_users/1
   # GET /ruta_users/1.json
   def show
+    head :unauthorized
   end
 
   # GET /ruta_users/new
@@ -25,21 +26,18 @@ class RutaUsersController < ApplicationController
   # POST /ruta_users
   # POST /ruta_users.json
   def create
-    #@rutas_usuario = RutasUsuario.new(rutas_usuario_params)
-    if current_user != nil
-      respond_to do |format|
-        if params[:ruta_favorita] != ""
-          @ruta = Ruta.find(params[:ruta_favorita])
-          @user = current_user
-          @rutas_usuario = RutasUsuario.new(ruta:@ruta, user:@user)
+    if @current_user != nil
+      if params[:id_ruta] != ""
+        @ruta_user = @current_user.ruta_user.find_by(ruta_id: params[:id_ruta])
+        if @ruta_user.nil?
+          @ruta = Ruta.find(params[:id_ruta])
+          @ruta_user = RutaUser.new(ruta:@ruta, user:@current_user)
         end
-        if @rutas_usuario.save
-          format.html { redirect_to @rutas_usuario, notice: 'Ruta favorita agregada.' }
-          format.json { render :show, status: :created, location: @rutas_usuario }
-        else
-          format.html { render :new }
-          format.json { render json: @rutas_usuario.errors, status: :unprocessable_entity }
-        end
+      end
+      if @ruta_user.save
+        render json: @ruta_user.as_json(only: [:ruta_id])
+      else
+        render json: @ruta_user.errors, status: :unprocessable_entity
       end
     end
   end
@@ -52,21 +50,8 @@ class RutaUsersController < ApplicationController
   # DELETE /ruta_users/1
   # DELETE /ruta_users/1.json
   def destroy
+    @ruta_user = @current_user.ruta_user.find_by(ruta_id: params[:id_ruta])
     @ruta_user.destroy
-    respond_to do |format|
-      format.html { redirect_to ruta_users_url, notice: 'Ruta user was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    head :no_content
   end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_ruta_user
-      @ruta_user = RutaUser.find(params[:id])
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def ruta_user_params
-      params[:ruta_user]
-    end
 end
