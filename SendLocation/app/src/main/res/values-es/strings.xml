@@ -18,5 +18,14 @@
 
     <string name="not_again">No mostrar de nuevo</string>
     <string name="cont_button">Continuar</string>
+    <string name="activate">
+        "Favor active
+        \ntráfico de datos
+        \npoder compartir su ubicación"
+    </string>
+
+    <string name="update_message">
+        "Actualizando ubicación"
+    </string>
 
 </resources>

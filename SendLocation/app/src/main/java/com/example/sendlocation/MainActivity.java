@@ -6,44 +6,67 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
-
-import com.firebase.client.Firebase;
 
 
 public class MainActivity extends Activity {
 
     private final String mPrefs_Name = "MyPrefsFile";
+    String currentLocation;
+    long lastUpdate;
+    long updateFrequency;
+    serverUpdate server;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-        SharedPreferences settings = getSharedPreferences(mPrefs_Name, 0);
-        continueButtonListener();
+        lastUpdate = System.nanoTime();
+        //Frecuencia de actualización
+        updateFrequency = min2nano(0.5);
 
+        //Crea la instancia de firebase, es de tipo server, para que pueda ser usado con otros servidores en caso de que sea desee cambiar
+        server = new firebaseUpdate(getApplicationContext());
+        continueButtonListener();
+        stopButtonListener();
+
+        SharedPreferences settings = getSharedPreferences(mPrefs_Name, 0);
+        checkSettings(settings);
+        configureServiceManager();
+	}
+
+    /*Debido a que se trabaja con nanoTime, que devuelve nanosegundos, este método es para convertir
+     minutos a nanosegundos*/
+    private long min2nano(double minutes){
+        long conv = (6 * 10^6);
+        return (long)minutes * conv;
+    }
+
+    private void checkSettings(SharedPreferences settings){
         //Si no ha marcado que quiere dejar de recibir la notificación al principio, seguirá apareciendo cada vez que inicie
         if (settings.getBoolean("show_agreement", true)){
             View v = (View)findViewById(R.id.warningDialog);
             v.setVisibility(View.VISIBLE);
         }
+    }
 
+    private void configureServiceManager(){
         //Especifíca el locationManager y le indica que use tanto GPS como el proveedor de servicio (internet móvil)
-		LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-		LocationListener mlocListener = new MyLocationListener();
-		mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
-		mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
-
-		stopButtonListener();
-	}
+        LocationManager mLocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        LocationListener mLocListener = new MyLocationListener();
+        mLocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mLocListener);
+        mLocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mLocListener);
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -90,60 +113,61 @@ public class MainActivity extends Activity {
             }
         });
     }
-	
     
 	public class MyLocationListener implements LocationListener
 	{
-    //Este es el número único generado por cada dispositivo android
-	String UUID = Installation.id(getApplicationContext());
-    
-    //Llama (o crea) la instancia de Firebase para el dispositivo
-	Firebase firebaseRef = new Firebase("https://blazing-fire-9075.firebaseio.com/Device-"+UUID);
-	
+
+    public MyLocationListener(){
+        currentLocation = null;
+    }
 	@Override
 	public void onLocationChanged(Location loc)
-	{	
+	{
 	  	/*String Text = "Mi ubicación actual es: " + "Latitud = " + loc.getLatitude() +
 	  	" Longitud = " + loc.getLongitude();*/
-
-		Toast.makeText(getApplicationContext(),"Actualizando ubicación",Toast.LENGTH_SHORT).show();
-
-		String location = loc.getLatitude() + " " + loc.getLongitude();
-		//firebaseRef.setValue(location);
-        //Pone en firebase el id del teléfono con su ubicación actual, que se llama con el onLocationChanged
-		firebaseRef.child("GpsID").setValue(UUID);
-		firebaseRef.child("Location").setValue(location);
-
+		currentLocation = loc.getLatitude() + " " + loc.getLongitude();
+        long currentTime = System.nanoTime();
+        /* Si el tiempo actual menos la ultima actualización
+         * es mayor que la frecuencia de actualización indicada, se actualiza
+         */
+        if(currentTime-lastUpdate> updateFrequency){
+            server.update(currentLocation);
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.update_message), Toast.LENGTH_SHORT).show();
+            lastUpdate = System.nanoTime();
+        }
 	}
 
+    //Si el internet está deshabilitado
 	@Override
-	public void onProviderDisabled(String provider)
-	{
-		/*if(provider==LocationManager.NETWORK_PROVIDER){
-			TextView t = (TextView)findViewById(R.id.textView1);
-			t.setText("Favor active \ntráfico de datos \npoder compartir su ubicación");
-		}
-		if(provider==LocationManager.GPS_PROVIDER){
-			Toast.makeText( getApplicationContext(), "GPS Desactivado",Toast.LENGTH_SHORT ).show();
-		}*/
-	
-	}
+	public void onProviderDisabled(String provider){
+        if(!isNetworkAvailable(getApplicationContext())){
+            TextView t = (TextView)findViewById(R.id.textView1);
+            t.setText(getResources().getString(R.string.activate));
 
+        }
+    }
+
+    //Si se habilita
 	@Override
-	public void onProviderEnabled(String provider)
-	{
-		/*if(provider==LocationManager.NETWORK_PROVIDER){
-			TextView t = (TextView)findViewById(R.id.textView1);
-			t.setText("Enviando \nubicaci�n a \nServidor");
-			Toast.makeText( getApplicationContext(),"WIFI Activado",Toast.LENGTH_SHORT).show();
-		}
-		if(provider==LocationManager.GPS_PROVIDER){
-			Toast.makeText( getApplicationContext(), "GPS Activado",Toast.LENGTH_SHORT ).show();
-		}*/
-	}
+	public void onProviderEnabled(String provider){
+        TextView t = (TextView)findViewById(R.id.textView1);
+        t.setText(getResources().getString(R.string.app_text));
+    }
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras){}
 
-	} //End mylocationlistener
+    //Revisa que haya una red disponible (tenga los datos activos)
+    public boolean isNetworkAvailable(Context context)
+    {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting())
+            return true;
+
+        return false;
+    }
+
+    } //End mylocationlistener
 }
