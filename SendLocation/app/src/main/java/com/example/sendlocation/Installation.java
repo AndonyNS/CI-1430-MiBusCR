@@ -13,7 +13,7 @@ import java.util.UUID;
 * Tiene Singleton, ya que solo se necesita una instancia de la misma
  */
 public class Installation {
-    private volatile static String sID = null;
+    private static String sID = null;
     private static final String INSTALLATION = "INSTALLATION";
 
     public synchronized static String id(Context context) {

@@ -32,8 +32,8 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
         lastUpdate = System.nanoTime();
-        //Frecuencia de actualización
-        updateFrequency = min2nano(0.5);
+        //Frecuencia de actualización, cada 3 minutos
+        updateFrequency = min2nano(3);
 
         //Crea la instancia de firebase, es de tipo server, para que pueda ser usado con otros servidores en caso de que sea desee cambiar
         server = new firebaseUpdate(getApplicationContext());
@@ -47,8 +47,8 @@ public class MainActivity extends Activity {
 
     /*Debido a que se trabaja con nanoTime, que devuelve nanosegundos, este método es para convertir
      minutos a nanosegundos*/
-    private long min2nano(double minutes){
-        long conv = (6 * 10^6);
+    public long min2nano(double minutes){
+        long conv = (6 * (long)Math.pow(10,6));
         return (long)minutes * conv;
     }
 
@@ -126,16 +126,20 @@ public class MainActivity extends Activity {
 	  	/*String Text = "Mi ubicación actual es: " + "Latitud = " + loc.getLatitude() +
 	  	" Longitud = " + loc.getLongitude();*/
 		currentLocation = loc.getLatitude() + " " + loc.getLongitude();
-        long currentTime = System.nanoTime();
-        /* Si el tiempo actual menos la ultima actualización
+        attemptUpdate();
+	}
+
+     public void attemptUpdate(){
+         /* Si el tiempo actual menos la ultima actualización
          * es mayor que la frecuencia de actualización indicada, se actualiza
          */
-        if(currentTime-lastUpdate> updateFrequency){
-            server.update(currentLocation);
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.update_message), Toast.LENGTH_SHORT).show();
-            lastUpdate = System.nanoTime();
-        }
-	}
+         long currentTime = System.nanoTime();
+         if(currentTime-lastUpdate> updateFrequency){
+             server.update(currentLocation);
+             Toast.makeText(getApplicationContext(), getResources().getString(R.string.update_message), Toast.LENGTH_SHORT).show();
+             lastUpdate = System.nanoTime();
+         }
+     }
 
     //Si el internet está deshabilitado
 	@Override
