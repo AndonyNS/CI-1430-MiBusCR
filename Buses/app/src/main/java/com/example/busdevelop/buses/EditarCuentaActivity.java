@@ -36,9 +36,8 @@ public class EditarCuentaActivity extends ActionBarActivity {
     EditText mEmail, mNombre ,mPassword, mFechaNac, mCiudad, mConfPass;
     Usuario mUsuarioToken;
     Usuario mUsuarioObtenido;
-    String mUrlUsuario = "https://murmuring-anchorage-1614.herokuapp.com/rutas/users/";
+    String mUrlUsuario = "https://murmuring-anchorage-1614.herokuapp.com/users/";
     String mTokenUsuario = "";
-    String mIdUsuario = "";
     int mIdUser;
     String mEmailShaPref = "";
     String mPassShaPref = "";
@@ -64,7 +63,6 @@ public class EditarCuentaActivity extends ActionBarActivity {
 
         // obtener del shared preferences el email
         // y el password
-
         SharedPreferences sharedPref = getSharedPreferences(mPrefs_Name, 0);
         mEmailShaPref = sharedPref.getString("UserEmail","");
         mPassShaPref =sharedPref.getString("UserPass","");
@@ -204,23 +202,21 @@ public class EditarCuentaActivity extends ActionBarActivity {
             Toast.makeText(getBaseContext(), "Token Recuperado", Toast.LENGTH_LONG).show();
             //  Obtener los datos del usuario
 
-
             try{
                 // una vez recibido el string con  el json
-                //  se parsea sacando las variables
+                //  se parsea sacando las variables id y token del usuario
                 JSONObject usuarioToken = new JSONObject(resultado);
                 mIdUser = usuarioToken.getInt("id");
                 mTokenUsuario = usuarioToken.getString("token");
 
-                mCiudad.setText(mTokenUsuario);
-                //mCiudad.setText(Integer.toString(mIdUser));
-               //mFechaNac.setText(mIdUser);
-               Toast.makeText(getBaseContext(), Integer.toString(mIdUser), Toast.LENGTH_LONG).show();
+                //Url a la que el usuario tiene que pedir sus datos
+                mUrlUsuario +=  Integer.toString(mIdUser);
+
             }catch(JSONException e){
                 e.printStackTrace();
             }
 
-            //new HttpAsyncTaskGetUsuario().execute(mUrlUsuario);
+            new HttpAsyncTaskGetUsuario().execute(mUrlUsuario);
         }
     }
 
@@ -229,7 +225,7 @@ public class EditarCuentaActivity extends ActionBarActivity {
     /**
      * Metodo que hace un request al API con la url donde
      * se pregunta por los datos del usuario
-     * @param url url que almacena las rutas
+     * @param url para obtener la cuenta del usuario
      * @return String con  el array Json
      */
     public  String GetUsuario(String url){
@@ -240,8 +236,14 @@ public class EditarCuentaActivity extends ActionBarActivity {
             // Crear el cliente http
             HttpClient httpclient = new DefaultHttpClient();
 
+            //Preparar el request y agregarle los header necesarios
+            HttpGet request = new HttpGet(url);
+            request.setHeader("Authorization",
+                    "Token token=\""+mTokenUsuario + "\"");
+            request.setHeader("Content-type", "application/json");
+
             // hacer el request get al API
-            HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
+            HttpResponse httpResponse = httpclient.execute(request);
 
             // recibir la respuesta en un imputStream
             inputStream = httpResponse.getEntity().getContent();
@@ -270,11 +272,36 @@ public class EditarCuentaActivity extends ActionBarActivity {
          * metodo que se ejecuta después de obtener la respuesta
          * al request get, llenando el formulario con los datos de la cuenta
          * del usuario
-         * @param result
+         * @param resultado
          */
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(String resultado) {
             Toast.makeText(getBaseContext(), "Datos de usuario obtenidos", Toast.LENGTH_LONG).show();
+            //mCiudad.setText(resultado);
+
+            try{
+
+                //Parsear el json string a un json object para obtener los datos
+                JSONObject datosUsuario = new JSONObject(resultado);
+                mUsuarioObtenido = new Usuario();
+
+                //Parsear datos de jsonObject a la instancia de usuario
+                mUsuarioObtenido .setEmail(datosUsuario.getString("email"));
+                mUsuarioObtenido .setEncrypted_password(datosUsuario.getString("password"));
+                mUsuarioObtenido .setNombre(datosUsuario.getString("nombre"));
+                mUsuarioObtenido .setFechaNac(datosUsuario.getString("fechaNac"));
+                mUsuarioObtenido .setCiudad(datosUsuario.getString("ciudad"));
+
+                //Mostrar los datos en el formulario
+                mNombre.setText(mUsuarioObtenido.getNombre());
+                mFechaNac.setText(mUsuarioObtenido.getFechaNac());
+                mCiudad.setText(mUsuarioObtenido.getCiudad());
+
+
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
+
 
         }
     }
