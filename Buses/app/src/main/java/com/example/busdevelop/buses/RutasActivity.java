@@ -55,6 +55,9 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
         // obtendra una nueva localizacion
         mLocationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER, 5000, 20, this);
+        //Agrega que no solo espere GPS para obtener ubicación, funciona tambien con la red (menor precisión)
+        mLocationManager.requestLocationUpdates(
+                LocationManager.NETWORK_PROVIDER, 0, 0, this);
 
         getLocation();
     }
@@ -118,8 +121,6 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
     }
 
     public void getLocation(){
-
-
 
         Firebase firebaseRef = new Firebase(mFIREBASE_URL);
 

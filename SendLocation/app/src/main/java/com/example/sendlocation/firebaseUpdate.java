@@ -17,6 +17,8 @@ public class firebaseUpdate implements serverUpdate {
         //Pone en firebase el id del dispositivo con su ubicación actual, que se llama con el onLocationChanged
         firebaseRef.child("GpsID").setValue(UUID);
         firebaseRef.child("Location").setValue(currentLocation);
+
+        //Log.d("Info","Actualizando id:" + UUID);
     }
 
     public String getProvider(){
