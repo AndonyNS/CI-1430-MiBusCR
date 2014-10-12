@@ -13,6 +13,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.firebase.client.ChildEventListener;
@@ -39,6 +42,7 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
     private String mLocation;
     private double mLatitud;
     private double mLongitud;
+    ListView listaRutas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,8 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
         mLocationManager.requestLocationUpdates(
                 LocationManager.NETWORK_PROVIDER, 0, 0, this);
 
+        createList();
+
         getLocation();
     }
 
@@ -66,6 +72,55 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+    }
+
+    private void createList(){
+        // Get ListView object from xml
+        listaRutas = (ListView) findViewById(R.id.rutaslist);
+
+        // Defined Array values to show in ListView
+        String[] values = new String[] {
+                //Aquí debe usar los nombres de las rutas que ha obtenido del servidor
+                getResources().getString(R.string.ruta_alajuela_ucr),
+                getResources().getString(R.string.ruta_pavas_ucr),
+                getResources().getString(R.string.ruta_tibas_ucr),
+        };
+
+        // Define a new Adapter
+        // First parameter - Context
+        // Second parameter - Layout for the row
+        // Third parameter - ID of the TextView to which the data is written
+        // Forth - the Array of data
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, values);
+
+
+        // Assign adapter to ListView
+        listaRutas.setAdapter(adapter);
+
+        // ListView Item Click Listener
+        listaRutas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                // ListView Clicked item index
+                int itemPosition = position;
+
+                // ListView Clicked item value
+                String  itemValue = (String) listaRutas.getItemAtPosition(position);
+
+                // Show Alert
+                Toast.makeText(getApplicationContext(),
+                        "Position :"+itemPosition+"  ListItem : " +itemValue , Toast.LENGTH_LONG)
+                        .show();
+
+                //Aquí debe enviar las coordenadas del valor al encargado de dibujarlas
+            }
+
+        });
     }
 
     /**
