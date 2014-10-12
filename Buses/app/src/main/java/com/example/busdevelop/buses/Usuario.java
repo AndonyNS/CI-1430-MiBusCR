@@ -110,7 +110,13 @@ public class Usuario {
         return resultado;
     }
 
-
+    /**
+     * Metodo que hace un get request al api para obtener el string
+     * con el json de los datos de la cuenta del usuario
+     * @param token
+     * @param url
+     * @return
+     */
     public String getUsuario(String token, String url){
         InputStream inputStream = null;
         String resultado = "";
@@ -144,6 +150,11 @@ public class Usuario {
         return resultado;
     }
 
+    /**
+     * Metodo que recibe el string retornado por un request hecho al API
+     * y lo parsea a los atributos de usuario
+     * @param resultado
+     */
     public void parsearDatosUsuario(String resultado){
 
         try{
@@ -165,6 +176,12 @@ public class Usuario {
 
     }
 
+    /**
+     * Metodo que hace un put request para actualizar datos del usuario
+     * @param token
+     * @param url
+     * @return
+     */
     public String actualizarUsuario(String token, String url){
         InputStream inputStream = null;
         String resultado = "";
