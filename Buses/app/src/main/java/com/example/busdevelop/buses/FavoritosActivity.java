@@ -89,7 +89,7 @@ public class FavoritosActivity extends ActionBarActivity {
         }
 
         // Locate the ListView in activity_obt_rutas.xml
-        mList = (ListView) findViewById(R.id.listviewFavoritos);
+        //mList = (ListView) findViewById(R.id.listviewFavoritos);
 
         // Pass results to ListViewAdapter Class
         //mAdapter = new ListViewAdapter(this, mFavoritosArray);
