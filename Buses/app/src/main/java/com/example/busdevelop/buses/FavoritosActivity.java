@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -94,6 +96,21 @@ public class FavoritosActivity extends ActionBarActivity {
 
         // Binds the Adapter to the ListView
         mList.setAdapter(mAdapter);
+
+        mList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view, int position, long id){
+                final String item = (String) parent.getItemAtPosition(position);
+                view.animate().setDuration(2000).alpha(0).withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        //aqui se pasa al fragment supuestamente
+                    }
+                });
+
+            }
+        });
     }
 
 
