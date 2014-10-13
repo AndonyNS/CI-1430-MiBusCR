@@ -19,4 +19,13 @@
         tools:context="com.example.busdevelop.buses.RutasActivity3"
         android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
+    <!--Boton temporal que dibuja la ruta-->
+    <Button
+        android:id="@+id/btn_draw"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:text="Dibujar ruta"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
 </FrameLayout>
