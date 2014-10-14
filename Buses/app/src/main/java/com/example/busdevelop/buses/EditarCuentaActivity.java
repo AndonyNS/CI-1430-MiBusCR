@@ -327,7 +327,7 @@ public class EditarCuentaActivity extends ActionBarActivity {
 
 
     ///////////////////////////////////////////////////////////////////
-    //      Metodos y clase requerida para recuperar el token       //
+    //      Metodos y clase requerida para actualizar usuario      //
 
     public String PutUsuario(String url, Usuario usuario){
         InputStream inputStream = null;
