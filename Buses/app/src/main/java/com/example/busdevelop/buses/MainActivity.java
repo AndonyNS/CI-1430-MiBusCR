@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -32,7 +31,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mOpcionesMenu = new String[] {"Opción 1", "Opción 2", "Opción 3"};
+        mOpcionesMenu = new String[] {"Editar cuenta", "Buscar", "Opción 3"};
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -51,7 +50,10 @@ public class MainActivity extends ActionBarActivity {
 
                 switch (position) {
                     case 0:
-                        fragment = new FragmentEditarCuenta();
+                        iniciarActivity(EditarCuentaActivity.class);
+                        break;
+                    case 1:
+                        iniciarActivity(ObtRutasActivity.class);
                         break;
 /*                    case 2:
                         fragment = new Fragment2();
@@ -60,18 +62,6 @@ public class MainActivity extends ActionBarActivity {
                         fragment = new Fragment3();
                         break;
 */                }
-
-                FragmentManager fragmentManager =
-                        getSupportFragmentManager();
-
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, fragment)
-                        .commit();
-
-                mDrawerList.setItemChecked(position, true);
-
-                String tituloSeccion = mOpcionesMenu[position];
-                getSupportActionBar().setTitle(tituloSeccion);
 
                 mDrawerLayout.closeDrawer(mDrawerList);
             }
@@ -127,6 +117,12 @@ public class MainActivity extends ActionBarActivity {
     public void iniciarFavoritos(View view){
 
         Intent intent = new Intent(this, FavoritosActivity.class);
+        startActivity(intent);
+    }
+
+    public void iniciarActivity(Class activity){
+
+        Intent intent = new Intent(this, activity);
         startActivity(intent);
     }
 
