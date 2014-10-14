@@ -6,6 +6,7 @@ import android.widget.Toast;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -29,7 +30,9 @@ public class Usuario {
     private String encrypted_password;
     private String fechaNac;
     private String ciudad;
+    private String token;
     private int id;
+
 
     //Constructor por omision
     public Usuario(){
@@ -43,6 +46,8 @@ public class Usuario {
         this.encrypted_password = password;
         this.fechaNac = fechaNac;
         this.ciudad = ciudad;
+        this.token = "";
+        this.id = -1;
     }
 
     public int getId() {
@@ -51,6 +56,14 @@ public class Usuario {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getEncrypted_password() {
@@ -244,6 +257,93 @@ public class Usuario {
             Log.d("InputStream", e.getLocalizedMessage());
         }
         return resultado;
+    }
+
+    /**
+     * Metodo para hacer un post al API y obtener un token
+     * @param email
+     * @param password
+     * @return
+     */
+    public String obtenerToken(String email, String password){
+        String urlToken = "http://murmuring-anchorage-1614.herokuapp.com/tokens";
+        InputStream inputStream = null;
+        String resultado = "";
+        try{
+
+            //Crear cliente
+            HttpClient httpclient = new DefaultHttpClient();
+
+            //Hacer el request para un POST a la url
+            HttpPost httpPost = new HttpPost(urlToken);
+
+            String json = "";
+
+            //Construir el objeto json
+            JSONObject jsonObject = new JSONObject();
+
+            // se acumulan los campos necesarios, el primer parametro
+            // es la etiqueta json que tendran los campos de la base
+            jsonObject.accumulate("email", email);
+            jsonObject.accumulate("password", password);
+
+
+            // Convertir el objeto Json a String
+            json = jsonObject.toString();
+
+            // setear json al stringEntity
+            StringEntity se = new StringEntity(json);
+
+            // setear la Entity de httpPost
+            httpPost.setEntity(se);
+
+
+            // incluir los headers para que el Api sepa que es json
+            httpPost.setHeader("Accept", "application/json");
+            httpPost.setHeader("Content-type", "application/json");
+
+            // ejecutar el request de post en la url
+            HttpResponse httpResponse = httpclient.execute(httpPost);
+
+            // recibir la respuesta como un inputStream
+            inputStream = httpResponse.getEntity().getContent();
+
+            // convertir el inputStream a String si tiene valor null
+            // quiere decir que el post no sirvio
+            if(inputStream != null){
+                resultado = convertInputStreamToString(inputStream);
+            }else{
+                resultado = "Error al obtener Token";
+            }
+
+        }catch (Exception e){
+            Log.d("InputStream", e.getLocalizedMessage());
+        }
+
+        return resultado;
+    }
+
+
+    /**
+     * Metodo que recibe la hilera json del post request de un token
+     * y lo parsea, si despues del parse el id es -1 o el token
+     * es "" entonces quiere decir que el usuario no existe
+     * @param resultado
+     */
+    public void guardarTokenId(String resultado){
+        try{
+            // una vez recibido el string con  el json
+            //  se parsea sacando las variables id y token del usuario
+            JSONObject usuarioToken = new JSONObject(resultado);
+            this.setId(usuarioToken.getInt("id"));
+            this.setToken(usuarioToken.getString("token"));
+
+            //Url a la que el usuario tiene que pedir sus datos
+            //mUrlUsuario +=  Integer.toString(mIdUser);
+
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
     }
 
 }
