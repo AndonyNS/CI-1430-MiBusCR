@@ -16,17 +16,16 @@
         android:text="Eventos"
         android:onClick=""
         android:drawableTop="@drawable/evento"
-        android:id="@+id/Register"
+        android:id="@+id/Eventosbutton"
         android:padding="30dp"
         android:textSize="13dp"
         android:background="@drawable/custom_button"
-        android:layout_toEndOf="@+id/Favoritosbutton"
         android:translationX="-20dp"
         android:translationY="-20dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/Login"
-        android:layout_toRightOf="@+id/Login" />
+        android:layout_toRightOf="@+id/Favoritosbutton"
+        android:layout_below="@+id/Favoritosbutton"
+        android:layout_alignBottom="@+id/Ubicacionbutton"
+        android:layout_alignRight="@+id/Alarmabutton" />
 
     <Button
         android:layout_width="wrap_content"
@@ -34,18 +33,14 @@
         android:text="ubicacion"
         android:onClick=""
         android:drawableTop="@drawable/ubicacion"
-        android:id="@+id/button4"
+        android:id="@+id/Ubicacionbutton"
         android:padding="30dp"
         android:textSize="13dp"
         android:background="@drawable/custom_button"
         android:translationX="20dp"
         android:translationY="-20dp"
-        android:layout_toStartOf="@+id/button"
-        android:layout_below="@+id/Login"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/Login"
-        android:layout_alignBottom="@+id/Register" />
+        android:layout_below="@+id/Favoritosbutton"
+        android:layout_toLeftOf="@+id/Favoritosbutton" />
 
     <Button
         android:layout_width="wrap_content"
@@ -53,19 +48,16 @@
         android:text=" Rutas "
         android:onClick="iniciarRutas"
         android:drawableTop="@drawable/ruta"
-        android:id="@+id/button5"
+        android:id="@+id/Rutasbutton"
         android:padding="30dp"
         android:textSize="13dp"
         android:background="@drawable/custom_button"
-        android:layout_toStartOf="@+id/button"
         android:translationX="20dp"
         android:translationY="20dp"
-        android:layout_above="@+id/Login"
-        android:layout_alignEnd="@+id/button4"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/Login"
-        android:layout_alignLeft="@+id/button4" />
+        android:layout_alignTop="@+id/Alarmabutton"
+        android:layout_above="@+id/Favoritosbutton"
+        android:layout_toLeftOf="@+id/Favoritosbutton"
+        android:layout_alignLeft="@+id/Ubicacionbutton" />
 
     <Button
         android:layout_width="wrap_content"
@@ -73,17 +65,15 @@
         android:text="Alarmas"
         android:onClick=""
         android:drawableTop="@drawable/alarma"
-        android:id="@+id/button6"
+        android:id="@+id/Alarmabutton"
         android:padding="30dp"
         android:textSize="13dp"
         android:background="@drawable/custom_button"
         android:layout_toEndOf="@+id/Login"
         android:translationX="-20dp"
         android:translationY="20dp"
-        android:layout_above="@+id/Login"
-        android:layout_toRightOf="@+id/Login"
-        android:layout_alignTop="@+id/button5"
-        android:layout_alignRight="@+id/Register" />
+        android:layout_above="@+id/Favoritosbutton"
+        android:layout_toRightOf="@+id/Favoritosbutton" />
 
     <Button
         android:layout_width="wrap_content"
@@ -91,11 +81,10 @@
         android:text="Favoritas"
         android:onClick="iniciarFavoritos"
         android:drawableTop="@drawable/favoritos"
-        android:id="@+id/Login"
+        android:id="@+id/Favoritosbutton"
         android:padding="30dp"
         android:textSize="13dp"
         android:background="@drawable/custom_button"
-        android:layout_toEndOf="@+id/Ubicacionbutton"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
