@@ -20,5 +20,14 @@
 
     <string name="not_again">Don\'t show this again</string>
     <string name="cont_button">Continue</string>
+    <string name="activate">
+        "Activate your
+        \nphone's data to be
+        \nable to share your location"
+    </string>
+    
+    <string name="update_message">
+        "Updating location"
+    </string>
 
 </resources>

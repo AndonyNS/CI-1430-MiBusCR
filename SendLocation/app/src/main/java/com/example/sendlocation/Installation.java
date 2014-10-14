@@ -1,13 +1,17 @@
 package com.example.sendlocation;
 
+import android.content.Context;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.UUID;
 
-import android.content.Context;
-
+/*
+* Esta clase es la que obtiene el identificador único para cada dispositivo
+* Tiene Singleton, ya que solo se necesita una instancia de la misma
+ */
 public class Installation {
     private static String sID = null;
     private static final String INSTALLATION = "INSTALLATION";
