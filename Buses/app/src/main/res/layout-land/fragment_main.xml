@@ -13,67 +13,74 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Eventos"
-        android:onClick=""
-        android:drawableTop="@drawable/evento"
-        android:id="@+id/Eventosbutton"
-        android:padding="30dp"
-        android:textSize="13dp"
-        android:background="@drawable/custom_button"
-        android:translationX="-20dp"
-        android:translationY="-20dp"
-        android:layout_toRightOf="@+id/Favoritosbutton"
-        android:layout_below="@+id/Favoritosbutton"
-        android:layout_alignBottom="@+id/Ubicacionbutton"
-        android:layout_alignRight="@+id/Alarmabutton" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ubicacion"
-        android:onClick=""
-        android:drawableTop="@drawable/ubicacion"
-        android:id="@+id/Ubicacionbutton"
-        android:padding="30dp"
-        android:textSize="13dp"
-        android:background="@drawable/custom_button"
-        android:translationX="20dp"
-        android:translationY="-20dp"
-        android:layout_below="@+id/Favoritosbutton"
-        android:layout_toLeftOf="@+id/Favoritosbutton" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=" Rutas "
-        android:onClick="iniciarRutas"
-        android:drawableTop="@drawable/ruta"
-        android:id="@+id/Rutasbutton"
-        android:padding="30dp"
-        android:textSize="13dp"
-        android:background="@drawable/custom_button"
-        android:translationX="20dp"
-        android:translationY="20dp"
-        android:layout_alignTop="@+id/Alarmabutton"
-        android:layout_above="@+id/Favoritosbutton"
-        android:layout_toLeftOf="@+id/Favoritosbutton"
-        android:layout_alignLeft="@+id/Ubicacionbutton" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Alarmas"
+        android:text=" Alarmas "
         android:onClick=""
         android:drawableTop="@drawable/alarma"
         android:id="@+id/Alarmabutton"
         android:padding="30dp"
         android:textSize="13dp"
         android:background="@drawable/custom_button"
-        android:layout_toEndOf="@+id/Login"
-        android:translationX="-20dp"
-        android:translationY="20dp"
+        android:translationX="-10dp"
+        android:translationY="10dp"
+        android:minLines="1"
+        android:lines="1"
+        android:layout_toRightOf="@+id/Favoritosbutton"
+        android:layout_above="@+id/Favoritosbutton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  Rutas  "
+        android:onClick="iniciarRutas"
+        android:drawableTop="@drawable/ruta"
+        android:id="@+id/Rutasbutton"
+        android:padding="30dp"
+        android:textSize="13dp"
+        android:background="@drawable/custom_button"
+        android:layout_toStartOf="@+id/button"
+        android:translationX="10dp"
+        android:translationY="10dp"
+        android:minLines="1"
+        android:lines="1"
+        android:layout_alignTop="@+id/Alarmabutton"
         android:layout_above="@+id/Favoritosbutton"
-        android:layout_toRightOf="@+id/Favoritosbutton" />
+        android:layout_toLeftOf="@+id/Favoritosbutton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ubicacion"
+        android:onClick=""
+        android:drawableTop="@drawable/ubicacion"
+        android:id="@+id/Ubicacionbutton"
+        android:padding="30dp"
+        android:textSize="13dp"
+        android:background="@drawable/custom_button"
+        android:translationX="10dp"
+        android:translationY="-10dp"
+        android:minLines="1"
+        android:lines="1"
+        android:layout_below="@+id/Favoritosbutton"
+        android:layout_toLeftOf="@+id/Favoritosbutton"
+        android:layout_alignLeft="@+id/Rutasbutton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" Eventos "
+        android:onClick=""
+        android:drawableTop="@drawable/evento"
+        android:id="@+id/Eventosbutton"
+        android:padding="30dp"
+        android:textSize="13dp"
+        android:background="@drawable/custom_button"
+        android:translationX="-10dp"
+        android:translationY="-10dp"
+        android:minLines="1"
+        android:lines="1"
+        android:layout_alignBottom="@+id/Ubicacionbutton"
+        android:layout_toRightOf="@+id/Favoritosbutton"
+        android:layout_below="@+id/Favoritosbutton" />
 
     <Button
         android:layout_width="wrap_content"
@@ -85,6 +92,8 @@
         android:padding="30dp"
         android:textSize="13dp"
         android:background="@drawable/custom_button"
+        android:minLines="1"
+        android:lines="1"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
