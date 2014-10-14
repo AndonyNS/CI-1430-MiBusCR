@@ -39,7 +39,7 @@ public class CrearCuentaActivity extends ActionBarActivity {
         //obtener referencias a las vistas
         mEmailUsuario = (EditText) findViewById(R.id.emailUsuario);
         mNombreUsuario = (EditText) findViewById(R.id.nombreUsuario);
-        mPasswordUsuarioN = (EditText) findViewById(R.id.passwordUsuarioN);
+        mPasswordUsuarioN = (EditText) findViewById(R.id.nombreUsuario);
         mConfPass = (EditText) findViewById(R.id.confPass);
         mFechaNacUsuarioN = (EditText) findViewById(R.id.fechaNacUsuarioN);
         mCiudad = (EditText) findViewById(R.id.ciudad);
