@@ -1,7 +1,6 @@
 package com.example.busdevelop.buses;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,7 +19,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -194,7 +192,7 @@ public class EditarCuentaActivity extends ActionBarActivity {
             }
 
         }catch (Exception e){
-            Log.d("InputStream", e.getLocalizedMessage());
+            Log.d("InputStream", "Error: "+e.getLocalizedMessage());
         }
 
         return resultado;
