@@ -56,6 +56,7 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
     private String mLocation;
     private double mLatitud;
     private double mLongitud;
+
     private ArrayList<LatLng> mMarkerParadas;
 
     @Override
@@ -109,10 +110,14 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
                     // Setting the position of the marker
                     options.position(point);
 
+
                     /**
                      * For the start location, the color of marker is GREEN and
                      * for the end location, the color of marker is RED.
                      */
+
+                    //Marcador verde para la parada inicial y rojo para la final
+
                     if (mMarkerParadas.size() == 1) {
                         options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                     } else if (mMarkerParadas.size() == 2) {
@@ -162,6 +167,7 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
                 }
             });
         }
+
     }
 
     private String getDirectionsUrl(LatLng origin,LatLng dest){
@@ -326,7 +332,6 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
     }
 
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -385,47 +390,49 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
 
     }
 
-    public void getLocation(){
+    public void getLocation() {
 
         Firebase firebaseRef = new Firebase(mFIREBASE_URL);
 
-        firebaseRef.addChildEventListener(new ChildEventListener(){
+        firebaseRef.addChildEventListener(new ChildEventListener() {
 
-            @Override
-            public void onChildChanged(DataSnapshot snapshot, String previousChildName){
+                @Override
+                public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
 
-                Location location = new Location("dummyprovider");
+                    Location location = new Location("dummyprovider");
 
-                mGps = (String) snapshot.child("GpsID").getValue();
-                mLocation = (String) snapshot.child("Location").getValue();
-                String[] parts = mLocation.split(" ");
-                mLatitud = Double.parseDouble(parts[0]);
-                mLongitud = Double.parseDouble(parts[1]);
-                location.setLatitude(mLatitud);
-                location.setLongitude(mLongitud);
-                onLocationChanged(location);
+                    mGps = (String) snapshot.child("GpsID").getValue();
+                    mLocation = (String) snapshot.child("Location").getValue();
+                    String[] parts = mLocation.split(" ");
+                    mLatitud = Double.parseDouble(parts[0]);
+                    mLongitud = Double.parseDouble(parts[1]);
+                    location.setLatitude(mLatitud);
+                    location.setLongitude(mLongitud);
+                    onLocationChanged(location);
 
-            }
+                }
 
-            @Override
-            public void onChildAdded(DataSnapshot snapshot, String previousChildName){}
+                @Override
+                public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
+                }
 
-            @Override
-            public void onChildRemoved(DataSnapshot snapshot){}
+                @Override
+                public void onChildRemoved(DataSnapshot snapshot) {
+                }
 
-            @Override
-            public void onChildMoved(DataSnapshot snapshot, String previousChildName){}
+                @Override
+                public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
+                }
 
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("The read failed: " + firebaseError.getMessage());
-            }
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+                    System.out.println("The read failed: " + firebaseError.getMessage());
+                }
 
-        });
+            });
 
 
-
-    }
+        }
 
     @Override
     public void onLocationChanged(Location posicion) {
