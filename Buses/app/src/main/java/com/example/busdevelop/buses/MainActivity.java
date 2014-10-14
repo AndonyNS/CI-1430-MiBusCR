@@ -46,14 +46,12 @@ public class MainActivity extends ActionBarActivity {
             public void onItemClick(AdapterView parent, View view,
                                     int position, long id) {
 
-                Fragment fragment = null;
-
                 switch (position) {
                     case 0:
-                        iniciarActivity(EditarCuentaActivity.class);
+                        iniciarActivityMenu(EditarCuentaActivity.class);
                         break;
                     case 1:
-                        iniciarActivity(ObtRutasActivity.class);
+                        iniciarActivityMenu(ObtRutasActivity.class);
                         break;
 /*                    case 2:
                         fragment = new Fragment2();
@@ -120,9 +118,9 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    public void iniciarActivity(Class activity){
+    public void iniciarActivityMenu(Class activityClass){
 
-        Intent intent = new Intent(this, activity);
+        Intent intent = new Intent(this, activityClass);
         startActivity(intent);
     }
 
