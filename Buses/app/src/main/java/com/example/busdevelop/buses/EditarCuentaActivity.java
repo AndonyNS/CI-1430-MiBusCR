@@ -17,6 +17,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
@@ -36,6 +37,7 @@ public class EditarCuentaActivity extends ActionBarActivity {
     EditText mEmail, mNombre ,mPassword, mFechaNac, mCiudad, mConfPass;
     Usuario mUsuarioToken;
     Usuario mUsuarioObtenido;
+    Usuario mUsuarioActualizado;
     String mUrlUsuario = "https://murmuring-anchorage-1614.herokuapp.com/users/";
     String mTokenUsuario = "";
     int mIdUser;
@@ -99,8 +101,23 @@ public class EditarCuentaActivity extends ActionBarActivity {
      * Metodo llamado por el boton actualizar cuenta
      */
     public void actualizar(View vista){
-        //TODO: Validar campos
-        //new HttpAsyncTask().execute("https://murmuring-anchorage-1614.herokuapp.com/users");
+        boolean ejecutarPost = true;
+        if(!validCamposRequeridos()){
+            ejecutarPost = false;
+            Toast.makeText(getBaseContext(), "Llene los campos email, nombre y contraseña",
+                    Toast.LENGTH_LONG).show();
+        }
+
+        if(!validarPass()){
+            ejecutarPost = false;
+            Toast.makeText(getBaseContext(), "Las contraseñas no coinciden",
+                    Toast.LENGTH_LONG).show();
+        }
+
+        //si los datos en el formulario estan bien crea la cuenta
+        if(ejecutarPost){
+            new HttpAsyncTaskPutUsuario(this).execute(mUrlUsuario);
+        }
 
     }
 
@@ -199,7 +216,7 @@ public class EditarCuentaActivity extends ActionBarActivity {
          */
         @Override
         protected void onPostExecute(String resultado){
-            Toast.makeText(getBaseContext(), "Token Recuperado", Toast.LENGTH_LONG).show();
+
             //  Obtener los datos del usuario
 
             try{
@@ -306,4 +323,147 @@ public class EditarCuentaActivity extends ActionBarActivity {
         }
     }
 
+
+
+
+    ///////////////////////////////////////////////////////////////////
+    //      Metodos y clase requerida para recuperar el token       //
+
+    public String PutUsuario(String url, Usuario usuario){
+        InputStream inputStream = null;
+        String resultado = "";
+        try{
+
+            //Crear cliente
+            HttpClient httpclient = new DefaultHttpClient();
+
+            //Hacer el request para un POST a la url
+            HttpPut httpPost = new HttpPut(url);
+
+            String json = "";
+
+            //Construir el objeto json
+            JSONObject jsonObject = new JSONObject();
+
+            // se acumulan los campos necesarios, el primer parametro
+            // es la etiqueta json que tendran los campos de la base
+            jsonObject.accumulate("email", usuario.getEmail());
+            jsonObject.accumulate("password", usuario.getEncrypted_password());
+            jsonObject.accumulate("nombre", usuario.getNombre());
+            jsonObject.accumulate("fechaNac", usuario.getFechaNac());
+            jsonObject.accumulate("ciudad", usuario.getCiudad());
+
+
+            // Convertir el objeto Json a String
+            json = jsonObject.toString();
+
+            // setear json al stringEntity
+            StringEntity se = new StringEntity(json);
+
+            // setear la Entity de httpPost
+            httpPost.setEntity(se);
+
+
+            // incluir los headers para que el Api sepa que es json
+            // y mandar el token
+            httpPost.setHeader("Accept", "application/json");
+            httpPost.setHeader("Content-type", "application/json");
+            httpPost.setHeader("Authorization",
+                    "Token token=\""+mTokenUsuario + "\"");
+
+
+            // ejecutar el request de post en la url
+            HttpResponse httpResponse = httpclient.execute(httpPost);
+
+            // recibir la respuesta como un inputStream
+            inputStream = httpResponse.getEntity().getContent();
+
+            // convertir el inputStream a String si tiene valor null
+            // quiere decir que el post no sirvio
+            if(inputStream != null){
+                resultado = convertInputStreamToString(inputStream);
+                mCiudad.setText(resultado);
+            }else{
+                resultado = "Error al guardar datos";
+                mCiudad.setText(resultado);
+            }
+
+        }catch (Exception e){
+            Log.d("InputStream", e.getLocalizedMessage());
+        }
+
+        return resultado;
+    }
+
+    private  class HttpAsyncTaskPutUsuario extends AsyncTask<String, Void, String> {
+        Activity mActivity;
+        private HttpAsyncTaskPutUsuario(Activity activity){
+            this.mActivity = activity;
+        }
+
+        @Override
+        protected String doInBackground(String... urls){
+            //Crear usuario con los nuevos datos
+            mUsuarioActualizado = new Usuario();
+            mUsuarioActualizado.setEmail(mEmail.getText().toString());
+            mUsuarioActualizado.setNombre(mNombre.getText().toString());
+            mUsuarioActualizado.setEncrypted_password(mPassword.getText().toString());
+            mUsuarioActualizado.setFechaNac(mFechaNac.getText().toString());
+            mUsuarioActualizado.setCiudad(mCiudad.getText().toString());
+
+            return PutUsuario(urls[0], mUsuarioActualizado);
+        }
+
+        /**
+         * Despliega el resultado del post request
+         * y guarda el token para hacer el get request luego
+         */
+        @Override
+        protected void onPostExecute(String resultado){
+            guardarUsuario();
+            Toast.makeText(getBaseContext(), "Cuenta actualizada", Toast.LENGTH_LONG).show();
+
+
+
+        }
+    }
+
+    /**
+     * Metodo que valida que el usuario digito los campos requeridos
+     * para crear la cuenta.
+     */
+    private boolean validCamposRequeridos(){
+        if(mEmail.getText().toString().trim().equals("") ||
+                mNombre.getText().toString().trim().equals("") ||
+                mPassword.getText().toString().trim().equals("")){
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Metodo que valida que la contraseña y la confirmación de
+     * contraseña sean iguales
+     */
+    private boolean validarPass(){
+        String pass = mPassword.getText().toString().trim();
+        String confirmarPass = mConfPass.getText().toString().trim();
+        if(pass.equals(confirmarPass)){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Guarda el email del usuario en shared preferences
+     * para saber que ya esta logueado
+     */
+    private void guardarUsuario(){
+        SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("UserEmail",mUsuarioActualizado.getEmail());
+        editor.putString("UserPass",mUsuarioActualizado.getEncrypted_password());
+        editor.putBoolean("SinRegistrar",false);
+        editor.commit();
+    }
 }

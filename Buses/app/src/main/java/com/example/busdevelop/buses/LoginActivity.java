@@ -469,6 +469,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             SharedPreferences.Editor editor = settings.edit();
             editor.putString("UserEmail",mEmail);
             editor.putBoolean("SinRegistrar",false);
+            editor.putString("UserPass",mPassword);
             editor.commit();
         }
     }
