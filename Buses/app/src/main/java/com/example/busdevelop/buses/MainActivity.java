@@ -31,7 +31,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mOpcionesMenu = new String[] {"Editar cuenta", "Buscar", "Opción 3"};
+        mOpcionesMenu = new String[] {"Editar cuenta", "Buscar", "Cerrar Sesión"};
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -53,13 +53,10 @@ public class MainActivity extends ActionBarActivity {
                     case 1:
                         iniciarActivityMenu(ObtRutasActivity.class);
                         break;
-/*                    case 2:
-                        fragment = new Fragment2();
+                    case 2:
+                        logoutAndRestart();
                         break;
-                    case 3:
-                        fragment = new Fragment3();
-                        break;
-*/                }
+                }
 
                 mDrawerLayout.closeDrawer(mDrawerList);
             }
@@ -122,6 +119,17 @@ public class MainActivity extends ActionBarActivity {
 
         Intent intent = new Intent(this, activityClass);
         startActivity(intent);
+    }
+
+    public void logoutAndRestart(){
+        SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.clear().apply();
+        Intent i = getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+
     }
 
     /**
