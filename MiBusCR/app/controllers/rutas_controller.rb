@@ -13,7 +13,7 @@ class RutasController < ApplicationController
   # GET /rutas/1
   # GET /rutas/1.json
   def show
-    render json: @ruta.as_json(only: [:id, :nombre, :frecuencia, :precio, :horario],include: [parada:{only: [:id]}])
+    render json: @ruta.as_json(only: [:id, :nombre, :frecuencia, :precio, :horario],include: [ruta_parada:{only: [:parada_id, :tipo]}])
   end
 
   # POST /rutas
