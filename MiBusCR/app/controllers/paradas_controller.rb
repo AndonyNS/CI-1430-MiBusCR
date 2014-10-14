@@ -7,13 +7,13 @@ class ParadasController < ApplicationController
   def index
     @paradas = Parada.all
 
-    render json: @paradas.as_json(only: [:nombre, :techo, :latitud, :longitud ])
+    render json: @paradas.as_json(only: [:id, :nombre, :techo, :latitud, :longitud ])
   end
 
   # GET /paradas/1
   # GET /paradas/1.json
   def show
-    render json: @parada.as_json(only: [:nombre, :techo, :latitud, :longitud ])
+    render json: @parada.as_json(only: [:id, :nombre, :techo, :latitud, :longitud ])
   end
 
   # POST /paradas
