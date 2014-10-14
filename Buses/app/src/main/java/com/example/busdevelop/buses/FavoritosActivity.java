@@ -40,6 +40,7 @@ public class FavoritosActivity extends ActionBarActivity {
 
     private GoogleMap mGoogleMap;
     ArrayList<Ruta> mFavoritosArray = new ArrayList<Ruta>();
+    ArrayList<String> mNombreRutaArray = new ArrayList<String>();
     ListView mList;
     ListViewAdapter mAdapter;
 
@@ -89,10 +90,10 @@ public class FavoritosActivity extends ActionBarActivity {
         }
 
         // Locate the ListView in activity_obt_rutas.xml
-        //mList = (ListView) findViewById(R.id.listviewFavoritos);
+       mList = (ListView) findViewById(R.id.favoritoslist);
 
         // Pass results to ListViewAdapter Class
-        //mAdapter = new ListViewAdapter(this, mFavoritosArray);
+        mAdapter = new ListViewAdapter(this, mFavoritosArray);
 
         // Binds the Adapter to the ListView
         mList.setAdapter(mAdapter);
@@ -323,11 +324,14 @@ public class FavoritosActivity extends ActionBarActivity {
                 //  Strings. Se guarda una ruta en el arreglo de rutas
                 for(int i = 0; i < favoritas.length(); i++){
                     Ruta favoritos = new Ruta();
+                    String nombre;
                     favoritos.setId(favoritas.getJSONObject(i).getString("id"));
                     favoritos.setNombre(favoritas.getJSONObject(i).getString("nombre"));
                     favoritos.setFrecuencia(favoritas.getJSONObject(i).getString("frecuencia"));
                     favoritos.setPrecio(favoritas.getJSONObject(i).getString("precio"));
                     favoritos.setHorario(favoritas.getJSONObject(i).getString("horario"));
+                    nombre = favoritas.getJSONObject(i).getString("nombre");
+                    mNombreRutaArray.add(nombre);
                     mFavoritosArray.add(favoritos);
                 }
 
