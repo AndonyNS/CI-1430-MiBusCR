@@ -68,6 +68,10 @@
             android:name=".FavoritosActivity"
             android:label="Mis rutas favoritas" >
         </activity>
+        <activity
+            android:name=".UnderConstructionActivity"
+            android:label="Under Construction" >
+        </activity>
     </application>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->

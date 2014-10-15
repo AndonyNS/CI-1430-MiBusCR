@@ -115,6 +115,12 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
+    public void iniciarUnderContruction(View view){
+
+        Intent intent = new Intent(this, UnderConstructionActivity.class);
+        startActivity(intent);
+    }
+
     public void iniciarActivityMenu(Class activityClass){
 
         Intent intent = new Intent(this, activityClass);
