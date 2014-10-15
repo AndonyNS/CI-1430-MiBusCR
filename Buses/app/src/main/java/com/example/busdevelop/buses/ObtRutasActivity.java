@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,12 +27,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 
 public class ObtRutasActivity extends ActionBarActivity {
 
-    TextView mResultRutas;
     ArrayList<Ruta> mRutasArray  = new ArrayList<Ruta>();
     ListView mList;
     ListViewAdapter mAdapter;
@@ -51,12 +53,45 @@ public class ObtRutasActivity extends ActionBarActivity {
         mUsuario.setEmail(sharedPref.getString("UserEmail", ""));
         mUsuario.setEncrypted_password(sharedPref.getString("UserPass", ""));
 
-        // Locate the ListView in activity_obt_rutas.xml
+        // Llocalizar el listview en activity_obt_rutas.xml
         mList = (ListView) findViewById(R.id.listviewRutas);
         //  Obtener el token
         new HttpAsyncTaskToken(this).execute();
 
+        // Localizar el search_text
+        searchText = (EditText) findViewById(R.id.search_text);
 
+        // capturar el texto en search_text
+        searchText.addTextChangedListener(new TextWatcher() {
+
+            /**
+             * Metodo que se da cuenta que el campo de texto
+             * esta recibiendo caracteres y llama al metodo filtrar
+             * del ListViewAdapter
+             * @param arg0
+             */
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
+                String text = searchText.getText().toString().toLowerCase(Locale.getDefault());
+                mAdapter.filter(text);
+            }
+
+            /*
+                Estos metodos hay que sobreescribirlos pero no se ocupan
+             */
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1,
+                                          int arg2, int arg3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2,
+                                      int arg3) {
+
+            }
+        });
 
 
     }

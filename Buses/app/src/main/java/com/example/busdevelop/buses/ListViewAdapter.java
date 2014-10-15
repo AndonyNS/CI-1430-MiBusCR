@@ -15,7 +15,6 @@ import android.view.View.OnClickListener;
 
 public class ListViewAdapter extends BaseAdapter {
 
-    // Declare Variables
     Context mContext;
     LayoutInflater inflater;
     ArrayList<Ruta> mRutasArray = null;
@@ -88,6 +87,8 @@ public class ListViewAdapter extends BaseAdapter {
     /**
      * Metodo para filtrar, recibe  caracteres y verifica
      * que el nombre de la ruta los contenga
+     * si lo que se escribio no esta en el nombre de ninguna ruta
+     * la lista queda en blanco
      * @param charText
      */
     public void filter(String charText) {
