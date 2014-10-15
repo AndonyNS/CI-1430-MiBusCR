@@ -1,8 +1,6 @@
 package com.example.busdevelop.buses;
-
 import java.util.ArrayList;
 import android.util.Log;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -10,13 +8,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
-
 /**
  * Crea un objeto ruta con los datos almacenados
  * en la base de datos del servidor
@@ -30,11 +25,8 @@ public class Ruta {
     private Parada paradaInicial;
     private Parada paradaFinal;
     private ArrayList<Parada> paradasIntermedias;
-
     public Ruta(){
-
     }
-
     public Ruta(String id, String nombre, String frecuencia,
                 String precio, String horario) {
         this.id = id;
@@ -43,48 +35,36 @@ public class Ruta {
         this.precio = precio;
         this.horario = horario;
     }
-
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
-
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
     public String getFrecuencia() {
         return frecuencia;
     }
-
     public void setFrecuencia(String frecuencia) {
         this.frecuencia = frecuencia;
     }
-
     public String getPrecio() {
         return precio;
     }
-
     public void setPrecio(String precio) {
         this.precio = precio;
     }
-
     public String getHorario() {
         return horario;
     }
-
     public void setHorario(String horario) {
         this.horario = horario;
     }
-
-
     /**
      * El metodo necesita del token del usuario este busca las paradas de su id y llena los atributos paradaInicial, ParadaFinal
      * paradasIntermedias, para facilitar el uso de ellas.
@@ -93,7 +73,7 @@ public class Ruta {
     public void setParadas(String token){
         String resultado = "";
         if(id != null && id != "") {
-            paradasIntermedias  = new ArrayList<Parada>();
+            paradasIntermedias = new ArrayList<Parada>();
             resultado = requestHttpApi("rutas/"+id, token);
             try{
                 JSONObject ruta = new JSONObject(resultado);
@@ -122,35 +102,29 @@ public class Ruta {
                         }
                     }
                 }
-
             }catch(JSONException e){
                 e.printStackTrace();
             }
-
         }
     }
-
     /**
      * @return La parada inicial de la ruta
      */
     public Parada getParadaInicial(){
         return paradaInicial;
     }
-
     /**
      * @return La parada final de la ruta
      */
     public Parada getParadaFinal(){
         return paradaFinal;
     }
-
     /**
      * @return Las paradas intermedias que posee la ruta
      */
     public ArrayList<Parada> getParadasIntermedias() {
         return paradasIntermedias;
     }
-
     /**
      *
      * @param end final del request http
@@ -184,5 +158,4 @@ public class Ruta {
         }
         return resultado;
     }
-
 }

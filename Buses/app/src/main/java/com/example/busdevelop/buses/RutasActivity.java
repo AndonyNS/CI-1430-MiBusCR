@@ -302,22 +302,10 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
 
         @Override
         protected String doInBackground(String... urls) {
-
-            return GET(urls[0]);
-        }
-
-        /**
-         * metodo que se ejecuta después de obtener la respuesta
-         * al request get
-         * @param result
-         */
-        @Override
-        protected void onPostExecute(String result) {
-            Toast.makeText(getBaseContext(), "Rutas Obtenidas!", Toast.LENGTH_LONG).show();
             try{
                 // una vez recibido el string con  el json
                 //  se parsea guardando en un array
-                JSONArray rutas = new JSONArray(result);
+                JSONArray rutas = new JSONArray(GET(urls[0]));
 
 
                 //  cada i corresponderia a una diferente ruta
@@ -331,6 +319,7 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
                     ruta.setFrecuencia(rutas.getJSONObject(i).getString("frecuencia"));
                     ruta.setPrecio(rutas.getJSONObject(i).getString("precio"));
                     ruta.setHorario(rutas.getJSONObject(i).getString("horario"));
+                    ruta.setParadas(mUsuario.getToken());
                     mListaRutas.add(ruta);
                 }
 
@@ -342,11 +331,22 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
                 // enlazar el adaptador con el listView
                 //mList.setAdapter(mAdapter);
 
-                createListView();
 
             }catch(JSONException e){
                 e.printStackTrace();
             }
+            return "Rutas Obtenidas!";
+        }
+
+        /**
+         * metodo que se ejecuta después de obtener la respuesta
+         * al request get
+         * @param result
+         */
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(getBaseContext(), result, Toast.LENGTH_LONG).show();
+            createListView();
         }
     }
 
