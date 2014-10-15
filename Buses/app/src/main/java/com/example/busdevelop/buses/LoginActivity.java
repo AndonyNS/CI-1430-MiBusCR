@@ -30,18 +30,15 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,11 +58,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
+    private Usuario mUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        mUsuario = null;
         setUp();
     }
 
@@ -262,7 +261,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
                 // Select only email addresses.
                 ContactsContract.Contacts.Data.MIMETYPE +
                         " = ?", new String[]{ContactsContract.CommonDataKinds.Email
-                                                                     .CONTENT_ITEM_TYPE},
+                .CONTENT_ITEM_TYPE},
 
                 // Show primary email addresses first. Note that there won't be
                 // a primary email address if the user hasn't specified one.
@@ -320,10 +319,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             return emailAddressCollection;
         }
 
-	    @Override
-	    protected void onPostExecute(List<String> emailAddressCollection) {
-	       addEmailsToAutoComplete(emailAddressCollection);
-	    }
+        @Override
+        protected void onPostExecute(List<String> emailAddressCollection) {
+            addEmailsToAutoComplete(emailAddressCollection);
+        }
     }
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
@@ -357,49 +356,22 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            InputStream inputStream = null;
-            String resultado = "";
-            try{
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("https://murmuring-anchorage-1614.herokuapp.com/tokens");
 
-                String json = "";
+            // Will contain the raw JSON response as a string.
+            String usersJsonStr = null;
 
-                JSONObject jsonObject = new JSONObject();
-
-                jsonObject.accumulate("email", mEmail); //"Api@MiBusCR.co.cr"
-                jsonObject.accumulate("password", mPassword); //"?$jMEyp5P_9=E7L"
-                json = jsonObject.toString();
-                StringEntity se = new StringEntity(json);
-                httpPost.setEntity(se);
-                httpPost.setHeader("Accept", "application/json");
-                httpPost.setHeader("Content-type", "application/json");
-
-                HttpResponse httpResponse = httpclient.execute(httpPost);
-                inputStream = httpResponse.getEntity().getContent();
-
-                if(inputStream != null){
-                    BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-                    String linea = "";
-                    while( (linea = bufferedReader.readLine()) != null){
-                        resultado += linea;
-                    }
-                    inputStream.close();
-                }else{
-                    resultado = "Error al guardar datos";
-                }
-            }catch (Exception e){
-                Log.d("InputStream", "Error: "+e.getLocalizedMessage());
-            }
+            // HAce un post a request para obtener el token
+            mUsuario = new Usuario();
+            usersJsonStr = mUsuario.obtenerToken(mEmail, mPassword);
 
 
-            if(!resultado.equals("Error al guardar datos")){
+            mValid = validateData(usersJsonStr);
+            if(mValid)
                 saveUser();
-                mValid = true;
-            }else{
-                mValid = false;
-            }
 
+            /*Solo para debugging
+            String a = ""+mValid;
+            Log.d(LOG_TAG, a);*/
             return mValid;
         }
 
@@ -424,27 +396,18 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
 
         //Valida si los datos están dentro del json de todos los usuarios
         private boolean validateData(String jsonString){
-            boolean found = false;
-            try{
-                // una vez recibido el string con  el json
-                //  se parsea guardando en un array
-                JSONArray valores = new JSONArray(jsonString);
-                String e;
-                String p;
-                //Se verifica si en el elemento i existen el email
-                //y la contraseña
-                for(int i = 0; i < jsonString.length(); i++){
-                    e = valores.getJSONObject(i).getString("email");
-                    p = valores.getJSONObject(i).getString("password");
-                    if(e.equals(mEmail)&&p.equals(mPassword)){
-                        found = true;
-                        i = jsonString.length();
-                    }
-                }
-            }catch(JSONException e){
-                e.printStackTrace();
+            boolean existe;
+
+            if(jsonString.contains("token")){
+                existe = true;
+                return existe;
+            }else{
+                existe = false;
+                return existe;
             }
-            return found;
+
+
+
         }
 
         public boolean validUser(){
@@ -462,6 +425,3 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         }
     }
 }
-
-
-
