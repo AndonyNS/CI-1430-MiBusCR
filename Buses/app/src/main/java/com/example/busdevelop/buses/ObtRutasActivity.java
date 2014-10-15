@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 
 public class ObtRutasActivity extends ActionBarActivity {
@@ -55,10 +54,6 @@ public class ObtRutasActivity extends ActionBarActivity {
         mList = (ListView) findViewById(R.id.listviewRutas);
         //  Obtener el token
         new HttpAsyncTaskToken(this).execute();
-
-
-
-
     }
 
 
@@ -137,6 +132,10 @@ public class ObtRutasActivity extends ActionBarActivity {
         inputStream.close();
         return result;
 
+    }
+
+    public ArrayList<Ruta> getRutas(){
+        return mRutasArray;
     }
 
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
