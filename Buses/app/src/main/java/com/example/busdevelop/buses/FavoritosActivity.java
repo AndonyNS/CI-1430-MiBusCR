@@ -1,6 +1,8 @@
 package com.example.busdevelop.buses;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -17,7 +19,10 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -33,25 +38,23 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 public class FavoritosActivity extends ActionBarActivity {
 
     private GoogleMap mGoogleMap;
-    ArrayList<Ruta> mFavoritosArray = new ArrayList<Ruta>();
-    ArrayList<String> mNombreRutaArray = new ArrayList<String>();
-    ListView mList;
-    ListViewAdapter mAdapter;
+    private ArrayList<Ruta> mFavoritosArray = new ArrayList<Ruta>();
+    private ArrayList<String> mNombreRutaArray = new ArrayList<String>();
+    private ListView mList;
+    private ListViewAdapter mAdapter;
+    private ArrayList<LatLng> mMarkerParadas;
 
-    Usuario mUsuarioToken;
-    Usuario mUsuarioObtenido;
-    String mUrlUsuario = "https://murmuring-anchorage-1614.herokuapp.com/users/";
-    String mUrlFavorito ="https://murmuring-anchorage-1614.herokuapp.com/favoritas/";
-    String mTokenUsuario = "";
-    int mIdUser;
-    String mEmailShaPref = "";
-    String mPassShaPref = "";
+    private Usuario mUsuario;
     private final String mPrefs_Name = "MyPrefsFile";
 
 
@@ -63,12 +66,16 @@ public class FavoritosActivity extends ActionBarActivity {
 
         // obtener del shared preferences el email
         // y el password
+        mUsuario = new Usuario();
         SharedPreferences sharedPref = getSharedPreferences(mPrefs_Name, 0);
-        mEmailShaPref = sharedPref.getString("UserEmail","");
-        mPassShaPref =sharedPref.getString("UserPass","");
+        mUsuario.setEmail(sharedPref.getString("UserEmail", ""));
+        mUsuario.setEncrypted_password(sharedPref.getString("UserPass", ""));
+
+        // Locate the ListView in activity_obt_rutas.xml
+        mList = (ListView) findViewById(R.id.favoritoslist);
 
         //  Obtener el token
-        new HttpAsyncTaskToken().execute("https://murmuring-anchorage-1614.herokuapp.com/tokens");
+        new HttpAsyncTaskToken(this).execute();
 
         try {
             if (mGoogleMap == null) {
@@ -89,24 +96,30 @@ public class FavoritosActivity extends ActionBarActivity {
             Log.e("Mapa", "exception", e);
         }
 
-        // Locate the ListView in activity_obt_rutas.xml
-       mList = (ListView) findViewById(R.id.favoritoslist);
 
-        // Pass results to ListViewAdapter Class
-        mAdapter = new ListViewAdapter(this, mFavoritosArray);
-
-        // Binds the Adapter to the ListView
-        mList.setAdapter(mAdapter);
 
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
             @Override
-            public void onItemClick(AdapterView<?> parent, final View view, int position, long id){
+            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id){
                 final String item = (String) parent.getItemAtPosition(position);
+
                 view.animate().setDuration(2000).alpha(0).withEndAction(new Runnable() {
                     @Override
                     public void run() {
-                        //aqui se pasa al fragment supuestamente
+                        Ruta seleccionada = mFavoritosArray.get(position);
+                        String nombre = mNombreRutaArray.get(position);
+
+
+                        mFavoritosArray.clear();
+                        mNombreRutaArray.clear();
+                        mFavoritosArray.add(seleccionada);
+                        mNombreRutaArray.add(nombre);
+
+                        mAdapter.notifyDataSetChanged();
+
+                        dibujarRuta(seleccionada);
+
                     }
                 });
 
@@ -133,6 +146,209 @@ public class FavoritosActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    // metodo que dibuja en el mapa la ruta
+   public void dibujarRuta(Ruta ruta){
+
+        //se obtiene las paradas
+        Parada paradaInicial = ruta.getParadaInicial();
+        Parada paradaFinal= ruta.getParadaFinal();
+        ArrayList<Parada> paradas = ruta.getParadasIntermedias();
+
+       // se convierten las paradas en markers para agregar al mapa
+       MarkerOptions options = new MarkerOptions();
+
+        LatLng markerInicial = new LatLng(Double.parseDouble(paradaInicial.getLatitud()),
+                Double.parseDouble(paradaInicial.getLongitud()));
+       options.position(markerInicial);
+       options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+       mGoogleMap.addMarker(options);
+
+       LatLng marker;
+       for(Parada p : paradas){
+
+           marker = new LatLng(Double.parseDouble(p.getLatitud()),
+                   Double.parseDouble(p.getLongitud()));
+           mMarkerParadas.add(marker);
+
+       }
+
+       LatLng markerFinal = new LatLng(Double.parseDouble(paradaFinal.getLatitud()),
+               Double.parseDouble(paradaFinal.getLongitud()));
+       options.position(markerFinal);
+       options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+       mGoogleMap.addMarker(options);
+
+       // Getting URL to the Google Directions API
+       String url = getDirectionsUrl(markerInicial, markerFinal);
+
+       DownloadTask downloadTask = new DownloadTask();
+
+       // Start downloading json data from Google Directions API
+       downloadTask.execute(url);
+
+   }
+
+
+    private String getDirectionsUrl(LatLng origin,LatLng dest){
+
+        // Origin of route
+        String str_origin = "origin="+origin.latitude+","+origin.longitude;
+
+        // Destination of route
+        String str_dest = "destination="+dest.latitude+","+dest.longitude;
+
+        //paradas
+        String str_waypts = "waypoints=";
+        for(int i = 0; i<mMarkerParadas.size(); i++){
+
+            str_waypts += mMarkerParadas.get(i).latitude + "," + mMarkerParadas.get(i).longitude + "|";
+        }
+
+        // Sensor enabled
+        String sensor = "sensor=false";
+
+        // Building the parameters to the web service
+        String parameters = str_origin+"&"+str_dest+"&"+str_waypts+"&"+sensor;
+
+        // Output format
+        String output = "json";
+
+        // Building the url to the web service
+        String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
+
+        return url;
+    }
+
+    /** A method to download json data from url */
+    private String downloadUrl(String strUrl) throws IOException {
+        String data = "";
+        InputStream iStream = null;
+        HttpURLConnection urlConnection = null;
+        try{
+            URL url = new URL(strUrl);
+
+            // Creating an http connection to communicate with url
+            urlConnection = (HttpURLConnection) url.openConnection();
+
+            // Connecting to url
+            urlConnection.connect();
+
+            // Reading data from url
+            iStream = urlConnection.getInputStream();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
+
+            StringBuffer sb = new StringBuffer();
+
+            String line = "";
+            while( ( line = br.readLine()) != null){
+                sb.append(line);
+            }
+
+            data = sb.toString();
+
+            br.close();
+
+        }catch(Exception e){
+            Log.d("Exception while downloading url", e.toString());
+        }finally{
+            iStream.close();
+            urlConnection.disconnect();
+        }
+        return data;
+    }
+
+    // Fetches data from url passed
+    private class DownloadTask extends AsyncTask<String, Void, String> {
+
+        // Downloading data in non-ui thread
+        @Override
+        protected String doInBackground(String... url) {
+
+            // For storing data from web service
+            String data = "";
+
+            try{
+                // Fetching the data from web service
+                data = downloadUrl(url[0]);
+            }catch(Exception e){
+                Log.d("Background Task",e.toString());
+            }
+            return data;
+        }
+
+        // Executes in UI thread, after the execution of
+        // doInBackground()
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            ParserTask parserTask = new ParserTask();
+
+            // Invokes the thread for parsing the JSON data
+            parserTask.execute(result);
+        }
+    }
+
+    /** A class to parse the Google Places in JSON format */
+    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String,String>>> >{
+
+        // Parsing the data in non-ui thread
+        @Override
+        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
+
+            JSONObject jObject;
+            List<List<HashMap<String, String>>> routes = null;
+
+            try{
+                jObject = new JSONObject(jsonData[0]);
+                DirectionsJSONParser parser = new DirectionsJSONParser();
+
+                // Starts parsing data
+                routes = parser.parse(jObject);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            return routes;
+        }
+
+        // Executes in UI thread, after the parsing process
+        @Override
+        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+            ArrayList<LatLng> points = null;
+            PolylineOptions lineOptions = null;
+
+            // Traversing through all the routes
+            for(int i=0;i<result.size();i++){
+                points = new ArrayList<LatLng>();
+                lineOptions = new PolylineOptions();
+
+                // Fetching i-th route
+                List<HashMap<String, String>> path = result.get(i);
+
+                // Fetching all the points in i-th route
+                for(int j=0; j<path.size(); j++){
+                    HashMap<String,String> point = path.get(j);
+
+                    double lat = Double.parseDouble(point.get("lat"));
+                    double lng = Double.parseDouble(point.get("lng"));
+                    LatLng position = new LatLng(lat, lng);
+
+                    points.add(position);
+                }
+
+                // Adding all the points in the route to LineOptions
+                lineOptions.addAll(points);
+                lineOptions.width(2);
+                lineOptions.color(Color.RED);
+            }
+
+            // Drawing polyline in the Google Map for the i-th route
+            mGoogleMap.addPolyline(lineOptions);
+        }
+    }
+
+
 
 
     /**
@@ -154,126 +370,29 @@ public class FavoritosActivity extends ActionBarActivity {
 
     }
 
-    ///////////////////////////////////////////////////////////////////
-    //      Metodos y clase requerida para recuperar el token       //
-
-    public String PostToken(String url, Usuario usuario){
-        InputStream inputStream = null;
-        String resultado = "";
-        try{
-
-            //Crear cliente
-            HttpClient httpclient = new DefaultHttpClient();
-
-            //Hacer el request para un POST a la url
-            HttpPost httpPost = new HttpPost(url);
-
-            String json = "";
-
-            //Construir el objeto json
-            JSONObject jsonObject = new JSONObject();
-
-            // se acumulan los campos necesarios, el primer parametro
-            // es la etiqueta json que tendran los campos de la base
-            jsonObject.accumulate("email", usuario.getEmail());
-            jsonObject.accumulate("password", usuario.getEncrypted_password());
 
 
-            // Convertir el objeto Json a String
-            json = jsonObject.toString();
-
-            // setear json al stringEntity
-            StringEntity se = new StringEntity(json);
-
-            // setear la Entity de httpPost
-            httpPost.setEntity(se);
 
 
-            // incluir los headers para que el Api sepa que es json
-            httpPost.setHeader("Accept", "application/json");
-            httpPost.setHeader("Content-type", "application/json");
-
-            // ejecutar el request de post en la url
-            HttpResponse httpResponse = httpclient.execute(httpPost);
-
-            // recibir la respuesta como un inputStream
-            inputStream = httpResponse.getEntity().getContent();
-
-            // convertir el inputStream a String si tiene valor null
-            // quiere decir que el post no sirvio
-            if(inputStream != null){
-                resultado = convertInputStreamToString(inputStream);
-
-            }else{
-                resultado = "Error al guardar datos";
-
-            }
-
-        }catch (Exception e){
-            Log.d("InputStream", e.getLocalizedMessage());
-        }
-
-        return resultado;
-    }
-
-
-    private  class HttpAsyncTaskToken extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... urls){
-            mUsuarioToken = new Usuario();
-            mUsuarioToken.setEmail(mEmailShaPref);
-            mUsuarioToken.setEncrypted_password(mPassShaPref);
-            return PostToken(urls[0], mUsuarioToken);
-        }
-
-        /**
-         * Despliega el resultado del post request
-         * y guarda el token para hacer el get request luego
-         */
-        @Override
-        protected void onPostExecute(String resultado){
-            Toast.makeText(getBaseContext(), "Token Recuperado", Toast.LENGTH_LONG).show();
-            //  Obtener los datos del usuario
-
-            try{
-                // una vez recibido el string con  el json
-                //  se parsea sacando las variables id y token del usuario
-                JSONObject usuarioToken = new JSONObject(resultado);
-                mIdUser = usuarioToken.getInt("id");
-                mTokenUsuario = usuarioToken.getString("token");
-
-                //Url a la que el usuario tiene que pedir sus datos
-                mUrlUsuario +=  Integer.toString(mIdUser);
-
-            }catch(JSONException e){
-                e.printStackTrace();
-            }
-
-            new HttpAsyncTaskGetFavoritos().execute(mUrlFavorito);
-        }
-    }
-
-    ///////////////////////////////////////////////////////////////////
-    //      Metodos y clase requerida para cargar datos del usuario  //
     /**
      * Metodo que hace un request al API con la url donde
-     * se pregunta por los datos del usuario
-     * @param url para obtener la cuenta del usuario
+     * se pregunta por la tabla de favoritos
+     * @param url url que almacena las rutas favoritas
      * @return String con  el array Json
      */
     public  String GetFavoritos(String url){
         InputStream inputStream = null;
         String resultado = "";
-        try {
 
-            // Crear el cliente http
+        try{
+
+            //Crear el cliente http
             HttpClient httpclient = new DefaultHttpClient();
 
             //Preparar el request y agregarle los header necesarios
             HttpGet request = new HttpGet(url);
             request.setHeader("Authorization",
-                    "Token token=\""+mTokenUsuario + "\"");
+                    "Token token=\"" + mUsuario.getToken() + "\"");
             request.setHeader("Content-type", "application/json");
 
             // hacer el request get al API
@@ -287,16 +406,20 @@ public class FavoritosActivity extends ActionBarActivity {
                 resultado = convertInputStreamToString(inputStream);
             else
                 resultado = "Error al conectar a la Base de Datos";
-
-        } catch (Exception e) {
+        }catch (Exception e){
             Log.d("InputStream", e.getLocalizedMessage());
-        }
+        };
 
         return resultado;
     }
 
 
-    private class HttpAsyncTaskGetFavoritos extends AsyncTask<String, Void, String> {
+    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
+        Activity mActivity;
+        private HttpAsyncTask(Activity activity){
+            this.mActivity = activity;
+        }
+
         @Override
         protected String doInBackground(String... urls) {
 
@@ -315,8 +438,7 @@ public class FavoritosActivity extends ActionBarActivity {
                 // una vez recibido el string con  el json
                 //  se parsea guardando en un array
                 JSONArray favoritas = new JSONArray(result);
-                String impr ="";
-                impr +=  favoritas.length();
+
 
                 //  cada i corresponderia a una diferente ruta favorita
                 // se obtiene el objetoJson de esa posicion
@@ -335,21 +457,49 @@ public class FavoritosActivity extends ActionBarActivity {
                     mFavoritosArray.add(favoritos);
                 }
 
-                /*for(int i = 0; i < mRutasArray.size(); i++){
-                    impr += "\n------------------------\n";
-                    impr += mRutasArray.get(i).getId() + "\n";
-                    impr += mRutasArray.get(i).getNombre() + "\n";
-                    impr += mRutasArray.get(i).getFrecuencia() + "\n";
-                    impr += mRutasArray.get(i).getPrecio() + "\n";
-                    impr += mRutasArray.get(i).getHorario() + "\n";
-                }
+                // Pasar las rutas al  ListViewAdapter
+                mAdapter = new ListViewAdapter(mActivity, mFavoritosArray);
 
-                mResultRutas.setText(impr);*/
+                // enlazar el adaptador con el listView
+                mList.setAdapter(mAdapter);
+
 
 
             }catch(JSONException e){
                 e.printStackTrace();
             }
+        }
+    }
+
+    /**
+     * Obtener el token para consultar rutas favoritas
+     */
+
+    private class HttpAsyncTaskToken extends AsyncTask<Void, Void, String> {
+        Activity mActivity;
+        private HttpAsyncTaskToken(Activity activity){
+            this.mActivity = activity;
+        }
+
+
+        @Override
+        protected String doInBackground(Void...params) {
+
+            return mUsuario.obtenerToken(mUsuario.getEmail(), mUsuario.getEncrypted_password());
+        }
+
+        /**
+         * metodo que se ejecuta después de obtener la respuesta
+         * al request post del token
+         * @param resultado
+         */
+        @Override
+        protected void onPostExecute(String resultado) {
+            mUsuario.guardarTokenId(resultado);
+
+            // una vez obtenido el token se pide las rutas
+            new HttpAsyncTask(mActivity).execute("https://murmuring-anchorage-1614.herokuapp.com/favoritas");
+
         }
     }
 }
