@@ -100,8 +100,9 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
 
         getRutas();
 
-
         getLocation();
+
+        //showBuses();
 
         if (mMap != null) {
 
@@ -288,9 +289,13 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
          */
         @Override
         protected void onPostExecute(String resultado) {
-            mUsuario.guardarTokenId(resultado);
-            // una vez obtenido el token se pide las rutas
-            new HttpAsyncTask(mActivity).execute("https://murmuring-anchorage-1614.herokuapp.com/rutas");
+            try {
+                mUsuario.guardarTokenId(resultado);
+                // una vez obtenido el token se pide las rutas
+                new HttpAsyncTask(mActivity).execute("https://murmuring-anchorage-1614.herokuapp.com/rutas");
+            } catch(IllegalArgumentException i){
+                Log.e("Error de argumento",""+i.getMessage());
+            }
         }
     }
 
@@ -345,8 +350,13 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
          */
         @Override
         protected void onPostExecute(String result) {
-            Toast.makeText(getBaseContext(), result, Toast.LENGTH_LONG).show();
-            createListView();
+
+            try{
+                Toast.makeText(getBaseContext(), result, Toast.LENGTH_LONG).show();
+                createListView();
+            } catch(IllegalArgumentException i){
+                Log.e("Error de argumento",""+i.getMessage());
+            }
         }
     }
 
@@ -431,12 +441,16 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
         // doInBackground()
         @Override
         protected void onPostExecute(String result) {
-            super.onPostExecute(result);
+            try{
+                super.onPostExecute(result);
 
-            ParserTask parserTask = new ParserTask();
+                ParserTask parserTask = new ParserTask();
 
-            // Invokes the thread for parsing the JSON data
-            parserTask.execute(result);
+                // Invokes the thread for parsing the JSON data
+                parserTask.execute(result);
+            } catch(IllegalArgumentException i){
+                Log.e("Error de argumento",""+i.getMessage());
+            }
         }
     }
 
@@ -465,36 +479,40 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
         // Executes in UI thread, after the parsing process
         @Override
         protected void onPostExecute(List<List<HashMap<String, String>>> result) {
-            ArrayList<LatLng> points = null;
-            PolylineOptions lineOptions = null;
+            try{
+                ArrayList<LatLng> points = null;
+                PolylineOptions lineOptions = null;
 
-            // Traversing through all the routes
-            for(int i=0;i<result.size();i++){
-                points = new ArrayList<LatLng>();
-                lineOptions = new PolylineOptions();
+                // Traversing through all the routes
+                for(int i=0;i<result.size();i++){
+                    points = new ArrayList<LatLng>();
+                    lineOptions = new PolylineOptions();
 
-                // Fetching i-th route
-                List<HashMap<String, String>> path = result.get(i);
+                    // Fetching i-th route
+                    List<HashMap<String, String>> path = result.get(i);
 
-                // Fetching all the points in i-th route
-                for(int j=0; j<path.size(); j++){
-                    HashMap<String,String> point = path.get(j);
+                    // Fetching all the points in i-th route
+                    for(int j=0; j<path.size(); j++){
+                        HashMap<String,String> point = path.get(j);
 
-                    double lat = Double.parseDouble(point.get("lat"));
-                    double lng = Double.parseDouble(point.get("lng"));
-                    LatLng position = new LatLng(lat, lng);
+                        double lat = Double.parseDouble(point.get("lat"));
+                        double lng = Double.parseDouble(point.get("lng"));
+                        LatLng position = new LatLng(lat, lng);
 
-                    points.add(position);
+                        points.add(position);
+                    }
+
+                    // Adding all the points in the route to LineOptions
+                    lineOptions.addAll(points);
+                    lineOptions.width(2);
+                    lineOptions.color(Color.RED);
                 }
 
-                // Adding all the points in the route to LineOptions
-                lineOptions.addAll(points);
-                lineOptions.width(2);
-                lineOptions.color(Color.RED);
+                // Drawing polyline in the Google Map for the i-th route
+                mMap.addPolyline(lineOptions);
+            } catch(IllegalArgumentException i){
+                Log.e("Error de argumento",""+i.getMessage());
             }
-
-            // Drawing polyline in the Google Map for the i-th route
-            mMap.addPolyline(lineOptions);
         }
     }
 
@@ -540,6 +558,8 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
                 // ListView Clicked item value
                 String  itemValue = (String) listViewRutas.getItemAtPosition(position);
 
+
+                // TODO: Aquí es donde debe dibujar la ruta según lo que se le de!
                 // Show Alert
                 Toast.makeText(getApplicationContext(),
                         "Position :"+itemPosition+"  ListItem : " +itemValue , Toast.LENGTH_LONG)
@@ -649,6 +669,13 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
 
         }
 
+    /* De momento esto no es necesario porque getLocation recibe la ubicación de todos los dispositivos*/
+    public void showBuses() {
+
+    }
+
+
+
     @Override
     public void onLocationChanged(Location posicion) {
         LatLng latitudLongitud = new LatLng(posicion.getLatitude(),
@@ -704,17 +731,6 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            /*case R.id.MnuOpc1:
-                Toast.makeText(this, "You have chosen the " + getResources().getString(R.string.ruta_alajuela_ucr) + " menu option",
-                        Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.MnuOpc2:
-                Toast.makeText(this, "You have chosen the " + getResources().getString(R.string.ruta_pavas_ucr) + " menu option",
-                        Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.MnuOpc3:
-                Toast.makeText(this, "You have chosen the " + getResources().getString(R.string.ruta_tibas_ucr) + " menu option",
-                        Toast.LENGTH_SHORT).show();*/
             case R.id.action_search:
                 Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
                 break;
@@ -724,3 +740,4 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
         return true;
     }
 }
+
