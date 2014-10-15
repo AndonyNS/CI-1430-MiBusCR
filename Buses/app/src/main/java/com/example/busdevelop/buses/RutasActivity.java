@@ -60,7 +60,8 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
     private LocationManager mLocationManager;
     private ProgressDialog mpd;
     private Marker mMarcadorPosicion = null;
-
+    private Marker mMarcadorBus = null;
+    private Marker mMarcadorUpdate = null;
     private static final String mFIREBASE_URL = "https://blazing-fire-9075.firebaseio.com/";
     private String mGps;
     private String mLocation;
@@ -102,7 +103,7 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
 
         getLocation();
 
-        //showBuses();
+        showBuses();
 
         if (mMap != null) {
 
@@ -187,6 +188,8 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
             });
         }
 
+        listViewRutas = (ListView) findViewById(R.id.rutaslist);
+        listViewRutas.setVisibility(View.GONE);
     }
 
     private void getRutas(){
@@ -531,8 +534,11 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
         for ( Ruta r : mListaRutas){
             nombresRutas.add(r.getNombre());
             Log.d("Prueba",r.getNombre());
+            Log.d("Prueba",r.getNombre());
         }
-
+        if(!nombresRutas.isEmpty()) {
+            listViewRutas.setVisibility(View.VISIBLE);
+        }
         // Define a new Adapter
         // First parameter - Context
         // Second parameter - Layout for the row
@@ -644,6 +650,7 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
                     location.setLatitude(mLatitud);
                     location.setLongitude(mLongitud);
                     onLocationChanged(location);
+                    mMarcadorUpdate = mMarcadorPosicion;
 
                 }
 
@@ -669,9 +676,47 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
 
         }
 
-    /* De momento esto no es necesario porque getLocation recibe la ubicación de todos los dispositivos*/
+    /* Muestra el otro bus*/
     public void showBuses() {
+        Firebase firebaseRef = new Firebase(mFIREBASE_URL);
 
+        firebaseRef.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
+
+                Location location = new Location("dummyprovider");
+
+                mGps = (String) snapshot.child("GpsID").getValue();
+                mLocation = (String) snapshot.child("Location").getValue();
+                String[] parts = mLocation.split(" ");
+                mLatitud = Double.parseDouble(parts[0]);
+                mLongitud = Double.parseDouble(parts[1]);
+                location.setLatitude(mLatitud);
+                location.setLongitude(mLongitud);
+                onLocationChanged(location);
+                mMarcadorBus = mMarcadorUpdate;
+
+            }
+
+            @Override
+            public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot snapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+            }
+
+        });
     }
 
 
@@ -684,10 +729,10 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
         // Desaparecer del interfaz de usuario el ProgressDialog
         mpd.dismiss();
 
-        if (mMarcadorPosicion == null) {
-            mMarcadorPosicion = mMap.addMarker(new MarkerOptions()
+        if (mMarcadorUpdate == null) {
+            mMarcadorUpdate = mMap.addMarker(new MarkerOptions()
                     .position(latitudLongitud)
-                    .title("Mi ubicación")
+                    .title("Ubicación")
                     .snippet(
                             "lat:" + posicion.getLatitude() + ",lon:"
                                     + posicion.getLongitude())
@@ -699,7 +744,7 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latitudLongitud,
                     13));
         } else {
-            mMarcadorPosicion.setPosition(latitudLongitud);
+            mMarcadorUpdate.setPosition(latitudLongitud);
 
             mMap.animateCamera(CameraUpdateFactory.newLatLng(latitudLongitud));
         }
