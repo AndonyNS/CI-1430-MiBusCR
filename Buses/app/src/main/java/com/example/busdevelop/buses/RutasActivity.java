@@ -80,6 +80,7 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
 
         mMarkerParadas = new ArrayList<LatLng>();
 
+        mListaRutas = new ArrayList<Ruta>();
         //boton temporal para dibujar la ruta
         Button btnDraw = (Button)findViewById(R.id.btn_draw);
 
@@ -98,7 +99,7 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
                 LocationManager.NETWORK_PROVIDER, 0, 0, this);
 
         getRutas();
-        createListView();
+
 
         getLocation();
 
@@ -299,7 +300,6 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
             this.mActivity = activity;
         }
 
-
         @Override
         protected String doInBackground(String... urls) {
 
@@ -341,6 +341,8 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
 
                 // enlazar el adaptador con el listView
                 //mList.setAdapter(mAdapter);
+
+                createListView();
 
             }catch(JSONException e){
                 e.printStackTrace();
