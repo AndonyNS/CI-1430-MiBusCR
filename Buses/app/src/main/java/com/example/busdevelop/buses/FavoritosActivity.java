@@ -54,7 +54,9 @@ public class FavoritosActivity extends ActionBarActivity {
     private ListView mList;
     private List<LatLng> mMarkerParadas;
     private Usuario mUsuario;
+    private String mUrlFavorita= "https://murmuring-anchorage-1614.herokuapp.com/rutas/";
     private ArrayAdapter<String> mAdapter;
+    private List<String> ids = new ArrayList<String>();
     private final String mPrefs_Name = "MyPrefsFile";
 
 
@@ -72,7 +74,7 @@ public class FavoritosActivity extends ActionBarActivity {
 
         // Locate the ListView in activity_obt_rutas.xml
         mList = (ListView) findViewById(R.id.favoritoslist);
-
+        mList.setVisibility(View.GONE);
 
 
 
@@ -117,6 +119,10 @@ public class FavoritosActivity extends ActionBarActivity {
         for ( Ruta r : mFavoritosArray){
             mNombreRutaArray.add(r.getNombre());
             Log.d("Prueba",r.getNombre());
+        }
+        if(!mNombreRutaArray.isEmpty()){
+            mList.setVisibility(View.VISIBLE);
+            Log.e("mensaje","lista vacia");
         }
 
         // Define a new Adapter
@@ -439,30 +445,33 @@ public class FavoritosActivity extends ActionBarActivity {
                 JSONArray rutas = new JSONArray(GetFavoritos(urls[0]));
                 String nombre;
 
-                if(rutas.length()>0) {
 
-                    //  cada i corresponderia a una diferente ruta
-                    // se obtiene el objetoJson de esa posicion
-                    // y se le sacan los atributos que todos serian
-                    //  Strings. Se guarda una ruta en el arreglo de rutas
-                    for (int i = 0; i < rutas.length(); i++) {
-                        Ruta favoritos = new Ruta();
-                        favoritos.setId(Integer.toString(rutas.getJSONObject(i).getInt("id")));
-                        favoritos.setNombre(rutas.getJSONObject(i).getString("nombre"));
-                        nombre = rutas.getJSONObject(i).getString("nombre");
-                        favoritos.setFrecuencia(rutas.getJSONObject(i).getString("frecuencia"));
-                        favoritos.setPrecio(rutas.getJSONObject(i).getString("precio"));
-                        favoritos.setHorario(rutas.getJSONObject(i).getString("horario"));
-                        favoritos.setParadas(mUsuario.getToken());
-                        mFavoritosArray.add(favoritos);
-                        Toast.makeText(getBaseContext(), nombre, Toast.LENGTH_LONG).show();
-                    }
-                }else{
 
-                    String sinRutas= "no tiene rutas favoritas";
-                    mNombreRutaArray.add(sinRutas);
-                    Toast.makeText(getBaseContext(), sinRutas, Toast.LENGTH_LONG).show();
+                //  cada i corresponderia a una diferente ruta
+                // se obtiene el objetoJson de esa posicion
+                // y se le sacan los atributos que todos serian
+                //  Strings. Se guarda una ruta en el arreglo de rutas
+
+                for (int i = 0; i < rutas.length(); i++) {
+                    Ruta favoritos = new Ruta();
+                    ids.add(Integer.toString(rutas.getJSONObject(i).getInt("ruta_id")));
+
+
+                   // favoritos.setNombre(rutas.getJSONObject(i).getString("nombre"));
+                   // nombre = rutas.getJSONObject(i).getString("nombre");
+                   // favoritos.setFrecuencia(rutas.getJSONObject(i).getString("frecuencia"));
+                   // favoritos.setPrecio(rutas.getJSONObject(i).getString("precio"));
+                   // favoritos.setHorario(rutas.getJSONObject(i).getString("horario"));
+                   // favoritos.setParadas(mUsuario.getToken());
+                   // mFavoritosArray.add(favoritos);
+                   // Toast.makeText(getBaseContext(), nombre, Toast.LENGTH_LONG).show();
                 }
+
+                //llamar al otro asyntask
+
+
+
+
 
                 // mResultRutas.setText(mRutasArray.get(1).getFrecuencia());
 
@@ -482,12 +491,16 @@ public class FavoritosActivity extends ActionBarActivity {
         /**
          * metodo que se ejecuta después de obtener la respuesta
          * al request get
-         * @param result
+         * @param resultado
          */
         @Override
-        protected void onPostExecute(String result) {
-            Toast.makeText(getBaseContext(), result, Toast.LENGTH_SHORT).show();
-            createListView();
+        protected void onPostExecute(String resultado) {
+
+
+            // una vez obtenido el token se pide las rutas
+            for(String id : ids) {
+                new HttpAsyncTaskRutas(mActivity).execute("https://murmuring-anchorage-1614.herokuapp.com/rutas/"+id);
+            }
         }
 
 
@@ -530,6 +543,106 @@ public class FavoritosActivity extends ActionBarActivity {
         };
 
         return resultado;
+    }
+
+    public  String GET(String url){
+        InputStream inputStream = null;
+        String resultado = "";
+        try {
+
+            // Crear el cliente http
+            HttpClient httpclient = new DefaultHttpClient();
+
+            //Preparar el request y agregarle los header necesarios
+            HttpGet request = new HttpGet(url);
+            request.setHeader("Authorization",
+                    "Token token=\"" + mUsuario.getToken() + "\"");
+            request.setHeader("Content-type", "application/json");
+
+            // hacer el request get al API
+            HttpResponse httpResponse = httpclient.execute(request);
+
+            // recibir la respuesta en un imputStream
+            inputStream = httpResponse.getEntity().getContent();
+
+            // convertir el imputStream a String
+            if(inputStream != null)
+                resultado = convertInputStreamToString(inputStream);
+            else
+                resultado = "Error al conectar a la Base de Datos";
+
+        } catch (Exception e) {
+            Log.d("InputStream", e.getLocalizedMessage());
+        }
+
+        return resultado;
+    }
+
+    private class HttpAsyncTaskRutas extends AsyncTask<String, Void, String> {
+        Activity mActivity;
+        private HttpAsyncTaskRutas(Activity activity){
+            this.mActivity = activity;
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            try{
+                // una vez recibido el string con  el json
+                //  se parsea guardando en un array
+                JSONObject rutas = new JSONObject(GET(urls[0]));
+
+
+
+
+                //  cada i corresponderia a una diferente ruta
+                // se obtiene el objetoJson de esa posicion
+                // y se le sacan los atributos que todos serian
+                //  Strings. Se guarda una ruta en el arreglo de rutas
+
+
+                    Ruta favoritos = new Ruta();
+                    favoritos.setId(Integer.toString(rutas.getInt("id")));
+                    favoritos.setNombre(rutas.getString("nombre"));
+                    favoritos.setFrecuencia(rutas.getString("frecuencia"));
+                    favoritos.setPrecio(rutas.getString("precio"));
+                    favoritos.setHorario(rutas.getString("horario"));
+                    //favoritos.setParadas(mUsuario.getToken());
+                    mFavoritosArray.add(favoritos);
+
+
+
+
+
+
+
+
+                // mResultRutas.setText(mRutasArray.get(1).getFrecuencia());
+
+                // Pasar las rutas al  ListViewAdapter
+                //mAdapter = new ListViewAdapter(mActivity, mRutasArray);
+
+                // enlazar el adaptador con el listView
+                //mList.setAdapter(mAdapter);
+
+
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
+            return "Rutas Obtenidas!";
+        }
+
+        /**
+         * metodo que se ejecuta después de obtener la respuesta
+         * al request get
+         * @param result
+         */
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(getBaseContext(), result, Toast.LENGTH_SHORT).show();
+            createListView();
+        }
+
+
     }
 
     /**
