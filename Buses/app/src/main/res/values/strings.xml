@@ -15,5 +15,6 @@
     <string name="horarioRlabel">Horario:</string>
     <string name="title_activity_single_item_view">SingleItemView</string>
     <string name="editar_cuenta">Editar cuenta</string>
+    <string name="title_activity_favoritos_detail">FavoritosDetail</string>
 
 </resources>
