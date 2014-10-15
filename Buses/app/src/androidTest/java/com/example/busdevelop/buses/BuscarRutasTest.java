@@ -1,12 +1,14 @@
 package com.example.busdevelop.buses;
 import android.test.ActivityTestCase;
+import android.test.InstrumentationTestCase;
 
 import java.util.ArrayList;
 
 /**
  * Created by jossue on 15/10/14.
  */
-public class BuscarRutasTest extends ActivityTestCase {
+public class BuscarRutasTest extends InstrumentationTestCase {
+
 
     public void testObtenerRutasBuscadas(){
         ArrayList<Ruta> rutas  = new ArrayList<Ruta>();
@@ -30,8 +32,9 @@ public class BuscarRutasTest extends ActivityTestCase {
         ruta2.setHorario("7-10");
         rutas.add(ruta2);
 
-        ListViewAdapter adaptador = new ListViewAdapter(obtRutas,rutas);
+        ListViewAdapter adaptador = new ListViewAdapter(this.getInstrumentation().getContext(),rutas);
         System.out.println(adaptador.mRutasArray.get(0).getNombre());
+
         adaptador.filter("Ha");
         assertEquals("UCR-Hatillo", adaptador.mRutasArray.get(0).getNombre());
 
