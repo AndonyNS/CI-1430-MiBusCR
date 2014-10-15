@@ -1,6 +1,7 @@
 package com.example.busdevelop.buses;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -420,9 +421,7 @@ public class EditarCuentaActivity extends ActionBarActivity {
         protected void onPostExecute(String resultado){
             guardarUsuario();
             Toast.makeText(getBaseContext(), "Cuenta actualizada", Toast.LENGTH_LONG).show();
-
-
-
+            mActivity.startActivity(new Intent(mActivity,MainActivity.class));
         }
     }
 

@@ -197,7 +197,7 @@ public class CrearCuentaActivity extends ActionBarActivity {
             guardarUsuario();
 
             Toast.makeText(getBaseContext(), "Cuenta Creada", Toast.LENGTH_LONG).show();
-            mActivity.startActivity(new Intent(mActivity,EditarCuentaActivity.class));
+            mActivity.startActivity(new Intent(mActivity,MainActivity.class));
 
         }
     }
