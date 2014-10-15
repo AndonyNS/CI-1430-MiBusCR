@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,13 +49,12 @@ import java.util.List;
 public class FavoritosActivity extends ActionBarActivity {
 
     private GoogleMap mGoogleMap;
-    private ArrayList<Ruta> mFavoritosArray = new ArrayList<Ruta>();
-    private ArrayList<String> mNombreRutaArray = new ArrayList<String>();
+    private List<Ruta> mFavoritosArray;
+    private List<String> mNombreRutaArray;
     private ListView mList;
-    private ListViewAdapter mAdapter;
-    private ArrayList<LatLng> mMarkerParadas;
-
+    private List<LatLng> mMarkerParadas;
     private Usuario mUsuario;
+    private ArrayAdapter<String> mAdapter;
     private final String mPrefs_Name = "MyPrefsFile";
 
 
@@ -64,18 +64,17 @@ public class FavoritosActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favoritos);
 
-        // obtener del shared preferences el email
-        // y el password
-        mUsuario = new Usuario();
-        SharedPreferences sharedPref = getSharedPreferences(mPrefs_Name, 0);
-        mUsuario.setEmail(sharedPref.getString("UserEmail", ""));
-        mUsuario.setEncrypted_password(sharedPref.getString("UserPass", ""));
+        mMarkerParadas = new ArrayList<LatLng>();
+        mFavoritosArray = new ArrayList<Ruta>();
+
+
+       getRutas();
 
         // Locate the ListView in activity_obt_rutas.xml
         mList = (ListView) findViewById(R.id.favoritoslist);
 
-        //  Obtener el token
-        new HttpAsyncTaskToken(this).execute();
+
+
 
         try {
             if (mGoogleMap == null) {
@@ -98,17 +97,63 @@ public class FavoritosActivity extends ActionBarActivity {
 
 
 
-        mList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+       }
+
+
+    private void getRutas(){
+        mUsuario = new Usuario();
+        SharedPreferences sharedPref = getSharedPreferences("MyPrefsFile", 0);
+        mUsuario.setEmail(sharedPref.getString("UserEmail", ""));
+        mUsuario.setEncrypted_password(sharedPref.getString("UserPass", ""));
+
+        new HttpAsyncTaskToken(this).execute();
+    }
+
+    private void createListView(){
+        // Get ListView object from xml
+        mList = (ListView) findViewById(R.id.favoritoslist);
+
+        mNombreRutaArray = new ArrayList<String>();
+        for ( Ruta r : mFavoritosArray){
+            mNombreRutaArray.add(r.getNombre());
+            Log.d("Prueba",r.getNombre());
+        }
+
+        // Define a new Adapter
+        // First parameter - Context
+        // Second parameter - Layout for the row
+        // Third parameter - ID of the TextView to which the data is written
+        // Forth - the Array of data
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1,mNombreRutaArray);
+
+
+        // Assign adapter to ListView
+        mList.setAdapter(adapter);
+
+        // ListView Item Click Listener
+        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id){
-                final String item = (String) parent.getItemAtPosition(position);
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                // ListView Clicked item index
+                final int itemPosition = position;
+
+                // ListView Clicked item value
+                String itemValue = (String) mList.getItemAtPosition(position);
+
+                // Show Alert
+                Toast.makeText(getApplicationContext(),
+                        "Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
+                        .show();
 
                 view.animate().setDuration(2000).alpha(0).withEndAction(new Runnable() {
                     @Override
                     public void run() {
-                        Ruta seleccionada = mFavoritosArray.get(position);
-                        String nombre = mNombreRutaArray.get(position);
+                        Ruta seleccionada = mFavoritosArray.get(itemPosition);
+                        String nombre = mNombreRutaArray.get(itemPosition);
 
 
                         mFavoritosArray.clear();
@@ -121,11 +166,14 @@ public class FavoritosActivity extends ActionBarActivity {
                         dibujarRuta(seleccionada);
 
                     }
-                });
 
+
+                });
             }
         });
     }
+
+
 
 
     @Override
@@ -374,6 +422,77 @@ public class FavoritosActivity extends ActionBarActivity {
 
 
 
+
+
+
+    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
+        Activity mActivity;
+        private HttpAsyncTask(Activity activity){
+            this.mActivity = activity;
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            try{
+                // una vez recibido el string con  el json
+                //  se parsea guardando en un array
+                JSONArray rutas = new JSONArray(GetFavoritos(urls[0]));
+                String nombre;
+
+                if(rutas.length()>0) {
+
+                    //  cada i corresponderia a una diferente ruta
+                    // se obtiene el objetoJson de esa posicion
+                    // y se le sacan los atributos que todos serian
+                    //  Strings. Se guarda una ruta en el arreglo de rutas
+                    for (int i = 0; i < rutas.length(); i++) {
+                        Ruta favoritos = new Ruta();
+                        favoritos.setId(Integer.toString(rutas.getJSONObject(i).getInt("id")));
+                        favoritos.setNombre(rutas.getJSONObject(i).getString("nombre"));
+                        nombre = rutas.getJSONObject(i).getString("nombre");
+                        favoritos.setFrecuencia(rutas.getJSONObject(i).getString("frecuencia"));
+                        favoritos.setPrecio(rutas.getJSONObject(i).getString("precio"));
+                        favoritos.setHorario(rutas.getJSONObject(i).getString("horario"));
+                        favoritos.setParadas(mUsuario.getToken());
+                        mFavoritosArray.add(favoritos);
+                        Toast.makeText(getBaseContext(), nombre, Toast.LENGTH_LONG).show();
+                    }
+                }else{
+
+                    String sinRutas= "no tiene rutas favoritas";
+                    mNombreRutaArray.add(sinRutas);
+                    Toast.makeText(getBaseContext(), sinRutas, Toast.LENGTH_LONG).show();
+                }
+
+                // mResultRutas.setText(mRutasArray.get(1).getFrecuencia());
+
+                // Pasar las rutas al  ListViewAdapter
+                //mAdapter = new ListViewAdapter(mActivity, mRutasArray);
+
+                // enlazar el adaptador con el listView
+                //mList.setAdapter(mAdapter);
+
+
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
+            return "Rutas Obtenidas!";
+        }
+
+        /**
+         * metodo que se ejecuta después de obtener la respuesta
+         * al request get
+         * @param result
+         */
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(getBaseContext(), result, Toast.LENGTH_SHORT).show();
+            createListView();
+        }
+
+
+    }
+
     /**
      * Metodo que hace un request al API con la url donde
      * se pregunta por la tabla de favoritos
@@ -411,64 +530,6 @@ public class FavoritosActivity extends ActionBarActivity {
         };
 
         return resultado;
-    }
-
-
-    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
-        Activity mActivity;
-        private HttpAsyncTask(Activity activity){
-            this.mActivity = activity;
-        }
-
-        @Override
-        protected String doInBackground(String... urls) {
-
-            return GetFavoritos(urls[0]);
-        }
-
-        /**
-         * metodo que se ejecuta después de obtener la respuesta
-         * al request get
-         * @param result
-         */
-        @Override
-        protected void onPostExecute(String result) {
-            Toast.makeText(getBaseContext(), "Rutas Favoritas Obtenidas!", Toast.LENGTH_LONG).show();
-            try{
-                // una vez recibido el string con  el json
-                //  se parsea guardando en un array
-                JSONArray favoritas = new JSONArray(result);
-
-
-                //  cada i corresponderia a una diferente ruta favorita
-                // se obtiene el objetoJson de esa posicion
-                // y se le sacan los atributos que todos serian
-                //  Strings. Se guarda una ruta en el arreglo de rutas
-                for(int i = 0; i < favoritas.length(); i++){
-                    Ruta favoritos = new Ruta();
-                    String nombre;
-                    favoritos.setId(favoritas.getJSONObject(i).getString("id"));
-                    favoritos.setNombre(favoritas.getJSONObject(i).getString("nombre"));
-                    favoritos.setFrecuencia(favoritas.getJSONObject(i).getString("frecuencia"));
-                    favoritos.setPrecio(favoritas.getJSONObject(i).getString("precio"));
-                    favoritos.setHorario(favoritas.getJSONObject(i).getString("horario"));
-                    nombre = favoritas.getJSONObject(i).getString("nombre");
-                    mNombreRutaArray.add(nombre);
-                    mFavoritosArray.add(favoritos);
-                }
-
-                // Pasar las rutas al  ListViewAdapter
-                mAdapter = new ListViewAdapter(mActivity, mFavoritosArray);
-
-                // enlazar el adaptador con el listView
-                mList.setAdapter(mAdapter);
-
-
-
-            }catch(JSONException e){
-                e.printStackTrace();
-            }
-        }
     }
 
     /**
