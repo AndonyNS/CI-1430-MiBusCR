@@ -94,6 +94,7 @@ public class ObtRutasActivity extends ActionBarActivity {
             }
         });
 
+
     }
 
 
@@ -172,10 +173,6 @@ public class ObtRutasActivity extends ActionBarActivity {
         inputStream.close();
         return result;
 
-    }
-
-    public ArrayList<Ruta> getRutas(){
-        return mRutasArray;
     }
 
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {

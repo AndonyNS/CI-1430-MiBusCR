@@ -66,7 +66,7 @@ public class EditarCuentaActivity extends ActionBarActivity {
         SharedPreferences sharedPref = getSharedPreferences(mPrefs_Name, 0);
         mEmailShaPref = sharedPref.getString("UserEmail","");
         mPassShaPref =sharedPref.getString("UserPass","");
-        mCiudad.setText(mPassShaPref);
+
         mEmail.setText(mEmailShaPref);
         mPassword.setText(mPassShaPref);
         //  Obtener el token
@@ -185,10 +185,10 @@ public class EditarCuentaActivity extends ActionBarActivity {
             // quiere decir que el post no sirvio
             if(inputStream != null){
                 resultado = convertInputStreamToString(inputStream);
-                mCiudad.setText(resultado);
+
             }else{
                 resultado = "Error al guardar datos";
-                mCiudad.setText(resultado);
+                
             }
 
         }catch (Exception e){
@@ -380,10 +380,10 @@ public class EditarCuentaActivity extends ActionBarActivity {
             // quiere decir que el post no sirvio
             if(inputStream != null){
                 resultado = convertInputStreamToString(inputStream);
-                mCiudad.setText(resultado);
+
             }else{
                 resultado = "Error al guardar datos";
-                mCiudad.setText(resultado);
+
             }
 
         }catch (Exception e){
