@@ -30,15 +30,18 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -354,64 +357,49 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // These two need to be declared outside the try/catch
-            // so that they can be closed in the finally block.
-            HttpURLConnection urlConnection = null;
-            BufferedReader reader = null;
+            InputStream inputStream = null;
+            String resultado = "";
+            try{
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httpPost = new HttpPost("https://murmuring-anchorage-1614.herokuapp.com/tokens");
 
-            // Will contain the raw JSON response as a string.
-            String usersJsonStr = null;
+                String json = "";
 
-            try {
-                URL url = new URL("https://murmuring-anchorage-1614.herokuapp.com/users");
+                JSONObject jsonObject = new JSONObject();
 
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
+                jsonObject.accumulate("email", mEmail); //"Api@MiBusCR.co.cr"
+                jsonObject.accumulate("password", mPassword); //"?$jMEyp5P_9=E7L"
+                json = jsonObject.toString();
+                StringEntity se = new StringEntity(json);
+                httpPost.setEntity(se);
+                httpPost.setHeader("Accept", "application/json");
+                httpPost.setHeader("Content-type", "application/json");
 
-                // Read the input stream into a String
-                InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
-                if (inputStream == null) {
-                    return null;
-                }
-                reader = new BufferedReader(new InputStreamReader(inputStream));
+                HttpResponse httpResponse = httpclient.execute(httpPost);
+                inputStream = httpResponse.getEntity().getContent();
 
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                    // But it does make debugging a *lot* easier if you print out the completed
-                    // buffer for debugging.
-                    buffer.append(line + "\n");
-                }
-
-                if (buffer.length() == 0) {
-                    return null;
-                }
-                usersJsonStr = buffer.toString();
-            } catch (IOException e) {
-                Log.e(LOG_TAG, "Error ", e);
-                return null;
-            } finally{
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (final IOException e) {
-                        Log.e(LOG_TAG, "Error closing stream", e);
+                if(inputStream != null){
+                    BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+                    String linea = "";
+                    while( (linea = bufferedReader.readLine()) != null){
+                        resultado += linea;
                     }
+                    inputStream.close();
+                }else{
+                    resultado = "Error al guardar datos";
                 }
+            }catch (Exception e){
+                Log.d("InputStream", "Error: "+e.getLocalizedMessage());
             }
 
-            mValid = validateData(usersJsonStr);
-            if(mValid)
-                saveUser();
 
-            /*Solo para debugging
-            String a = ""+mValid;
-            Log.d(LOG_TAG, a);*/
+            if(!resultado.equals("Error al guardar datos")){
+                saveUser();
+                mValid = true;
+            }else{
+                mValid = false;
+            }
+
             return mValid;
         }
 

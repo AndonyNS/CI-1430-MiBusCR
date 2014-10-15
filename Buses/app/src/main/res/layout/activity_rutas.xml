@@ -22,7 +22,7 @@
     <!-- ListView "flotante" encima del mapa-->
     <ListView
         android:id="@+id/rutaslist"
-        android:layout_width="330dp"
+        android:layout_width="260dp"
         android:layout_height="120dp"
         android:layout_gravity="center_horizontal|bottom" />
 

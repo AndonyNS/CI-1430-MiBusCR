@@ -31,11 +31,7 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     public class ViewHolder {
-        TextView id;
         TextView nombre;
-        TextView frecuencia;
-        //TextView precio;
-        //TextView horario;
     }
 
     @Override
@@ -58,36 +54,30 @@ public class ListViewAdapter extends BaseAdapter {
         if (view == null) {
             holder = new ViewHolder();
             view = inflater.inflate(R.layout.listview_item, null);
-            // Locate the TextViews in listview_item.xml
+            // Localizar el textview en  listview_item.xml
             holder.nombre = (TextView) view.findViewById(R.id.nombreR);
-            holder.frecuencia = (TextView) view.findViewById(R.id.frecuenciaR);
-            //holder.precio = (TextView) view.findViewById(R.id.precioR);
-            //holder. horario= (TextView) view.findViewById(R.id.horarioR);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        // Set the results into TextViews
+        // Poner los resultados en el textView
         holder.nombre.setText(mRutasArray.get(position).getNombre());
-        holder.frecuencia.setText(mRutasArray.get(position).getFrecuencia());
-        //holder.precio.setText(mRutasArray.get(position).getPrecio());
-        //holder.horario.setText(mRutasArray.get(position).getHorario());
 
-        // Listen for ListView Item Click
+        // agregar listener para un click de fila
         view.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                // Send single item click data to SingleItemView Class
+                // Mandar los datos de la ruta a la actividad SleItemView
                 Intent intent = new Intent(mContext, SingleItemView.class);
-                // Pass all data rank
+                // Pasar el nombre
                 intent.putExtra("nombre",(mRutasArray.get(position).getNombre()));
-                // Pass all data country
+                // Pasar frecuencia
                 intent.putExtra("frecuencia",(mRutasArray.get(position).getFrecuencia()));
-                // Pass all data population
+                // Pasar precio
                 intent.putExtra("precio",(mRutasArray.get(position).getPrecio()));
                 intent.putExtra("horario",(mRutasArray.get(position).getHorario()));
-                // Start SingleItemView Class
+                // llamar a la actividad con la ruta elegida
                 mContext.startActivity(intent);
             }
         });
@@ -95,7 +85,11 @@ public class ListViewAdapter extends BaseAdapter {
         return view;
     }
 
-    // Filter Class
+    /**
+     * Metodo para filtrar, recibe  caracteres y verifica
+     * que el nombre de la ruta los contenga
+     * @param charText
+     */
     public void filter(String charText) {
         charText = charText.toLowerCase(Locale.getDefault());
         mRutasArray.clear();
