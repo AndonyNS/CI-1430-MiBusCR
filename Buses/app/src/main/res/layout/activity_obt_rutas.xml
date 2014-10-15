@@ -9,11 +9,20 @@
     tools:context="com.example.busdevelop.buses.ObtRutasActivity">
 
 
-
-
+    <EditText
+        android:id="@+id/search_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+        <requestFocus />
+    </EditText>
 
     <ListView
         android:id="@+id/listviewRutas"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        android:divider="#ee7b1012"
+        android:dividerHeight="1dp"
+        android:layout_below="@+id/search_text"/>
+
+
 </RelativeLayout>

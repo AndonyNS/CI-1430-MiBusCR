@@ -3,31 +3,29 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <TextView
-        android:id="@+id/nombreRlabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/nombreRlabel" />
+    <ImageView
+        android:id="@+id/item_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/bus_ruta"/>
+
+
 
     <TextView
         android:id="@+id/nombreR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/nombreRlabel" />
+        android:layout_toRightOf="@+id/item_icon"
+        android:textSize="18dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        />
 
-    <TextView
-        android:id="@+id/frecuenciaRlabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/nombreRlabel"
-        android:text="@string/frecuenciaRlabel" />
 
-    <TextView
-        android:id="@+id/frecuenciaR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/nombreRlabel"
-        android:layout_toRightOf="@+id/frecuenciaRlabel" />
 
 
 
