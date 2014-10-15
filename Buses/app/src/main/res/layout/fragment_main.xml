@@ -13,51 +13,54 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Eventos"
+        android:text=" Eventos "
         android:onClick=""
         android:drawableTop="@drawable/evento"
         android:id="@+id/Eventosbutton"
         android:padding="30dp"
-        android:textSize="13dp"
+        android:textSize="10dp"
         android:background="@drawable/custom_button"
-        android:translationX="-20dp"
+        android:translationX="-30dp"
         android:translationY="-20dp"
         android:layout_toRightOf="@+id/Favoritosbutton"
         android:layout_below="@+id/Favoritosbutton"
         android:layout_alignBottom="@+id/Ubicacionbutton"
-        android:layout_alignRight="@+id/Alarmabutton" />
+        android:layout_alignRight="@+id/Alarmabutton"
+        android:maxLines="1" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ubicacion"
+        android:text="Ubicacion"
         android:onClick=""
         android:drawableTop="@drawable/ubicacion"
         android:id="@+id/Ubicacionbutton"
         android:padding="30dp"
-        android:textSize="13dp"
+        android:textSize="10dp"
         android:background="@drawable/custom_button"
-        android:translationX="20dp"
+        android:translationX="30dp"
         android:translationY="-20dp"
         android:layout_below="@+id/Favoritosbutton"
-        android:layout_toLeftOf="@+id/Favoritosbutton" />
+        android:layout_toLeftOf="@+id/Favoritosbutton"
+        android:maxLines="1" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" Rutas "
+        android:text="  Rutas  "
         android:onClick="iniciarRutas"
         android:drawableTop="@drawable/ruta"
         android:id="@+id/Rutasbutton"
         android:padding="30dp"
-        android:textSize="13dp"
+        android:textSize="10dp"
         android:background="@drawable/custom_button"
-        android:translationX="20dp"
+        android:translationX="30dp"
         android:translationY="20dp"
         android:layout_alignTop="@+id/Alarmabutton"
         android:layout_above="@+id/Favoritosbutton"
         android:layout_toLeftOf="@+id/Favoritosbutton"
-        android:layout_alignLeft="@+id/Ubicacionbutton" />
+        android:layout_alignLeft="@+id/Ubicacionbutton"
+        android:maxLines="1" />
 
     <Button
         android:layout_width="wrap_content"
@@ -67,13 +70,16 @@
         android:drawableTop="@drawable/alarma"
         android:id="@+id/Alarmabutton"
         android:padding="30dp"
-        android:textSize="13dp"
+        android:textSize="10dp"
         android:background="@drawable/custom_button"
         android:layout_toEndOf="@+id/Login"
-        android:translationX="-20dp"
+        android:translationX="-30dp"
         android:translationY="20dp"
         android:layout_above="@+id/Favoritosbutton"
-        android:layout_toRightOf="@+id/Favoritosbutton" />
+        android:layout_toRightOf="@+id/Favoritosbutton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:maxLines="1" />
 
     <Button
         android:layout_width="wrap_content"

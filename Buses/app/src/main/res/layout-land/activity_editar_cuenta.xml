@@ -39,11 +39,9 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Nombre*: "
             android:id="@+id/textView2"
-            android:layout_below="@+id/textView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_toEndOf="@+id/emailUsuarioEdit"
+            android:layout_alignBottom="@+id/emailUsuarioEdit"
+            android:layout_toRightOf="@+id/emailUsuarioEdit" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,11 +49,9 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Contraseña*:"
             android:id="@+id/textView3"
-            android:layout_below="@+id/textView2"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_alignBottom="@+id/passwordUsuarioEdit"
+            android:layout_alignLeft="@+id/textView"
+            android:layout_alignStart="@+id/textView" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -63,11 +59,9 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Confirmar \nContraseña*:"
             android:id="@+id/textView6"
-            android:layout_below="@+id/textView3"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_toStartOf="@+id/confPassEdit"
+            android:layout_alignTop="@+id/btnCrearCuenta"
+            android:layout_toLeftOf="@+id/confPassEdit" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -75,13 +69,9 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Fecha de \nNacimiento:"
             android:id="@+id/textView4"
-            android:layout_below="@+id/textView6"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="10dp"
-            android:layout_toLeftOf="@+id/passwordUsuarioN"
-            android:layout_toStartOf="@+id/passwordUsuarioN" />
+            android:layout_toStartOf="@+id/passwordUsuarioEdit"
+            android:layout_below="@+id/btnCrearCuenta"
+            android:layout_toLeftOf="@+id/passwordUsuarioEdit" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -89,10 +79,9 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Ciudad:"
             android:id="@+id/textView5"
+            android:layout_alignBottom="@+id/ciudadEdit"
             android:layout_alignLeft="@+id/textView4"
-            android:layout_alignStart="@+id/textView4"
-            android:layout_below="@+id/textView4"
-            android:layout_marginTop="30dp" />
+            android:layout_alignStart="@+id/textView4" />
 
         <EditText
             android:layout_width="200dp"
@@ -100,10 +89,9 @@
             android:inputType="textEmailAddress"
             android:ems="10"
             android:id="@+id/emailUsuarioEdit"
-            android:layout_above="@+id/textView2"
-            android:layout_alignLeft="@+id/nombreUsuarioEdit"
-            android:layout_alignStart="@+id/nombreUsuarioEdit"
-            android:layout_marginRight="5dp"/>
+            android:layout_alignBottom="@+id/textView"
+            android:layout_toRightOf="@+id/textView"
+            android:layout_toEndOf="@+id/textView" />
 
 
         <EditText
@@ -112,10 +100,9 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/nombreUsuarioEdit"
-            android:layout_above="@+id/textView3"
-            android:layout_alignLeft="@+id/passwordUsuarioEdit"
-            android:layout_alignStart="@+id/passwordUsuarioEdit"
-            android:layout_marginRight="5dp"/>
+            android:layout_alignBottom="@+id/textView2"
+            android:layout_toRightOf="@+id/textView2"
+            android:layout_toEndOf="@+id/textView2" />
 
         <EditText
             android:layout_width="200dp"
@@ -123,10 +110,9 @@
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/passwordUsuarioEdit"
-            android:layout_alignBottom="@+id/textView3"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="5dp"/>
+            android:layout_toEndOf="@+id/textView3"
+            android:layout_below="@+id/textView2"
+            android:layout_toRightOf="@+id/textView3" />
 
         <EditText
             android:layout_width="200dp"
@@ -144,12 +130,9 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:id="@+id/ciudadEdit"
-            android:layout_alignLeft="@+id/passwordUsuarioEdit"
-            android:layout_alignStart="@+id/passwordUsuarioEdit"
-            android:layout_toRightOf="@+id/textView5"
             android:layout_below="@+id/textView4"
-            android:layout_marginTop="13dp"
-            android:layout_marginRight="5dp"  />
+            android:layout_alignLeft="@+id/fechaNacUsuarioEdit"
+            android:layout_alignStart="@+id/fechaNacUsuarioEdit" />
 
         <EditText
             android:layout_width="200dp"
@@ -171,10 +154,9 @@
 
             android:textColor="#ffffffff"
             android:onClick="actualizar"
-            android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/textView"
-            android:layout_marginBottom="50dp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_toEndOf="@+id/textView2"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/textView2" />
 
 
     </RelativeLayout>
