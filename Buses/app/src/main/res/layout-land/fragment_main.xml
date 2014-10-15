@@ -25,7 +25,7 @@
         android:minLines="1"
         android:lines="1"
         android:layout_toRightOf="@+id/Favoritosbutton"
-        android:layout_above="@+id/Favoritosbutton" />
+        android:layout_alignRight="@+id/Eventosbutton" />
 
     <Button
         android:layout_width="wrap_content"
@@ -43,8 +43,9 @@
         android:minLines="1"
         android:lines="1"
         android:layout_alignTop="@+id/Alarmabutton"
-        android:layout_above="@+id/Favoritosbutton"
-        android:layout_toLeftOf="@+id/Favoritosbutton" />
+        android:layout_toLeftOf="@+id/Favoritosbutton"
+        android:layout_alignBottom="@+id/Alarmabutton"
+        android:layout_alignLeft="@+id/Ubicacionbutton" />
 
     <Button
         android:layout_width="wrap_content"
@@ -60,9 +61,10 @@
         android:translationY="-10dp"
         android:minLines="1"
         android:lines="1"
-        android:layout_below="@+id/Favoritosbutton"
+        android:layout_alignTop="@+id/Eventosbutton"
         android:layout_toLeftOf="@+id/Favoritosbutton"
-        android:layout_alignLeft="@+id/Rutasbutton" />
+        android:layout_toStartOf="@+id/Favoritosbutton"
+        android:layout_alignBottom="@+id/Eventosbutton" />
 
     <Button
         android:layout_width="wrap_content"
@@ -78,9 +80,9 @@
         android:translationY="-10dp"
         android:minLines="1"
         android:lines="1"
-        android:layout_alignBottom="@+id/Ubicacionbutton"
-        android:layout_toRightOf="@+id/Favoritosbutton"
-        android:layout_below="@+id/Favoritosbutton" />
+        android:layout_toEndOf="@+id/Favoritosbutton"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/Favoritosbutton" />
 
     <Button
         android:layout_width="wrap_content"

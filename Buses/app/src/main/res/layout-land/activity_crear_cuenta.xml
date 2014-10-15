@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Email:"
+            android:text="Email*:"
             android:id="@+id/textView"
             android:layout_marginTop="29dp"
             android:layout_marginLeft="29dp"
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Nombre: "
+            android:text="Nombre*: "
             android:id="@+id/textView2"
             android:layout_alignBottom="@+id/emailUsuario"
             android:layout_toRightOf="@+id/emailUsuario"
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Confirmar \nContraseña:"
+            android:text="Confirmar \nContraseña*:"
             android:id="@+id/textView5"
             android:layout_centerVertical="true"
             android:layout_alignLeft="@+id/textView4"
@@ -85,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Contraseña:"
+            android:text="Contraseña*:"
             android:id="@+id/textView4"
             android:layout_alignLeft="@+id/textView"
             android:layout_alignStart="@+id/textView"
@@ -119,8 +119,9 @@
             android:inputType="date"
             android:ems="10"
             android:id="@+id/fechaNacUsuarioN"
-            android:layout_toEndOf="@+id/textView6"
-            android:layout_toRightOf="@+id/textView6"
+            android:layout_toEndOf="@+id/textView5"
+            android:layout_toRightOf="@+id/textView5"
+            android:layout_marginLeft="76dp"
             android:layout_alignBottom="@+id/textView6" />
 
         <EditText
@@ -138,7 +139,6 @@
             android:text="Ciudad:"
             android:id="@+id/textView7"
             android:layout_alignLeft="@+id/textView5"
-            android:layout_alignStart="@+id/textView6"
             android:layout_alignBottom="@+id/ciudad" />
 
         <Button
@@ -149,9 +149,10 @@
             android:background="#ee7b1012"
             android:textColor="#ffffffff"
             android:onClick="registrar"
-            android:layout_alignTop="@+id/textView5"
-            android:layout_toRightOf="@+id/fechaNacUsuarioN"
-            android:layout_toEndOf="@+id/fechaNacUsuarioN" />
+            android:layout_toEndOf="@+id/fechaNacUsuarioN"
+            android:layout_alignTop="@+id/confPass"
+            android:layout_alignLeft="@+id/nombreUsuario"
+            android:layout_alignStart="@+id/nombreUsuario" />
 
     </RelativeLayout>
 </RelativeLayout>
