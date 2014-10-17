@@ -27,13 +27,4 @@
         android:layout_gravity="center_horizontal|bottom"
         android:background="@color/white" />
 
-    <!--Boton temporal que dibuja la ruta-->
-    <Button
-        android:id="@+id/btn_draw"
-        android:layout_width="160dp"
-        android:layout_height="60dp"
-        android:text="Dibujar ruta"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
-
 </FrameLayout>

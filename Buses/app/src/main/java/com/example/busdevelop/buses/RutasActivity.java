@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -71,8 +70,10 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
     private ListView listViewRutas;
 
     private List<Ruta> mListaRutas;
+    private List<LatLng> mMarkerParadas;
 
-    private ArrayList<LatLng> mMarkerParadas;
+    // Marcadores de uuna ruta al dibujarse
+    private List<Marker> mMarkerRuta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +81,8 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
         setContentView(R.layout.activity_rutas);
 
         mMarkerParadas = new ArrayList<LatLng>();
-
         mListaRutas = new ArrayList<Ruta>();
-        //boton temporal para dibujar la ruta
-        Button btnDraw = (Button)findViewById(R.id.btn_draw);
+        mMarkerRuta = new ArrayList<Marker>();
 
         setUpMapIfNeeded();
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -110,47 +109,6 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
             // Enable MyLocation Button in the Map
             mMap.setMyLocationEnabled(true);
 
-            // Setting onclick event listener for the map
-            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-
-                @Override
-                public void onMapClick(LatLng point) {
-
-                    // Already two locations
-                    if (mMarkerParadas.size() >= 10) {
-                        return;
-                    }
-
-                    // Adding new item to the ArrayList
-                    mMarkerParadas.add(point);
-
-                    // Creating MarkerOptions
-                    MarkerOptions options = new MarkerOptions();
-
-                    // Setting the position of the marker
-                    options.position(point);
-
-
-                    /**
-                     * For the start location, the color of marker is GREEN and
-                     * for the end location, the color of marker is RED.
-                     */
-
-                    //Marcador verde para la parada inicial y rojo para la final
-
-                    if (mMarkerParadas.size() == 1) {
-                        options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                    } else if (mMarkerParadas.size() == 2) {
-                        options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                    }else{
-                        options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-                    }
-
-                    // Add new marker to the Google Map Android API V2
-                    mMap.addMarker(options);
-                }
-            });
-
             // The map will be cleared on long click
             mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
 
@@ -161,29 +119,6 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
 
                     // Removes all the points in the ArrayList
                     mMarkerParadas.clear();
-                }
-            });
-
-            // Click event handler for Button btn_draw
-            btnDraw.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    // Checks, whether start and end locations are captured
-                    if(mMarkerParadas.size() >= 2){
-
-                        //La primera parada es la de origen y la segunda la de destino, el resto son intermedias
-                        LatLng origin = mMarkerParadas.get(0);
-                        LatLng dest = mMarkerParadas.get(1);
-
-                        // Getting URL to the Google Directions API
-                        String url = getDirectionsUrl(origin, dest);
-
-                        DownloadTask downloadTask = new DownloadTask();
-
-                        // Start downloading json data from Google Directions API
-                        downloadTask.execute(url);
-                    }
                 }
             });
         }
@@ -201,19 +136,21 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
         new HttpAsyncTaskToken(this).execute();
     }
 
-    private String getDirectionsUrl(LatLng origin,LatLng dest){
+    private String getDirectionsUrl(){
 
         // Origin of route
-        String str_origin = "origin="+origin.latitude+","+origin.longitude;
+        String str_origin = "origin="+mMarkerParadas.get(0).latitude+","+
+                mMarkerParadas.get(0).longitude;
 
         // Destination of route
-        String str_dest = "destination="+dest.latitude+","+dest.longitude;
+        String str_dest = "destination="+mMarkerParadas.get(1).latitude+","+
+                mMarkerParadas.get(1).longitude;
 
         //paradas
         String str_waypts = "";
         for(int i = 2; i<mMarkerParadas.size(); i++){
             if(i==2) {
-                str_waypts = "waypoints=";
+                str_waypts = "&waypoints=";
             }
             str_waypts += mMarkerParadas.get(i).latitude + "," + mMarkerParadas.get(i).longitude + "|";
         }
@@ -222,7 +159,7 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
         String sensor = "sensor=false";
 
         // Building the parameters to the web service
-        String parameters = str_origin+"&"+str_dest+"&"+str_waypts+"&"+sensor;
+        String parameters = str_origin+"&"+str_dest+str_waypts+"&"+sensor;
 
         // Output format
         String output = "json";
@@ -554,26 +491,64 @@ public class RutasActivity extends ActionBarActivity implements LocationListener
         // ListView Item Click Listener
         listViewRutas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-                // ListView Clicked item index
-                int itemPosition = position;
+                /*for(Marker marker: mMarkerRuta){
+                    marker.remove();
+                }
+                mMarkerRuta.clear();*/
 
                 // ListView Clicked item value
-                String  itemValue = (String) listViewRutas.getItemAtPosition(position);
+                Ruta  itemValue = mListaRutas.get(position);
+                Toast.makeText(getBaseContext(), "Rutas Obtenidas!", Toast.LENGTH_LONG).show();
 
+                // Marcador para las paradas
+                MarkerOptions paradas;
 
-                // TODO: Aquí es donde debe dibujar la ruta según lo que se le de!
-                // Show Alert
-                Toast.makeText(getApplicationContext(),
-                        "Position :"+itemPosition+"  ListItem : " +itemValue , Toast.LENGTH_LONG)
-                        .show();
+                //Agregar parada inicial
+                mMarkerParadas.add(new LatLng(Double.parseDouble(itemValue.getParadaInicial().getLatitud().substring(0,7).replaceAll(" ",".")),
+                        Double.parseDouble(itemValue.getParadaInicial().getLongitud().substring(0,7).replaceAll(" ","."))));
+                // Poner marcador de parada inicial rojo
+                paradas = new MarkerOptions();
+                paradas.position(mMarkerParadas.get(0));
+                paradas.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                Marker m = mMap.addMarker(paradas);
+                mMarkerRuta.add(m);
 
-                //Aquí debe enviar las coordenadas del valor al encargado de dibujarlas
+                //Agregar parada final verde
+                mMarkerParadas.add(new LatLng(Double.parseDouble(itemValue.getParadaFinal().getLatitud().substring(0,7).replaceAll(" ",".")),
+                        Double.parseDouble(itemValue.getParadaFinal().getLongitud().substring(0,7).replaceAll(" ","."))));
+                // Poner marcador de parada inicial
+                paradas = new MarkerOptions();
+                paradas.position(mMarkerParadas.get(1));
+                paradas.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                mMap.addMarker(paradas);
+                mMarkerRuta.add(m);
+
+                //Agregar paradas intermedias azules
+                List<Parada> listaParadas = itemValue.getParadasIntermedias();
+                for(Parada p: listaParadas){
+
+                    String s = p.getLatitud();
+                    String s2 = p.getLongitud();
+                    mMarkerParadas.add(new LatLng(Double.parseDouble(p.getLatitud().replaceAll(" ",".")),
+                            Double.parseDouble(p.getLongitud().substring(0,7).replaceAll(" ","."))));
+                    // Poner marcadores de paradas intermedias
+                    paradas = new MarkerOptions();
+                    paradas.position(new LatLng(Double.parseDouble(p.getLatitud().replaceAll(" ",".")),
+                            Double.parseDouble(p.getLongitud().substring(0,7).replaceAll(" ","."))));
+                    paradas.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                    mMap.addMarker(paradas);
+                    mMarkerRuta.add(m);
+                }
+
+                String url = getDirectionsUrl();
+                DownloadTask downloadTask = new DownloadTask();
+
+                // Start downloading json data from Google Directions API
+                downloadTask.execute(url);
             }
-
         });
     }
 
