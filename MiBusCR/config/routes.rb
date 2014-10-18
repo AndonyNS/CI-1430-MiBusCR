@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :eventos, except: [:new, :edit]
   resources :gps_s, except: [:new, :edit]
   resources :buses, except: [:new, :edit]
   resources :users, except: [:new, :edit]

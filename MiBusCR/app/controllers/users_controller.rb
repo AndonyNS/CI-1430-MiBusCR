@@ -7,16 +7,16 @@ class UsersController < ApplicationController
   def index
     @users = User.all
 
-    render json: @users.as_json(only: [:id, :email, :password, :nombre, :fechaNac, :ciudad])
+    render json: @users.as_json(only: [:id, :email, :nombre, :fechaNac, :ciudad])
   end
 
   # GET /users/1
   # GET /users/1.json
   def show
     if !@user.ruta.first.nil?
-       render json: @user.as_json(only: [:id, :email, :password, :nombre, :fechaNac, :ciudad], include: [ruta:{only: [:id]}])
+       render json: @user.as_json(only: [:id, :email, :nombre, :fechaNac, :ciudad], include: [ruta:{only: [:id]}])
     else
-       render json: @user.as_json(only: [:id, :email, :password, :nombre, :fechaNac, :ciudad])
+       render json: @user.as_json(only: [:id, :email, :nombre, :fechaNac, :ciudad])
     end
   end
 
