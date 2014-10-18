@@ -121,6 +121,11 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
+    public void iniciarMiUbicacion(View view){
+        Intent intent = new Intent(this, MiUbicacionActivity.class);
+        startActivity(intent);
+    }
+
     public void iniciarActivityMenu(Class activityClass){
 
         Intent intent = new Intent(this, activityClass);
@@ -130,7 +135,10 @@ public class MainActivity extends ActionBarActivity {
     public void logoutAndRestart(){
         SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.clear().apply();
+        editor.remove("UserEmail");
+        editor.remove("SinRegistrar");
+        editor.remove("UserPass");
+        editor.commit();
         Intent i = getBaseContext().getPackageManager()
                 .getLaunchIntentForPackage( getBaseContext().getPackageName() );
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -72,6 +72,10 @@
             android:name=".UnderConstructionActivity"
             android:label="Under Construction" >
         </activity>
+        <activity
+            android:name=".MiUbicacionActivity"
+            android:label="Mi Ubicación" >
+        </activity>
     </application>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
