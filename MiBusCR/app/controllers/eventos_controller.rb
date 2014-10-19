@@ -1,6 +1,6 @@
 class EventosController < ApplicationController
   before_action :set_ruta, only: [:show]
-  #before_filter :restrict_access
+  before_filter :restrict_access
 
   # GET /eventos
   # GET /eventos.json
