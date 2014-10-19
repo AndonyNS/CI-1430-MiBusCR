@@ -7,15 +7,14 @@ class EventosController < ApplicationController
   def index
     @eventos = Evento.all
 
-    render json: @eventos
+    render json: @eventos.as_json(only: [:nombre, :descripcion, :tipo, :dia_y_hora, :lugar, :latitud, :longitud])
   end
 
   # GET /eventos/1
   # GET /eventos/1.json
   def show
-    @evento = Evento.find(params[:id])
 
-    render json: @evento
+    render json: @evento.as_json(only: [:nombre, :descripcion, :tipo, :dia_y_hora, :lugar, :latitud, :longitud])
   end
 
   # POST /eventos
