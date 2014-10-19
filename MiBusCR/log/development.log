@@ -2209,3 +2209,907 @@ Processing by RutasController#show as HTML
   [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
   [1m[36mRutaParada Load (0.1ms)[0m  [1mSELECT "ruta_paradas".* FROM "ruta_paradas"  WHERE "ruta_paradas"."ruta_id" = ?[0m  [["ruta_id", 1]]
 Completed 200 OK in 19ms (Views: 0.3ms | ActiveRecord: 1.6ms)
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateEventos (20141018035818)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.5ms)[0m  [1mCREATE TABLE "eventos" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "descripcion" varchar(255), "tipo" integer, "dia_y_hora" datetime, "lugar" varchar(255), "latitud" float, "longitud" float, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20141018035818"]]
+  [1m[36m (19.2ms)[0m  [1mcommit transaction[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-19 00:33:27.307974"], ["latitud", 9.935521], ["longitud", -84.050252], ["nombre", "UCR-Cartago"], ["techo", "t"], ["updated_at", "2014-10-19 00:33:27.307974"]]
+  [1m[35m (16.2ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-19 00:33:27.328267"], ["latitud", 9.934813], ["longitud", -84.051813], ["nombre", "UCR-Pavas"], ["techo", "t"], ["updated_at", "2014-10-19 00:33:27.328267"]]
+  [1m[36m (20.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "users"  WHERE "users"."token" = '28e4cf0618762a06fe1d33d8f170b5d6' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("ciudad", "created_at", "email", "fechaNac", "nombre", "password", "token", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["ciudad", "san jose"], ["created_at", "2014-10-19 00:33:27.362143"], ["email", "Api@MiBusCR.co.cr"], ["fechaNac", "2014-10-04"], ["nombre", "ApiManager"], ["password", "?$jMEyp5P_9=E7L"], ["token", "28e4cf0618762a06fe1d33d8f170b5d6"], ["updated_at", "2014-10-19 00:33:27.362143"]]
+  [1m[36m (20.0ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mUPDATE "users" SET "token" = ?, "updated_at" = ? WHERE "users"."id" = 2[0m  [["token", "b0936d7e239775e770ce002307f0acda"], ["updated_at", "2014-10-19 00:33:27.394572"]]
+  [1m[35m (16.9ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-19 00:33:27.417109"], ["latitud", 9.935518], ["longitud", -84.049777], ["nombre", "UCR-Alajuela"], ["techo", "t"], ["updated_at", "2014-10-19 00:33:27.417109"]]
+  [1m[36m (18.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-19 00:33:27.438039"], ["latitud", 10.014628], ["longitud", -84.217198], ["nombre", "Alajuela-Final"], ["techo", "f"], ["updated_at", "2014-10-19 00:33:27.438039"]]
+  [1m[35m (15.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-19 00:33:27.455161"], ["latitud", 9.935149], ["longitud", -84.051142], ["nombre", "UCR-hatillo"], ["techo", "f"], ["updated_at", "2014-10-19 00:33:27.455161"]]
+  [1m[36m (22.2ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-19 00:33:27.480802"], ["latitud", 9.920974], ["longitud", -84.103341], ["nombre", "Biblioteca-Hatillo"], ["techo", "f"], ["updated_at", "2014-10-19 00:33:27.480802"]]
+  [1m[35m (22.6ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "rutas" ("created_at", "frecuencia", "horario", "nombre", "precio", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-19 00:33:27.531256"], ["frecuencia", "1 hora"], ["horario", "7-10"], ["nombre", "UCR-Alajuela"], ["precio", 740], ["updated_at", "2014-10-19 00:33:27.531256"]]
+  [1m[36m (19.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "rutas" ("created_at", "frecuencia", "horario", "nombre", "precio", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-19 00:33:27.552609"], ["frecuencia", "30 min"], ["horario", "5:30-22:00"], ["nombre", "UCR-Hatillo"], ["precio", 330], ["updated_at", "2014-10-19 00:33:27.552609"]]
+  [1m[35m (18.1ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "ruta_paradas" ("tipo") VALUES (?)  [["tipo", 1]]
+  [1m[36m (19.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "ruta_paradas" ("tipo") VALUES (?)[0m  [["tipo", -1]]
+  [1m[35m (18.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  UPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 5  [["parada_id", 9], ["ruta_id", 3]]
+  [1m[36m (20.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mUPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 6[0m  [["parada_id", 10], ["ruta_id", 3]]
+  [1m[35m (18.8ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "ruta_paradas" ("tipo") VALUES (?)  [["tipo", 1]]
+  [1m[36m (16.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "ruta_paradas" ("tipo") VALUES (?)[0m  [["tipo", -1]]
+  [1m[35m (19.2ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  UPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 7  [["parada_id", 11], ["ruta_id", 4]]
+  [1m[36m (17.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mUPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 8[0m  [["parada_id", 12], ["ruta_id", 4]]
+  [1m[35m (19.8ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mBus Exists (0.1ms)[0m  SELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'AB-201' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mBus Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'SJB-202' LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mGps Exists (0.1ms)[0m  SELECT  1 AS one FROM "gps_s"  WHERE "gps_s"."id_gps" = '3a1bb1eb-be18-41db-9a2b-562506c86fef' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mGps Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "gps_s"  WHERE "gps_s"."id_gps" = 'cceed289-d438-41ed-a7e5-5e52c61ef1d0' LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mBus Exists (0.1ms)[0m  SELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'AB-201' LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mBus Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'SJB-202' LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mBus Exists (0.1ms)[0m  SELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'AB-201' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mBus Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'SJB-202' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+
+
+Started GET "/" for 127.0.0.1 at 2014-10-18 18:34:27 -0600
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendered /home/farroyo/.gem/ruby/gems/railties-4.1.1/lib/rails/templates/rails/welcome/index.html.erb (1.2ms)
+Completed 200 OK in 7ms (Views: 6.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/rutas" for 127.0.0.1 at 2014-10-18 18:34:34 -0600
+Processing by RutasController#index as HTML
+Filter chain halted as :restrict_access rendered or redirected
+Completed 401 Unauthorized in 1ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/eventos" for 127.0.0.1 at 2014-10-18 18:35:16 -0600
+Processing by EventosController#index as HTML
+Completed 500 Internal Server Error in 1ms
+
+NoMethodError (undefined method `flash' for #<ActionDispatch::Request:0x0000000591f2d0>):
+  actionpack (4.1.1) lib/action_controller/metal/flash.rb:9:in `flash'
+  actionpack (4.1.1) lib/action_controller/metal/force_ssl.rb:92:in `force_ssl_redirect'
+  actionpack (4.1.1) lib/action_controller/metal/force_ssl.rb:66:in `block in force_ssl'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:438:in `instance_exec'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:438:in `block in make_lambda'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:160:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:160:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:229:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:229:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:86:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:86:in `run_callbacks'
+  actionpack (4.1.1) lib/abstract_controller/callbacks.rb:19:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:31:in `block in process_action'
+  activesupport (4.1.1) lib/active_support/notifications.rb:159:in `block in instrument'
+  activesupport (4.1.1) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.1.1) lib/active_support/notifications.rb:159:in `instrument'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/params_wrapper.rb:250:in `process_action'
+  activerecord (4.1.1) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (4.1.1) lib/abstract_controller/base.rb:136:in `process'
+  actionview (4.1.1) lib/action_view/rendering.rb:30:in `process'
+  actionpack (4.1.1) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.1.1) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.1.1) lib/action_controller/metal.rb:231:in `block in action'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:80:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:80:in `dispatch'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:48:in `call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:676:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  activerecord (4.1.1) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.1.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:621:in `call'
+  activerecord (4.1.1) lib/active_record/migration.rb:380:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:82:in `run_callbacks'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.1.1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:26:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.1.1) lib/rails/engine.rb:514:in `call'
+  railties (4.1.1) lib/rails/application.rb:144:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:138:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:94:in `run'
+  /usr/share/ruby/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.4ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (0.9ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.8ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (12.1ms)
+
+
+Started GET "/eventos" for 127.0.0.1 at 2014-10-18 18:36:28 -0600
+Processing by EventosController#index as HTML
+Completed 500 Internal Server Error in 1ms
+
+NoMethodError (undefined method `flash' for #<ActionDispatch::Request:0x00000005a3e260>):
+  actionpack (4.1.1) lib/action_controller/metal/flash.rb:9:in `flash'
+  actionpack (4.1.1) lib/action_controller/metal/force_ssl.rb:92:in `force_ssl_redirect'
+  actionpack (4.1.1) lib/action_controller/metal/force_ssl.rb:66:in `block in force_ssl'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:438:in `instance_exec'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:438:in `block in make_lambda'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:160:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:160:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:229:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:229:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:86:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:86:in `run_callbacks'
+  actionpack (4.1.1) lib/abstract_controller/callbacks.rb:19:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:31:in `block in process_action'
+  activesupport (4.1.1) lib/active_support/notifications.rb:159:in `block in instrument'
+  activesupport (4.1.1) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.1.1) lib/active_support/notifications.rb:159:in `instrument'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/params_wrapper.rb:250:in `process_action'
+  activerecord (4.1.1) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (4.1.1) lib/abstract_controller/base.rb:136:in `process'
+  actionview (4.1.1) lib/action_view/rendering.rb:30:in `process'
+  actionpack (4.1.1) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.1.1) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.1.1) lib/action_controller/metal.rb:231:in `block in action'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:80:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:80:in `dispatch'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:48:in `call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:676:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  activerecord (4.1.1) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.1.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:621:in `call'
+  activerecord (4.1.1) lib/active_record/migration.rb:380:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:82:in `run_callbacks'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.1.1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:26:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.1.1) lib/rails/engine.rb:514:in `call'
+  railties (4.1.1) lib/rails/application.rb:144:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:138:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:94:in `run'
+  /usr/share/ruby/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.0ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (12.7ms)
+
+
+Started GET "/eventos" for 127.0.0.1 at 2014-10-18 18:36:38 -0600
+Processing by EventosController#index as HTML
+  [1m[35mEvento Load (0.3ms)[0m  SELECT "eventos".* FROM "eventos"
+Completed 200 OK in 3ms (Views: 0.2ms | ActiveRecord: 0.3ms)
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-19 00:37:06.662941"], ["latitud", 9.935521], ["longitud", -84.050252], ["nombre", "UCR-Cartago"], ["techo", "t"], ["updated_at", "2014-10-19 00:37:06.662941"]]
+  [1m[35m (17.1ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-19 00:37:06.685521"], ["latitud", 9.934813], ["longitud", -84.051813], ["nombre", "UCR-Pavas"], ["techo", "t"], ["updated_at", "2014-10-19 00:37:06.685521"]]
+  [1m[36m (17.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "users"  WHERE "users"."token" = 'c6ea8b7c19f0c6c351b4ee6c611d8b86' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("ciudad", "created_at", "email", "fechaNac", "nombre", "password", "token", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["ciudad", "san jose"], ["created_at", "2014-10-19 00:37:06.721315"], ["email", "Api@MiBusCR.co.cr"], ["fechaNac", "2014-10-04"], ["nombre", "ApiManager"], ["password", "?$jMEyp5P_9=E7L"], ["token", "c6ea8b7c19f0c6c351b4ee6c611d8b86"], ["updated_at", "2014-10-19 00:37:06.721315"]]
+  [1m[36m (20.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mUPDATE "users" SET "token" = ?, "updated_at" = ? WHERE "users"."id" = 3[0m  [["token", "b0936d7e239775e770ce002307f0acda"], ["updated_at", "2014-10-19 00:37:06.752607"]]
+  [1m[35m (17.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-19 00:37:06.773816"], ["latitud", 9.935518], ["longitud", -84.049777], ["nombre", "UCR-Alajuela"], ["techo", "t"], ["updated_at", "2014-10-19 00:37:06.773816"]]
+  [1m[36m (22.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-19 00:37:06.800459"], ["latitud", 10.014628], ["longitud", -84.217198], ["nombre", "Alajuela-Final"], ["techo", "f"], ["updated_at", "2014-10-19 00:37:06.800459"]]
+  [1m[35m (17.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-19 00:37:06.822719"], ["latitud", 9.935149], ["longitud", -84.051142], ["nombre", "UCR-hatillo"], ["techo", "f"], ["updated_at", "2014-10-19 00:37:06.822719"]]
+  [1m[36m (17.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-19 00:37:06.842408"], ["latitud", 9.920974], ["longitud", -84.103341], ["nombre", "Biblioteca-Hatillo"], ["techo", "f"], ["updated_at", "2014-10-19 00:37:06.842408"]]
+  [1m[35m (18.1ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "rutas" ("created_at", "frecuencia", "horario", "nombre", "precio", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-19 00:37:06.890434"], ["frecuencia", "1 hora"], ["horario", "7-10"], ["nombre", "UCR-Alajuela"], ["precio", 740], ["updated_at", "2014-10-19 00:37:06.890434"]]
+  [1m[36m (17.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "rutas" ("created_at", "frecuencia", "horario", "nombre", "precio", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-19 00:37:06.910497"], ["frecuencia", "30 min"], ["horario", "5:30-22:00"], ["nombre", "UCR-Hatillo"], ["precio", 330], ["updated_at", "2014-10-19 00:37:06.910497"]]
+  [1m[35m (20.2ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "ruta_paradas" ("tipo") VALUES (?)  [["tipo", 1]]
+  [1m[36m (18.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "ruta_paradas" ("tipo") VALUES (?)[0m  [["tipo", -1]]
+  [1m[35m (20.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 9  [["parada_id", 15], ["ruta_id", 5]]
+  [1m[36m (14.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mUPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 10[0m  [["parada_id", 16], ["ruta_id", 5]]
+  [1m[35m (17.1ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "ruta_paradas" ("tipo") VALUES (?)  [["tipo", 1]]
+  [1m[36m (20.0ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "ruta_paradas" ("tipo") VALUES (?)[0m  [["tipo", -1]]
+  [1m[35m (19.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  UPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 11  [["parada_id", 17], ["ruta_id", 6]]
+  [1m[36m (17.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mUPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 12[0m  [["parada_id", 18], ["ruta_id", 6]]
+  [1m[35m (18.0ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mBus Exists (0.1ms)[0m  SELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'AB-201' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mBus Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'SJB-202' LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mGps Exists (0.1ms)[0m  SELECT  1 AS one FROM "gps_s"  WHERE "gps_s"."id_gps" = '3a1bb1eb-be18-41db-9a2b-562506c86fef' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mGps Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "gps_s"  WHERE "gps_s"."id_gps" = 'cceed289-d438-41ed-a7e5-5e52c61ef1d0' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mBus Exists (0.2ms)[0m  SELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'AB-201' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mBus Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'SJB-202' LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mBus Exists (0.1ms)[0m  SELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'AB-201' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mBus Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'SJB-202' LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "eventos" ("created_at", "descripcion", "dia_y_hora", "latitud", "longitud", "lugar", "nombre", "tipo", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-19 00:37:51.333796"], ["descripcion", "Exposicion de arte garabito en el paseo de las flores"], ["dia_y_hora", "2014-08-11 14:00:00.000000"], ["latitud", 9.98571], ["longitud", -84.10994], ["lugar", "Paseo de las flores"], ["nombre", "Exposicion garabito"], ["tipo", 1], ["updated_at", "2014-10-19 00:37:51.333796"]]
+  [1m[36m (19.0ms)[0m  [1mcommit transaction[0m
+
+
+Started GET "/eventos" for 127.0.0.1 at 2014-10-18 18:38:00 -0600
+Processing by EventosController#index as HTML
+  [1m[36mEvento Load (0.2ms)[0m  [1mSELECT "eventos".* FROM "eventos"[0m
+Completed 200 OK in 9ms (Views: 0.4ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 18:38:02 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mEvento Load (0.3ms)[0m  SELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1  [["id", 1]]
+Completed 500 Internal Server Error in 3ms
+
+NoMethodError (undefined method `strftime' for :dia_y_hora:Symbol):
+  app/controllers/eventos_controller.rb:17:in `show'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.6ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.0ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.7ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (12.0ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:25:09 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mEvento Load (0.1ms)[0m  [1mSELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1[0m  [["id", 1]]
+Completed 500 Internal Server Error in 1ms
+
+NoMethodError (undefined method `strftime' for :dia_y_hora:Symbol):
+  app/controllers/eventos_controller.rb:17:in `show'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.8ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.1ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.8ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (14.6ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:25:31 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mEvento Load (0.1ms)[0m  SELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1  [["id", 1]]
+Completed 500 Internal Server Error in 2ms
+
+NoMethodError (undefined method `strftime' for :dia_y_hora:Symbol):
+  app/controllers/eventos_controller.rb:17:in `show'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (0.9ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.7ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (11.3ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:25:33 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mEvento Load (0.1ms)[0m  [1mSELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1[0m  [["id", 1]]
+Completed 500 Internal Server Error in 1ms
+
+NoMethodError (undefined method `strftime' for :dia_y_hora:Symbol):
+  app/controllers/eventos_controller.rb:17:in `show'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.6ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.0ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.8ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (11.8ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:31:45 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mEvento Load (0.1ms)[0m  SELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1  [["id", 1]]
+Completed 200 OK in 53ms (Views: 0.5ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:35:08 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mEvento Load (0.1ms)[0m  [1mSELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1[0m  [["id", 1]]
+Completed 200 OK in 2ms (Views: 0.2ms | ActiveRecord: 0.1ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:35:10 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mEvento Load (0.1ms)[0m  SELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1  [["id", 1]]
+Completed 200 OK in 1ms (Views: 0.2ms | ActiveRecord: 0.1ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:35:43 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mEvento Load (0.1ms)[0m  [1mSELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1[0m  [["id", 1]]
+Completed 200 OK in 9ms (Views: 0.3ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:42:41 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mEvento Load (0.1ms)[0m  SELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1  [["id", 1]]
+Completed 200 OK in 9ms (Views: 0.3ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:42:42 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mEvento Load (0.4ms)[0m  [1mSELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1[0m  [["id", 1]]
+Completed 200 OK in 4ms (Views: 0.3ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:42:43 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mEvento Load (0.1ms)[0m  SELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1  [["id", 1]]
+Completed 200 OK in 2ms (Views: 0.3ms | ActiveRecord: 0.1ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:43:01 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mEvento Load (0.1ms)[0m  [1mSELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1[0m  [["id", 1]]
+Completed 200 OK in 53ms (Views: 0.4ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:43:02 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mEvento Load (0.3ms)[0m  SELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1  [["id", 1]]
+Completed 200 OK in 6ms (Views: 0.9ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:43:25 -0600
+
+SyntaxError (/home/farroyo/Documents/pruebaRest/MiBusCR/app/controllers/eventos_controller.rb:51: syntax error, unexpected tSTRING_DEND, expecting keyword_end):
+  activesupport (4.1.1) lib/active_support/dependencies.rb:443:in `load'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:443:in `block in load_file'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:633:in `new_constants_in'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:442:in `load_file'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:342:in `require_or_load'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:480:in `load_missing_constant'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:180:in `const_missing'
+  activesupport (4.1.1) lib/active_support/inflector/methods.rb:238:in `const_get'
+  activesupport (4.1.1) lib/active_support/inflector/methods.rb:238:in `block in constantize'
+  activesupport (4.1.1) lib/active_support/inflector/methods.rb:236:in `each'
+  activesupport (4.1.1) lib/active_support/inflector/methods.rb:236:in `inject'
+  activesupport (4.1.1) lib/active_support/inflector/methods.rb:236:in `constantize'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:552:in `get'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:583:in `constantize'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:76:in `controller_reference'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:66:in `controller'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:44:in `call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:676:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  activerecord (4.1.1) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.1.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:621:in `call'
+  activerecord (4.1.1) lib/active_record/migration.rb:380:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:82:in `run_callbacks'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.1.1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:26:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.1.1) lib/rails/engine.rb:514:in `call'
+  railties (4.1.1) lib/rails/application.rb:144:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:138:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:94:in `run'
+  /usr/share/ruby/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.4ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (0.8ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.7ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (11.1ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:43:50 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mEvento Load (0.1ms)[0m  [1mSELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1[0m  [["id", 1]]
+Completed 200 OK in 9ms (Views: 0.3ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:44:04 -0600
+
+SyntaxError (/home/farroyo/Documents/pruebaRest/MiBusCR/app/controllers/eventos_controller.rb:51: syntax error, unexpected '}', expecting =>
+...ime.strftime("%Y/%m/%d %H:%M")} {formatted_offset(false)})
+...                               ^
+/home/farroyo/Documents/pruebaRest/MiBusCR/app/controllers/eventos_controller.rb:51: syntax error, unexpected '}', expecting keyword_end
+...%M")} {formatted_offset(false)})
+...                               ^):
+  activesupport (4.1.1) lib/active_support/dependencies.rb:443:in `load'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:443:in `block in load_file'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:633:in `new_constants_in'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:442:in `load_file'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:342:in `require_or_load'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:480:in `load_missing_constant'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:180:in `const_missing'
+  activesupport (4.1.1) lib/active_support/inflector/methods.rb:238:in `const_get'
+  activesupport (4.1.1) lib/active_support/inflector/methods.rb:238:in `block in constantize'
+  activesupport (4.1.1) lib/active_support/inflector/methods.rb:236:in `each'
+  activesupport (4.1.1) lib/active_support/inflector/methods.rb:236:in `inject'
+  activesupport (4.1.1) lib/active_support/inflector/methods.rb:236:in `constantize'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:552:in `get'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:583:in `constantize'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:76:in `controller_reference'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:66:in `controller'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:44:in `call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:676:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  activerecord (4.1.1) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.1.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:621:in `call'
+  activerecord (4.1.1) lib/active_record/migration.rb:380:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:82:in `run_callbacks'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.1.1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:26:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.1.1) lib/rails/engine.rb:514:in `call'
+  railties (4.1.1) lib/rails/application.rb:144:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:138:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:94:in `run'
+  /usr/share/ruby/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (0.8ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.8ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (10.9ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:44:23 -0600
+
+SyntaxError (/home/farroyo/Documents/pruebaRest/MiBusCR/app/controllers/eventos_controller.rb:51: syntax error, unexpected '}', expecting =>
+....strftime("%Y/%m/%d %H:%M:%S")} {formatted_offset(false)})
+...                               ^
+/home/farroyo/Documents/pruebaRest/MiBusCR/app/controllers/eventos_controller.rb:51: syntax error, unexpected '}', expecting ')'
+...%S")} {formatted_offset(false)})
+...                               ^):
+  activesupport (4.1.1) lib/active_support/dependencies.rb:443:in `load'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:443:in `block in load_file'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:633:in `new_constants_in'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:442:in `load_file'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:342:in `require_or_load'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:480:in `load_missing_constant'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:180:in `const_missing'
+  activesupport (4.1.1) lib/active_support/inflector/methods.rb:238:in `const_get'
+  activesupport (4.1.1) lib/active_support/inflector/methods.rb:238:in `block in constantize'
+  activesupport (4.1.1) lib/active_support/inflector/methods.rb:236:in `each'
+  activesupport (4.1.1) lib/active_support/inflector/methods.rb:236:in `inject'
+  activesupport (4.1.1) lib/active_support/inflector/methods.rb:236:in `constantize'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:552:in `get'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:583:in `constantize'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:76:in `controller_reference'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:66:in `controller'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:44:in `call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:676:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  activerecord (4.1.1) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.1.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:621:in `call'
+  activerecord (4.1.1) lib/active_record/migration.rb:380:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:82:in `run_callbacks'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.1.1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:26:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.1.1) lib/rails/engine.rb:514:in `call'
+  railties (4.1.1) lib/rails/application.rb:144:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:138:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:94:in `run'
+  /usr/share/ruby/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.0ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.8ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (11.6ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:48:23 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mEvento Load (0.1ms)[0m  SELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1  [["id", 1]]
+Completed 200 OK in 10ms (Views: 0.5ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:50:33 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mEvento Load (0.1ms)[0m  [1mSELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1[0m  [["id", 1]]
+Completed 200 OK in 9ms (Views: 0.4ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:50:34 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mEvento Load (0.2ms)[0m  SELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1  [["id", 1]]
+Completed 200 OK in 3ms (Views: 0.4ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:51:35 -0600
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mEvento Load (0.2ms)[0m  SELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1  [["id", 1]]
+Completed 200 OK in 10ms (Views: 0.4ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:51:36 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mEvento Load (0.1ms)[0m  [1mSELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1[0m  [["id", 1]]
+Completed 200 OK in 2ms (Views: 0.4ms | ActiveRecord: 0.1ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:51:48 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mEvento Load (0.3ms)[0m  SELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1  [["id", 1]]
+Completed 200 OK in 3ms (Views: 0.3ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:52:09 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mEvento Load (0.1ms)[0m  [1mSELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1[0m  [["id", 1]]
+Completed 200 OK in 9ms (Views: 0.3ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:52:10 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mEvento Load (0.1ms)[0m  SELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1  [["id", 1]]
+Completed 200 OK in 2ms (Views: 0.2ms | ActiveRecord: 0.1ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:52:17 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mEvento Load (0.1ms)[0m  [1mSELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1[0m  [["id", 1]]
+Completed 200 OK in 3ms (Views: 0.8ms | ActiveRecord: 0.1ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:52:18 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mEvento Load (0.3ms)[0m  SELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1  [["id", 1]]
+Completed 200 OK in 4ms (Views: 0.8ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:52:48 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mEvento Load (0.1ms)[0m  [1mSELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1[0m  [["id", 1]]
+Completed 200 OK in 10ms (Views: 0.4ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:52:49 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mEvento Load (0.1ms)[0m  SELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1  [["id", 1]]
+Completed 200 OK in 2ms (Views: 0.3ms | ActiveRecord: 0.1ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:52:50 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mEvento Load (0.1ms)[0m  [1mSELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1[0m  [["id", 1]]
+Completed 200 OK in 1ms (Views: 0.3ms | ActiveRecord: 0.1ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:53:53 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mEvento Load (0.1ms)[0m  SELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1  [["id", 1]]
+Completed 500 Internal Server Error in 9ms
+
+NameError (undefined local variable or method `datetime' for #<Evento:0x00000005c71280>):
+  app/models/evento.rb:4:in `as_json'
+  app/controllers/eventos_controller.rb:17:in `show'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.6ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.0ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (12.0ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:54:33 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mEvento Load (0.1ms)[0m  [1mSELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1[0m  [["id", 1]]
+Completed 200 OK in 10ms (Views: 0.3ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:54:42 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mEvento Load (0.1ms)[0m  SELECT  "eventos".* FROM "eventos"  WHERE "eventos"."id" = ? LIMIT 1  [["id", 1]]
+Completed 200 OK in 9ms (Views: 0.3ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/eventos/1" for 127.0.0.1 at 2014-10-18 21:55:16 -0600
+Processing by EventosController#show as HTML
+  Parameters: {"id"=>"1"}
+Completed 500 Internal Server Error in 1ms
+
+NoMethodError (undefined method `flash' for #<ActionDispatch::Request:0x00000005bc81f8>):
+  actionpack (4.1.1) lib/action_controller/metal/flash.rb:9:in `flash'
+  actionpack (4.1.1) lib/action_controller/metal/force_ssl.rb:92:in `force_ssl_redirect'
+  actionpack (4.1.1) lib/action_controller/metal/force_ssl.rb:66:in `block in force_ssl'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:438:in `instance_exec'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:438:in `block in make_lambda'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:160:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:160:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:229:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:229:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:86:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:86:in `run_callbacks'
+  actionpack (4.1.1) lib/abstract_controller/callbacks.rb:19:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:31:in `block in process_action'
+  activesupport (4.1.1) lib/active_support/notifications.rb:159:in `block in instrument'
+  activesupport (4.1.1) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.1.1) lib/active_support/notifications.rb:159:in `instrument'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/params_wrapper.rb:250:in `process_action'
+  activerecord (4.1.1) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (4.1.1) lib/abstract_controller/base.rb:136:in `process'
+  actionview (4.1.1) lib/action_view/rendering.rb:30:in `process'
+  actionpack (4.1.1) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.1.1) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.1.1) lib/action_controller/metal.rb:231:in `block in action'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:80:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:80:in `dispatch'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:48:in `call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:676:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  activerecord (4.1.1) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.1.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:621:in `call'
+  activerecord (4.1.1) lib/active_record/migration.rb:380:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:82:in `run_callbacks'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.1.1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:26:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.1.1) lib/rails/engine.rb:514:in `call'
+  railties (4.1.1) lib/rails/application.rb:144:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:138:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:94:in `run'
+  /usr/share/ruby/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.4ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.1ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.8ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (54.8ms)
