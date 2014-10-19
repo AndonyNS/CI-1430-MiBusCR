@@ -1,0 +1,2211 @@
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-04 23:11:35 -0600
+
+ActiveRecord::PendingMigrationError (
+
+Migrations are pending. To resolve this issue, run:
+
+	bin/rake db:migrate RAILS_ENV=development
+
+):
+  activerecord (4.1.1) lib/active_record/migration.rb:389:in `check_pending!'
+  activerecord (4.1.1) lib/active_record/migration.rb:377:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:82:in `run_callbacks'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.1.1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:26:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.1.1) lib/rails/engine.rb:514:in `call'
+  railties (4.1.1) lib/rails/application.rb:144:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:138:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:94:in `run'
+  /usr/share/ruby/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (38.1ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.2ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (55.2ms)
+  [1m[36m (23.2ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [1m[35m (0.2ms)[0m  select sqlite_version(*)
+  [1m[36m (16.4ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.3ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+Migrating to CreateRutas (20140911233341)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  CREATE TABLE "rutas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "frecuencia" varchar(255), "precio" integer, "horario" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140911233341"]]
+  [1m[35m (20.6ms)[0m  commit transaction
+Migrating to CreateParadas (20140911233350)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.8ms)[0m  CREATE TABLE "paradas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "techo" boolean, "latitud" float, "longitud" float, "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140911233350"]]
+  [1m[35m (20.5ms)[0m  commit transaction
+Migrating to CreateRutaParadas (20140911233358)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  CREATE TABLE "ruta_paradas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "ruta_id" integer, "parada_id" integer, "tipo" integer) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140911233358"]]
+  [1m[35m (17.3ms)[0m  commit transaction
+Migrating to CreateUsers (20140913024922)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar(255), "password" varchar(255), "nombre" varchar(255), "fechaNac" date, "ciudad" varchar(255), "token" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140913024922"]]
+  [1m[35m (19.4ms)[0m  commit transaction
+Migrating to CreateRutaUsers (20140913024936)
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  CREATE TABLE "ruta_users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "ruta_id" integer, "user_id" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140913024936"]]
+  [1m[35m (20.8ms)[0m  commit transaction
+Migrating to CreateBuses (20140913024943)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  CREATE TABLE "buses" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "ruta_id" integer, "placa" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140913024943"]]
+  [1m[35m (21.6ms)[0m  commit transaction
+Migrating to CreateGpsS (20140913024949)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  CREATE TABLE "gps_s" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "bus_id" integer, "id_gps" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140913024949"]]
+  [1m[35m (20.2ms)[0m  commit transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-05 05:11:58.132991"], ["latitud", 9.935521], ["longitud", -84.050252], ["nombre", "UCR-Cartago"], ["techo", "t"], ["updated_at", "2014-10-05 05:11:58.132991"]]
+  [1m[35m (25.0ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-05 05:11:58.164521"], ["latitud", 9.934813], ["longitud", -84.051813], ["nombre", "UCR-Pavas"], ["techo", "t"], ["updated_at", "2014-10-05 05:11:58.164521"]]
+  [1m[36m (18.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-05 05:11:58.189033"], ["latitud", 9.935518], ["longitud", -84.049777], ["nombre", "UCR-Alajuela"], ["techo", "t"], ["updated_at", "2014-10-05 05:11:58.189033"]]
+  [1m[35m (20.2ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-05 05:11:58.214485"], ["latitud", 10.014628], ["longitud", -84.217198], ["nombre", "Alajuela-Final"], ["techo", "f"], ["updated_at", "2014-10-05 05:11:58.214485"]]
+  [1m[36m (21.2ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-05 05:11:58.240582"], ["latitud", 9.935149], ["longitud", -84.051142], ["nombre", "UCR-hatillo"], ["techo", "f"], ["updated_at", "2014-10-05 05:11:58.240582"]]
+  [1m[35m (18.8ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-05 05:11:58.263011"], ["latitud", 9.920974], ["longitud", -84.103341], ["nombre", "Biblioteca-Hatillo"], ["techo", "f"], ["updated_at", "2014-10-05 05:11:58.263011"]]
+  [1m[36m (18.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "rutas" ("created_at", "frecuencia", "horario", "nombre", "precio", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-05 05:11:58.303009"], ["frecuencia", "1 hora"], ["horario", "7-10"], ["nombre", "UCR-Alajuela"], ["precio", 740], ["updated_at", "2014-10-05 05:11:58.303009"]]
+  [1m[35m (16.0ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "rutas" ("created_at", "frecuencia", "horario", "nombre", "precio", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-05 05:11:58.320997"], ["frecuencia", "30 min"], ["horario", "5:30-22:00"], ["nombre", "UCR-Hatillo"], ["precio", 330], ["updated_at", "2014-10-05 05:11:58.320997"]]
+  [1m[36m (18.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "ruta_paradas" ("tipo") VALUES (?)[0m  [["tipo", 1]]
+  [1m[35m (17.8ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "ruta_paradas" ("tipo") VALUES (?)  [["tipo", -1]]
+  [1m[36m (22.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mUPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 1[0m  [["parada_id", 3], ["ruta_id", 1]]
+  [1m[35m (17.1ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 2  [["parada_id", 4], ["ruta_id", 1]]
+  [1m[36m (15.2ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "ruta_paradas" ("tipo") VALUES (?)[0m  [["tipo", 1]]
+  [1m[35m (19.0ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "ruta_paradas" ("tipo") VALUES (?)  [["tipo", -1]]
+  [1m[36m (19.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mUPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 3[0m  [["parada_id", 5], ["ruta_id", 2]]
+  [1m[35m (17.6ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  UPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 4  [["parada_id", 6], ["ruta_id", 2]]
+  [1m[36m (14.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mBus Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'AB-201' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "buses" ("created_at", "placa", "updated_at") VALUES (?, ?, ?)  [["created_at", "2014-10-05 05:11:58.555147"], ["placa", "AB-201"], ["updated_at", "2014-10-05 05:11:58.555147"]]
+  [1m[36m (20.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mBus Exists (0.4ms)[0m  [1mSELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'SJB-202' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "buses" ("created_at", "placa", "updated_at") VALUES (?, ?, ?)  [["created_at", "2014-10-05 05:11:58.580548"], ["placa", "SJB-202"], ["updated_at", "2014-10-05 05:11:58.580548"]]
+  [1m[36m (19.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mGps Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "gps_s"  WHERE "gps_s"."id_gps" = '3a1bb1eb-be18-41db-9a2b-562506c86fef' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "gps_s" ("created_at", "id_gps", "updated_at") VALUES (?, ?, ?)  [["created_at", "2014-10-05 05:11:58.615598"], ["id_gps", "3a1bb1eb-be18-41db-9a2b-562506c86fef"], ["updated_at", "2014-10-05 05:11:58.615598"]]
+  [1m[36m (19.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mGps Exists (0.4ms)[0m  [1mSELECT  1 AS one FROM "gps_s"  WHERE "gps_s"."id_gps" = 'cceed289-d438-41ed-a7e5-5e52c61ef1d0' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "gps_s" ("created_at", "id_gps", "updated_at") VALUES (?, ?, ?)  [["created_at", "2014-10-05 05:11:58.639694"], ["id_gps", "cceed289-d438-41ed-a7e5-5e52c61ef1d0"], ["updated_at", "2014-10-05 05:11:58.639694"]]
+  [1m[36m (16.3ms)[0m  [1mcommit transaction[0m
+  [1m[35mGps Load (0.2ms)[0m  SELECT  "gps_s".* FROM "gps_s"  WHERE "gps_s"."bus_id" = ? LIMIT 1  [["bus_id", 1]]
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mGps Exists (0.1ms)[0m  SELECT  1 AS one FROM "gps_s"  WHERE ("gps_s"."id_gps" = '3a1bb1eb-be18-41db-9a2b-562506c86fef' AND "gps_s"."id" != 1) LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mUPDATE "gps_s" SET "bus_id" = ?, "updated_at" = ? WHERE "gps_s"."id" = 1[0m  [["bus_id", 1], ["updated_at", "2014-10-05 05:11:58.666627"]]
+  [1m[35m (17.3ms)[0m  commit transaction
+  [1m[36mGps Load (0.2ms)[0m  [1mSELECT  "gps_s".* FROM "gps_s"  WHERE "gps_s"."bus_id" = ? LIMIT 1[0m  [["bus_id", 2]]
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mGps Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "gps_s"  WHERE ("gps_s"."id_gps" = 'cceed289-d438-41ed-a7e5-5e52c61ef1d0' AND "gps_s"."id" != 2) LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  UPDATE "gps_s" SET "bus_id" = ?, "updated_at" = ? WHERE "gps_s"."id" = 2  [["bus_id", 2], ["updated_at", "2014-10-05 05:11:58.688758"]]
+  [1m[36m (20.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mBus Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "buses"  WHERE ("buses"."placa" = 'AB-201' AND "buses"."id" != 1) LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "buses" SET "ruta_id" = ?, "updated_at" = ? WHERE "buses"."id" = 1  [["ruta_id", 1], ["updated_at", "2014-10-05 05:11:58.724677"]]
+  [1m[36m (20.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mBus Exists (0.4ms)[0m  [1mSELECT  1 AS one FROM "buses"  WHERE ("buses"."placa" = 'SJB-202' AND "buses"."id" != 2) LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "buses" SET "ruta_id" = ?, "updated_at" = ? WHERE "buses"."id" = 2  [["ruta_id", 2], ["updated_at", "2014-10-05 05:11:58.750480"]]
+  [1m[36m (20.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.2ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.2ms)[0m  [1mcommit transaction[0m
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-04 23:12:03 -0600
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by RutaUsersController#index as HTML
+Filter chain halted as :restrict_access rendered or redirected
+Completed 401 Unauthorized in 1ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users" for 127.0.0.1 at 2014-10-04 23:13:18 -0600
+Processing by UsersController#index as HTML
+  Parameters: {"user"=>{}}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = '65e1bb266ccce5a35c2d68d3c834ae40' LIMIT 1
+Filter chain halted as :restrict_access rendered or redirected
+Completed 401 Unauthorized in 7ms (Views: 0.3ms | ActiveRecord: 0.6ms)
+  [1m[36m (19.0ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [1m[35m (0.3ms)[0m  select sqlite_version(*)
+  [1m[36m (18.0ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.4ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+Migrating to CreateRutas (20140911233341)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  CREATE TABLE "rutas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "frecuencia" varchar(255), "precio" integer, "horario" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140911233341"]]
+  [1m[35m (17.9ms)[0m  commit transaction
+Migrating to CreateParadas (20140911233350)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  CREATE TABLE "paradas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "techo" boolean, "latitud" float, "longitud" float, "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140911233350"]]
+  [1m[35m (16.3ms)[0m  commit transaction
+Migrating to CreateRutaParadas (20140911233358)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.9ms)[0m  CREATE TABLE "ruta_paradas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "ruta_id" integer, "parada_id" integer, "tipo" integer) 
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140911233358"]]
+  [1m[35m (18.1ms)[0m  commit transaction
+Migrating to CreateUsers (20140913024922)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar(255), "password" varchar(255), "nombre" varchar(255), "fechaNac" date, "ciudad" varchar(255), "token" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140913024922"]]
+  [1m[35m (19.0ms)[0m  commit transaction
+Migrating to CreateRutaUsers (20140913024936)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.9ms)[0m  CREATE TABLE "ruta_users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "ruta_id" integer, "user_id" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140913024936"]]
+  [1m[35m (19.8ms)[0m  commit transaction
+Migrating to CreateBuses (20140913024943)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.9ms)[0m  CREATE TABLE "buses" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "ruta_id" integer, "placa" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140913024943"]]
+  [1m[35m (16.1ms)[0m  commit transaction
+Migrating to CreateGpsS (20140913024949)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.9ms)[0m  CREATE TABLE "gps_s" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "bus_id" integer, "id_gps" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140913024949"]]
+  [1m[35m (20.3ms)[0m  commit transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-05 05:17:21.888549"], ["latitud", 9.935521], ["longitud", -84.050252], ["nombre", "UCR-Cartago"], ["techo", "t"], ["updated_at", "2014-10-05 05:17:21.888549"]]
+  [1m[35m (27.6ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-05 05:17:21.921480"], ["latitud", 9.934813], ["longitud", -84.051813], ["nombre", "UCR-Pavas"], ["techo", "t"], ["updated_at", "2014-10-05 05:17:21.921480"]]
+  [1m[36m (16.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acdb' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("ciudad", "created_at", "email", "fechaNac", "nombre", "password", "token", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["ciudad", "san jose"], ["created_at", "2014-10-05 05:17:21.951243"], ["email", "Api@MiBusCR.co.cr"], ["fechaNac", "2014-10-04"], ["nombre", "ApiManager"], ["password", "123456"], ["token", "b0936d7e239775e770ce002307f0acdb"], ["updated_at", "2014-10-05 05:17:21.951243"]]
+  [1m[36m (19.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-05 05:17:21.982189"], ["latitud", 9.935518], ["longitud", -84.049777], ["nombre", "UCR-Alajuela"], ["techo", "t"], ["updated_at", "2014-10-05 05:17:21.982189"]]
+  [1m[35m (18.0ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-05 05:17:22.005343"], ["latitud", 10.014628], ["longitud", -84.217198], ["nombre", "Alajuela-Final"], ["techo", "f"], ["updated_at", "2014-10-05 05:17:22.005343"]]
+  [1m[36m (17.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-05 05:17:22.027506"], ["latitud", 9.935149], ["longitud", -84.051142], ["nombre", "UCR-hatillo"], ["techo", "f"], ["updated_at", "2014-10-05 05:17:22.027506"]]
+  [1m[35m (18.2ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-05 05:17:22.048982"], ["latitud", 9.920974], ["longitud", -84.103341], ["nombre", "Biblioteca-Hatillo"], ["techo", "f"], ["updated_at", "2014-10-05 05:17:22.048982"]]
+  [1m[36m (18.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "rutas" ("created_at", "frecuencia", "horario", "nombre", "precio", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-05 05:17:22.090990"], ["frecuencia", "1 hora"], ["horario", "7-10"], ["nombre", "UCR-Alajuela"], ["precio", 740], ["updated_at", "2014-10-05 05:17:22.090990"]]
+  [1m[35m (17.1ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "rutas" ("created_at", "frecuencia", "horario", "nombre", "precio", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-05 05:17:22.111408"], ["frecuencia", "30 min"], ["horario", "5:30-22:00"], ["nombre", "UCR-Hatillo"], ["precio", 330], ["updated_at", "2014-10-05 05:17:22.111408"]]
+  [1m[36m (19.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "ruta_paradas" ("tipo") VALUES (?)[0m  [["tipo", 1]]
+  [1m[35m (16.3ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "ruta_paradas" ("tipo") VALUES (?)  [["tipo", -1]]
+  [1m[36m (18.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mUPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 1[0m  [["parada_id", 3], ["ruta_id", 1]]
+  [1m[35m (17.4ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  UPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 2  [["parada_id", 4], ["ruta_id", 1]]
+  [1m[36m (20.2ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "ruta_paradas" ("tipo") VALUES (?)[0m  [["tipo", 1]]
+  [1m[35m (17.8ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "ruta_paradas" ("tipo") VALUES (?)  [["tipo", -1]]
+  [1m[36m (20.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mUPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 3[0m  [["parada_id", 5], ["ruta_id", 2]]
+  [1m[35m (20.6ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  UPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 4  [["parada_id", 6], ["ruta_id", 2]]
+  [1m[36m (16.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mBus Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'AB-201' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "buses" ("created_at", "placa", "updated_at") VALUES (?, ?, ?)  [["created_at", "2014-10-05 05:17:22.339579"], ["placa", "AB-201"], ["updated_at", "2014-10-05 05:17:22.339579"]]
+  [1m[36m (16.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mBus Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'SJB-202' LIMIT 1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "buses" ("created_at", "placa", "updated_at") VALUES (?, ?, ?)  [["created_at", "2014-10-05 05:17:22.361399"], ["placa", "SJB-202"], ["updated_at", "2014-10-05 05:17:22.361399"]]
+  [1m[36m (17.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mGps Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "gps_s"  WHERE "gps_s"."id_gps" = '3a1bb1eb-be18-41db-9a2b-562506c86fef' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "gps_s" ("created_at", "id_gps", "updated_at") VALUES (?, ?, ?)  [["created_at", "2014-10-05 05:17:22.395894"], ["id_gps", "3a1bb1eb-be18-41db-9a2b-562506c86fef"], ["updated_at", "2014-10-05 05:17:22.395894"]]
+  [1m[36m (19.2ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mGps Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "gps_s"  WHERE "gps_s"."id_gps" = 'cceed289-d438-41ed-a7e5-5e52c61ef1d0' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "gps_s" ("created_at", "id_gps", "updated_at") VALUES (?, ?, ?)  [["created_at", "2014-10-05 05:17:22.419482"], ["id_gps", "cceed289-d438-41ed-a7e5-5e52c61ef1d0"], ["updated_at", "2014-10-05 05:17:22.419482"]]
+  [1m[36m (18.9ms)[0m  [1mcommit transaction[0m
+  [1m[35mGps Load (0.1ms)[0m  SELECT  "gps_s".* FROM "gps_s"  WHERE "gps_s"."bus_id" = ? LIMIT 1  [["bus_id", 1]]
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mGps Exists (0.1ms)[0m  SELECT  1 AS one FROM "gps_s"  WHERE ("gps_s"."id_gps" = '3a1bb1eb-be18-41db-9a2b-562506c86fef' AND "gps_s"."id" != 1) LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mUPDATE "gps_s" SET "bus_id" = ?, "updated_at" = ? WHERE "gps_s"."id" = 1[0m  [["bus_id", 1], ["updated_at", "2014-10-05 05:17:22.445947"]]
+  [1m[35m (17.1ms)[0m  commit transaction
+  [1m[36mGps Load (0.2ms)[0m  [1mSELECT  "gps_s".* FROM "gps_s"  WHERE "gps_s"."bus_id" = ? LIMIT 1[0m  [["bus_id", 2]]
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mGps Exists (0.4ms)[0m  [1mSELECT  1 AS one FROM "gps_s"  WHERE ("gps_s"."id_gps" = 'cceed289-d438-41ed-a7e5-5e52c61ef1d0' AND "gps_s"."id" != 2) LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  UPDATE "gps_s" SET "bus_id" = ?, "updated_at" = ? WHERE "gps_s"."id" = 2  [["bus_id", 2], ["updated_at", "2014-10-05 05:17:22.468721"]]
+  [1m[36m (20.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mBus Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "buses"  WHERE ("buses"."placa" = 'AB-201' AND "buses"."id" != 1) LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "buses" SET "ruta_id" = ?, "updated_at" = ? WHERE "buses"."id" = 1  [["ruta_id", 1], ["updated_at", "2014-10-05 05:17:22.542605"]]
+  [1m[36m (18.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mBus Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "buses"  WHERE ("buses"."placa" = 'SJB-202' AND "buses"."id" != 2) LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  UPDATE "buses" SET "ruta_id" = ?, "updated_at" = ? WHERE "buses"."id" = 2  [["ruta_id", 2], ["updated_at", "2014-10-05 05:17:22.565569"]]
+  [1m[36m (20.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.2ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mcommit transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"   ORDER BY "users"."id" ASC LIMIT 1[0m
+  [1m[35mUser Load (0.5ms)[0m  SELECT  "users".* FROM "users"   ORDER BY "users"."id" ASC LIMIT 1
+  [1m[36m (0.4ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.7ms)[0m  UPDATE "users" SET "token" = ?, "updated_at" = ? WHERE "users"."id" = 1  [["token", "b0936d7e239775e770ce002307f0acda"], ["updated_at", "2014-10-05 05:19:22.157984"]]
+  [1m[36m (14.5ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.5ms)[0m  SELECT  "users".* FROM "users"   ORDER BY "users"."id" ASC LIMIT 1
+  [1m[36m (22.2ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [1m[35m (0.3ms)[0m  select sqlite_version(*)
+  [1m[36m (16.2ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.4ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+Migrating to CreateRutas (20140911233341)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  CREATE TABLE "rutas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "frecuencia" varchar(255), "precio" integer, "horario" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140911233341"]]
+  [1m[35m (19.3ms)[0m  commit transaction
+Migrating to CreateParadas (20140911233350)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.9ms)[0m  CREATE TABLE "paradas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "techo" boolean, "latitud" float, "longitud" float, "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140911233350"]]
+  [1m[35m (17.6ms)[0m  commit transaction
+Migrating to CreateRutaParadas (20140911233358)
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  CREATE TABLE "ruta_paradas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "ruta_id" integer, "parada_id" integer, "tipo" integer) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140911233358"]]
+  [1m[35m (18.5ms)[0m  commit transaction
+Migrating to CreateUsers (20140913024922)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar(255), "password" varchar(255), "nombre" varchar(255), "fechaNac" date, "ciudad" varchar(255), "token" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140913024922"]]
+  [1m[35m (19.8ms)[0m  commit transaction
+Migrating to CreateRutaUsers (20140913024936)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  CREATE TABLE "ruta_users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "ruta_id" integer, "user_id" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140913024936"]]
+  [1m[35m (19.8ms)[0m  commit transaction
+Migrating to CreateBuses (20140913024943)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  CREATE TABLE "buses" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "ruta_id" integer, "placa" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140913024943"]]
+  [1m[35m (19.9ms)[0m  commit transaction
+Migrating to CreateGpsS (20140913024949)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.9ms)[0m  CREATE TABLE "gps_s" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "bus_id" integer, "id_gps" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140913024949"]]
+  [1m[35m (22.3ms)[0m  commit transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-05 05:20:32.741528"], ["latitud", 9.935521], ["longitud", -84.050252], ["nombre", "UCR-Cartago"], ["techo", "t"], ["updated_at", "2014-10-05 05:20:32.741528"]]
+  [1m[35m (19.5ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-05 05:20:32.766524"], ["latitud", 9.934813], ["longitud", -84.051813], ["nombre", "UCR-Pavas"], ["techo", "t"], ["updated_at", "2014-10-05 05:20:32.766524"]]
+  [1m[36m (20.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "users"  WHERE "users"."token" = '200dc69f9fb7affa8a2bd949f4970a32' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("ciudad", "created_at", "email", "fechaNac", "nombre", "password", "token", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["ciudad", "san jose"], ["created_at", "2014-10-05 05:20:32.808915"], ["email", "Api@MiBusCR.co.cr"], ["fechaNac", "2014-10-04"], ["nombre", "ApiManager"], ["password", "123456"], ["token", "200dc69f9fb7affa8a2bd949f4970a32"], ["updated_at", "2014-10-05 05:20:32.808915"]]
+  [1m[36m (17.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mUPDATE "users" SET "token" = ?, "updated_at" = ? WHERE "users"."id" = 1[0m  [["token", "b0936d7e239775e770ce002307f0acda"], ["updated_at", "2014-10-05 05:20:32.835912"]]
+  [1m[35m (19.7ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-05 05:20:32.860978"], ["latitud", 9.935518], ["longitud", -84.049777], ["nombre", "UCR-Alajuela"], ["techo", "t"], ["updated_at", "2014-10-05 05:20:32.860978"]]
+  [1m[36m (18.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-05 05:20:32.880959"], ["latitud", 10.014628], ["longitud", -84.217198], ["nombre", "Alajuela-Final"], ["techo", "f"], ["updated_at", "2014-10-05 05:20:32.880959"]]
+  [1m[35m (18.0ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-05 05:20:32.902769"], ["latitud", 9.935149], ["longitud", -84.051142], ["nombre", "UCR-hatillo"], ["techo", "f"], ["updated_at", "2014-10-05 05:20:32.902769"]]
+  [1m[36m (19.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-05 05:20:32.926747"], ["latitud", 9.920974], ["longitud", -84.103341], ["nombre", "Biblioteca-Hatillo"], ["techo", "f"], ["updated_at", "2014-10-05 05:20:32.926747"]]
+  [1m[35m (17.3ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "rutas" ("created_at", "frecuencia", "horario", "nombre", "precio", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-05 05:20:32.962739"], ["frecuencia", "1 hora"], ["horario", "7-10"], ["nombre", "UCR-Alajuela"], ["precio", 740], ["updated_at", "2014-10-05 05:20:32.962739"]]
+  [1m[36m (19.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "rutas" ("created_at", "frecuencia", "horario", "nombre", "precio", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-05 05:20:32.985807"], ["frecuencia", "30 min"], ["horario", "5:30-22:00"], ["nombre", "UCR-Hatillo"], ["precio", 330], ["updated_at", "2014-10-05 05:20:32.985807"]]
+  [1m[35m (18.8ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "ruta_paradas" ("tipo") VALUES (?)  [["tipo", 1]]
+  [1m[36m (20.0ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "ruta_paradas" ("tipo") VALUES (?)[0m  [["tipo", -1]]
+  [1m[35m (18.3ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  UPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 1  [["parada_id", 3], ["ruta_id", 1]]
+  [1m[36m (19.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mUPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 2[0m  [["parada_id", 4], ["ruta_id", 1]]
+  [1m[35m (21.7ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "ruta_paradas" ("tipo") VALUES (?)  [["tipo", 1]]
+  [1m[36m (17.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "ruta_paradas" ("tipo") VALUES (?)[0m  [["tipo", -1]]
+  [1m[35m (17.2ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  UPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 3  [["parada_id", 5], ["ruta_id", 2]]
+  [1m[36m (23.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mUPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 4[0m  [["parada_id", 6], ["ruta_id", 2]]
+  [1m[35m (20.6ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mBus Exists (0.1ms)[0m  SELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'AB-201' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "buses" ("created_at", "placa", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", "2014-10-05 05:20:33.217279"], ["placa", "AB-201"], ["updated_at", "2014-10-05 05:20:33.217279"]]
+  [1m[35m (17.9ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mBus Exists (0.3ms)[0m  SELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'SJB-202' LIMIT 1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "buses" ("created_at", "placa", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", "2014-10-05 05:20:33.239849"], ["placa", "SJB-202"], ["updated_at", "2014-10-05 05:20:33.239849"]]
+  [1m[35m (19.6ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mGps Exists (0.1ms)[0m  SELECT  1 AS one FROM "gps_s"  WHERE "gps_s"."id_gps" = '3a1bb1eb-be18-41db-9a2b-562506c86fef' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "gps_s" ("created_at", "id_gps", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", "2014-10-05 05:20:33.275566"], ["id_gps", "3a1bb1eb-be18-41db-9a2b-562506c86fef"], ["updated_at", "2014-10-05 05:20:33.275566"]]
+  [1m[35m (19.4ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mGps Exists (0.3ms)[0m  SELECT  1 AS one FROM "gps_s"  WHERE "gps_s"."id_gps" = 'cceed289-d438-41ed-a7e5-5e52c61ef1d0' LIMIT 1
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "gps_s" ("created_at", "id_gps", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", "2014-10-05 05:20:33.299306"], ["id_gps", "cceed289-d438-41ed-a7e5-5e52c61ef1d0"], ["updated_at", "2014-10-05 05:20:33.299306"]]
+  [1m[35m (17.6ms)[0m  commit transaction
+  [1m[36mGps Load (0.2ms)[0m  [1mSELECT  "gps_s".* FROM "gps_s"  WHERE "gps_s"."bus_id" = ? LIMIT 1[0m  [["bus_id", 1]]
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mGps Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "gps_s"  WHERE ("gps_s"."id_gps" = '3a1bb1eb-be18-41db-9a2b-562506c86fef' AND "gps_s"."id" != 1) LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "gps_s" SET "bus_id" = ?, "updated_at" = ? WHERE "gps_s"."id" = 1  [["bus_id", 1], ["updated_at", "2014-10-05 05:20:33.325790"]]
+  [1m[36m (18.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mGps Load (0.2ms)[0m  SELECT  "gps_s".* FROM "gps_s"  WHERE "gps_s"."bus_id" = ? LIMIT 1  [["bus_id", 2]]
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mGps Exists (0.3ms)[0m  SELECT  1 AS one FROM "gps_s"  WHERE ("gps_s"."id_gps" = 'cceed289-d438-41ed-a7e5-5e52c61ef1d0' AND "gps_s"."id" != 2) LIMIT 1
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "gps_s" SET "bus_id" = ?, "updated_at" = ? WHERE "gps_s"."id" = 2[0m  [["bus_id", 2], ["updated_at", "2014-10-05 05:20:33.350516"]]
+  [1m[35m (18.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mBus Exists (0.1ms)[0m  SELECT  1 AS one FROM "buses"  WHERE ("buses"."placa" = 'AB-201' AND "buses"."id" != 1) LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mUPDATE "buses" SET "ruta_id" = ?, "updated_at" = ? WHERE "buses"."id" = 1[0m  [["ruta_id", 1], ["updated_at", "2014-10-05 05:20:33.422776"]]
+  [1m[35m (17.2ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mBus Exists (0.3ms)[0m  SELECT  1 AS one FROM "buses"  WHERE ("buses"."placa" = 'SJB-202' AND "buses"."id" != 2) LIMIT 1
+  [1m[36mSQL (0.5ms)[0m  [1mUPDATE "buses" SET "ruta_id" = ?, "updated_at" = ? WHERE "buses"."id" = 2[0m  [["ruta_id", 2], ["updated_at", "2014-10-05 05:20:33.444765"]]
+  [1m[35m (21.8ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  commit transaction
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"   ORDER BY "users"."id" ASC LIMIT 1[0m
+
+
+Started GET "/users" for 127.0.0.1 at 2014-10-04 23:21:45 -0600
+Processing by UsersController#index as HTML
+  Parameters: {"user"=>{}}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users"
+Completed 200 OK in 9ms (Views: 0.3ms | ActiveRecord: 0.9ms)
+  [1m[36m (17.7ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [1m[35m (0.3ms)[0m  select sqlite_version(*)
+  [1m[36m (20.1ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.4ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+Migrating to CreateRutas (20140911233341)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  CREATE TABLE "rutas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "frecuencia" varchar(255), "precio" integer, "horario" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140911233341"]]
+  [1m[35m (19.0ms)[0m  commit transaction
+Migrating to CreateParadas (20140911233350)
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.9ms)[0m  CREATE TABLE "paradas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "techo" boolean, "latitud" float, "longitud" float, "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140911233350"]]
+  [1m[35m (18.4ms)[0m  commit transaction
+Migrating to CreateRutaParadas (20140911233358)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (1.3ms)[0m  CREATE TABLE "ruta_paradas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "ruta_id" integer, "parada_id" integer, "tipo" integer) 
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140911233358"]]
+  [1m[35m (18.1ms)[0m  commit transaction
+Migrating to CreateUsers (20140913024922)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar(255), "password" varchar(255), "nombre" varchar(255), "fechaNac" date, "ciudad" varchar(255), "token" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140913024922"]]
+  [1m[35m (21.4ms)[0m  commit transaction
+Migrating to CreateRutaUsers (20140913024936)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  CREATE TABLE "ruta_users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "ruta_id" integer, "user_id" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140913024936"]]
+  [1m[35m (16.2ms)[0m  commit transaction
+Migrating to CreateBuses (20140913024943)
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.9ms)[0m  CREATE TABLE "buses" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "ruta_id" integer, "placa" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140913024943"]]
+  [1m[35m (17.1ms)[0m  commit transaction
+Migrating to CreateGpsS (20140913024949)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  CREATE TABLE "gps_s" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "bus_id" integer, "id_gps" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140913024949"]]
+  [1m[35m (21.5ms)[0m  commit transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-05 05:23:38.575849"], ["latitud", 9.935521], ["longitud", -84.050252], ["nombre", "UCR-Cartago"], ["techo", "t"], ["updated_at", "2014-10-05 05:23:38.575849"]]
+  [1m[35m (16.5ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-05 05:23:38.597706"], ["latitud", 9.934813], ["longitud", -84.051813], ["nombre", "UCR-Pavas"], ["techo", "t"], ["updated_at", "2014-10-05 05:23:38.597706"]]
+  [1m[36m (16.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users"  WHERE "users"."token" = 'bef8a430f04029c96b30978e86e520dc' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("ciudad", "created_at", "email", "fechaNac", "nombre", "password", "token", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["ciudad", "san jose"], ["created_at", "2014-10-05 05:23:38.634568"], ["email", "Api@MiBusCR.co.cr"], ["fechaNac", "2014-10-04"], ["nombre", "ApiManager"], ["password", "?$jMEyp5P_9=E7L"], ["token", "bef8a430f04029c96b30978e86e520dc"], ["updated_at", "2014-10-05 05:23:38.634568"]]
+  [1m[36m (19.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mUPDATE "users" SET "token" = ?, "updated_at" = ? WHERE "users"."id" = 1[0m  [["token", "b0936d7e239775e770ce002307f0acda"], ["updated_at", "2014-10-05 05:23:38.663552"]]
+  [1m[35m (18.0ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-05 05:23:38.686428"], ["latitud", 9.935518], ["longitud", -84.049777], ["nombre", "UCR-Alajuela"], ["techo", "t"], ["updated_at", "2014-10-05 05:23:38.686428"]]
+  [1m[36m (18.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-05 05:23:38.709966"], ["latitud", 10.014628], ["longitud", -84.217198], ["nombre", "Alajuela-Final"], ["techo", "f"], ["updated_at", "2014-10-05 05:23:38.709966"]]
+  [1m[35m (19.6ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-05 05:23:38.733642"], ["latitud", 9.935149], ["longitud", -84.051142], ["nombre", "UCR-hatillo"], ["techo", "f"], ["updated_at", "2014-10-05 05:23:38.733642"]]
+  [1m[36m (20.0ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-05 05:23:38.758161"], ["latitud", 9.920974], ["longitud", -84.103341], ["nombre", "Biblioteca-Hatillo"], ["techo", "f"], ["updated_at", "2014-10-05 05:23:38.758161"]]
+  [1m[35m (17.1ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "rutas" ("created_at", "frecuencia", "horario", "nombre", "precio", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-05 05:23:38.796607"], ["frecuencia", "1 hora"], ["horario", "7-10"], ["nombre", "UCR-Alajuela"], ["precio", 740], ["updated_at", "2014-10-05 05:23:38.796607"]]
+  [1m[36m (17.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "rutas" ("created_at", "frecuencia", "horario", "nombre", "precio", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-05 05:23:38.816446"], ["frecuencia", "30 min"], ["horario", "5:30-22:00"], ["nombre", "UCR-Hatillo"], ["precio", 330], ["updated_at", "2014-10-05 05:23:38.816446"]]
+  [1m[35m (19.0ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "ruta_paradas" ("tipo") VALUES (?)  [["tipo", 1]]
+  [1m[36m (17.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "ruta_paradas" ("tipo") VALUES (?)[0m  [["tipo", -1]]
+  [1m[35m (16.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 1  [["parada_id", 3], ["ruta_id", 1]]
+  [1m[36m (19.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mUPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 2[0m  [["parada_id", 4], ["ruta_id", 1]]
+  [1m[35m (19.6ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "ruta_paradas" ("tipo") VALUES (?)  [["tipo", 1]]
+  [1m[36m (22.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "ruta_paradas" ("tipo") VALUES (?)[0m  [["tipo", -1]]
+  [1m[35m (18.9ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  UPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 3  [["parada_id", 5], ["ruta_id", 2]]
+  [1m[36m (19.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mUPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 4[0m  [["parada_id", 6], ["ruta_id", 2]]
+  [1m[35m (17.6ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mBus Exists (0.1ms)[0m  SELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'AB-201' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "buses" ("created_at", "placa", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", "2014-10-05 05:23:39.046214"], ["placa", "AB-201"], ["updated_at", "2014-10-05 05:23:39.046214"]]
+  [1m[35m (19.5ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mBus Exists (0.4ms)[0m  SELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'SJB-202' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "buses" ("created_at", "placa", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", "2014-10-05 05:23:39.070773"], ["placa", "SJB-202"], ["updated_at", "2014-10-05 05:23:39.070773"]]
+  [1m[35m (15.8ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mGps Exists (0.1ms)[0m  SELECT  1 AS one FROM "gps_s"  WHERE "gps_s"."id_gps" = '3a1bb1eb-be18-41db-9a2b-562506c86fef' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "gps_s" ("created_at", "id_gps", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", "2014-10-05 05:23:39.106705"], ["id_gps", "3a1bb1eb-be18-41db-9a2b-562506c86fef"], ["updated_at", "2014-10-05 05:23:39.106705"]]
+  [1m[35m (19.6ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mGps Exists (0.3ms)[0m  SELECT  1 AS one FROM "gps_s"  WHERE "gps_s"."id_gps" = 'cceed289-d438-41ed-a7e5-5e52c61ef1d0' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "gps_s" ("created_at", "id_gps", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", "2014-10-05 05:23:39.130661"], ["id_gps", "cceed289-d438-41ed-a7e5-5e52c61ef1d0"], ["updated_at", "2014-10-05 05:23:39.130661"]]
+  [1m[35m (20.6ms)[0m  commit transaction
+  [1m[36mGps Load (0.2ms)[0m  [1mSELECT  "gps_s".* FROM "gps_s"  WHERE "gps_s"."bus_id" = ? LIMIT 1[0m  [["bus_id", 1]]
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mGps Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "gps_s"  WHERE ("gps_s"."id_gps" = '3a1bb1eb-be18-41db-9a2b-562506c86fef' AND "gps_s"."id" != 1) LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "gps_s" SET "bus_id" = ?, "updated_at" = ? WHERE "gps_s"."id" = 1  [["bus_id", 1], ["updated_at", "2014-10-05 05:23:39.163993"]]
+  [1m[36m (19.5ms)[0m  [1mcommit transaction[0m
+  [1m[35mGps Load (0.3ms)[0m  SELECT  "gps_s".* FROM "gps_s"  WHERE "gps_s"."bus_id" = ? LIMIT 1  [["bus_id", 2]]
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mGps Exists (0.3ms)[0m  SELECT  1 AS one FROM "gps_s"  WHERE ("gps_s"."id_gps" = 'cceed289-d438-41ed-a7e5-5e52c61ef1d0' AND "gps_s"."id" != 2) LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mUPDATE "gps_s" SET "bus_id" = ?, "updated_at" = ? WHERE "gps_s"."id" = 2[0m  [["bus_id", 2], ["updated_at", "2014-10-05 05:23:39.190078"]]
+  [1m[35m (18.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mBus Exists (0.1ms)[0m  SELECT  1 AS one FROM "buses"  WHERE ("buses"."placa" = 'AB-201' AND "buses"."id" != 1) LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mUPDATE "buses" SET "ruta_id" = ?, "updated_at" = ? WHERE "buses"."id" = 1[0m  [["ruta_id", 1], ["updated_at", "2014-10-05 05:23:39.259900"]]
+  [1m[35m (17.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mBus Exists (0.2ms)[0m  SELECT  1 AS one FROM "buses"  WHERE ("buses"."placa" = 'SJB-202' AND "buses"."id" != 2) LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mUPDATE "buses" SET "ruta_id" = ?, "updated_at" = ? WHERE "buses"."id" = 2[0m  [["ruta_id", 2], ["updated_at", "2014-10-05 05:23:39.281476"]]
+  [1m[35m (19.3ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  commit transaction
+
+
+Started GET "/users" for 127.0.0.1 at 2014-10-04 23:23:45 -0600
+Processing by UsersController#index as HTML
+  Parameters: {"user"=>{}}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users"
+Completed 200 OK in 8ms (Views: 0.3ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-04 23:24:43 -0600
+Processing by RutaUsersController#index as HTML
+  Parameters: {"ruta_user"=>{}}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+Completed 500 Internal Server Error in 3ms
+
+ActionView::MissingTemplate (Missing template ruta_users/index, application/index with {:locale=>[:en], :formats=>[:html], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder]}. Searched in:
+  * "/home/farroyo/Documents/pruebaRest/MiBusCR/app/views"
+):
+  actionview (4.1.1) lib/action_view/path_set.rb:46:in `find'
+  actionview (4.1.1) lib/action_view/lookup_context.rb:124:in `find'
+  actionview (4.1.1) lib/action_view/renderer/abstract_renderer.rb:18:in `find_template'
+  actionview (4.1.1) lib/action_view/renderer/template_renderer.rb:41:in `determine_template'
+  actionview (4.1.1) lib/action_view/renderer/template_renderer.rb:8:in `render'
+  actionview (4.1.1) lib/action_view/renderer/renderer.rb:42:in `render_template'
+  actionview (4.1.1) lib/action_view/renderer/renderer.rb:23:in `render'
+  actionview (4.1.1) lib/action_view/rendering.rb:99:in `_render_template'
+  actionpack (4.1.1) lib/action_controller/metal/streaming.rb:217:in `_render_template'
+  actionview (4.1.1) lib/action_view/rendering.rb:82:in `render_to_body'
+  actionpack (4.1.1) lib/action_controller/metal/rendering.rb:32:in `render_to_body'
+  actionpack (4.1.1) lib/action_controller/metal/renderers.rb:32:in `render_to_body'
+  actionpack (4.1.1) lib/abstract_controller/rendering.rb:25:in `render'
+  actionpack (4.1.1) lib/action_controller/metal/rendering.rb:16:in `render'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:41:in `block (2 levels) in render'
+  activesupport (4.1.1) lib/active_support/core_ext/benchmark.rb:12:in `block in ms'
+  /usr/share/ruby/benchmark.rb:296:in `realtime'
+  activesupport (4.1.1) lib/active_support/core_ext/benchmark.rb:12:in `ms'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:41:in `block in render'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:84:in `cleanup_view_runtime'
+  activerecord (4.1.1) lib/active_record/railties/controller_runtime.rb:25:in `cleanup_view_runtime'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:40:in `render'
+  actionpack (4.1.1) lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+  actionpack (4.1.1) lib/action_controller/metal/implicit_render.rb:5:in `send_action'
+  actionpack (4.1.1) lib/abstract_controller/base.rb:189:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (4.1.1) lib/abstract_controller/callbacks.rb:20:in `block in process_action'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:113:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:113:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:149:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:149:in `block in halting_and_conditional'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:229:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:229:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:86:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:86:in `run_callbacks'
+  actionpack (4.1.1) lib/abstract_controller/callbacks.rb:19:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:31:in `block in process_action'
+  activesupport (4.1.1) lib/active_support/notifications.rb:159:in `block in instrument'
+  activesupport (4.1.1) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.1.1) lib/active_support/notifications.rb:159:in `instrument'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/params_wrapper.rb:250:in `process_action'
+  activerecord (4.1.1) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (4.1.1) lib/abstract_controller/base.rb:136:in `process'
+  actionview (4.1.1) lib/action_view/rendering.rb:30:in `process'
+  actionpack (4.1.1) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.1.1) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.1.1) lib/action_controller/metal.rb:231:in `block in action'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:80:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:80:in `dispatch'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:48:in `call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:676:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  activerecord (4.1.1) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.1.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:621:in `call'
+  activerecord (4.1.1) lib/active_record/migration.rb:380:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:82:in `run_callbacks'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.1.1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:26:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.1.1) lib/rails/engine.rb:514:in `call'
+  railties (4.1.1) lib/rails/application.rb:144:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:138:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:94:in `run'
+  /usr/share/ruby/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/missing_template.html.erb within rescues/layout (0.5ms)
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-04 23:34:06 -0600
+Processing by RutaUsersController#index as HTML
+Completed 500 Internal Server Error in 3ms
+
+ActionView::MissingTemplate (Missing template ruta_users/index, application/index with {:locale=>[:en], :formats=>[:html], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder]}. Searched in:
+  * "/home/farroyo/Documents/pruebaRest/MiBusCR/app/views"
+):
+  actionview (4.1.1) lib/action_view/path_set.rb:46:in `find'
+  actionview (4.1.1) lib/action_view/lookup_context.rb:124:in `find'
+  actionview (4.1.1) lib/action_view/renderer/abstract_renderer.rb:18:in `find_template'
+  actionview (4.1.1) lib/action_view/renderer/template_renderer.rb:41:in `determine_template'
+  actionview (4.1.1) lib/action_view/renderer/template_renderer.rb:8:in `render'
+  actionview (4.1.1) lib/action_view/renderer/renderer.rb:42:in `render_template'
+  actionview (4.1.1) lib/action_view/renderer/renderer.rb:23:in `render'
+  actionview (4.1.1) lib/action_view/rendering.rb:99:in `_render_template'
+  actionpack (4.1.1) lib/action_controller/metal/streaming.rb:217:in `_render_template'
+  actionview (4.1.1) lib/action_view/rendering.rb:82:in `render_to_body'
+  actionpack (4.1.1) lib/action_controller/metal/rendering.rb:32:in `render_to_body'
+  actionpack (4.1.1) lib/action_controller/metal/renderers.rb:32:in `render_to_body'
+  actionpack (4.1.1) lib/abstract_controller/rendering.rb:25:in `render'
+  actionpack (4.1.1) lib/action_controller/metal/rendering.rb:16:in `render'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:41:in `block (2 levels) in render'
+  activesupport (4.1.1) lib/active_support/core_ext/benchmark.rb:12:in `block in ms'
+  /usr/share/ruby/benchmark.rb:296:in `realtime'
+  activesupport (4.1.1) lib/active_support/core_ext/benchmark.rb:12:in `ms'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:41:in `block in render'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:84:in `cleanup_view_runtime'
+  activerecord (4.1.1) lib/active_record/railties/controller_runtime.rb:25:in `cleanup_view_runtime'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:40:in `render'
+  actionpack (4.1.1) lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+  actionpack (4.1.1) lib/action_controller/metal/implicit_render.rb:5:in `send_action'
+  actionpack (4.1.1) lib/abstract_controller/base.rb:189:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (4.1.1) lib/abstract_controller/callbacks.rb:20:in `block in process_action'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:113:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:113:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:229:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:86:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:86:in `run_callbacks'
+  actionpack (4.1.1) lib/abstract_controller/callbacks.rb:19:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:31:in `block in process_action'
+  activesupport (4.1.1) lib/active_support/notifications.rb:159:in `block in instrument'
+  activesupport (4.1.1) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.1.1) lib/active_support/notifications.rb:159:in `instrument'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/params_wrapper.rb:250:in `process_action'
+  activerecord (4.1.1) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (4.1.1) lib/abstract_controller/base.rb:136:in `process'
+  actionview (4.1.1) lib/action_view/rendering.rb:30:in `process'
+  actionpack (4.1.1) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.1.1) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.1.1) lib/action_controller/metal.rb:231:in `block in action'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:80:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:80:in `dispatch'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:48:in `call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:676:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  activerecord (4.1.1) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.1.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:621:in `call'
+  activerecord (4.1.1) lib/active_record/migration.rb:380:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:82:in `run_callbacks'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.1.1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:26:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.1.1) lib/rails/engine.rb:514:in `call'
+  railties (4.1.1) lib/rails/application.rb:144:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:138:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:94:in `run'
+  /usr/share/ruby/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/missing_template.html.erb within rescues/layout (0.4ms)
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-04 23:36:19 -0600
+Processing by RutaUsersController#index as HTML
+  Parameters: {"ruta_user"=>{}}
+Completed 500 Internal Server Error in 2ms
+
+ActionView::MissingTemplate (Missing template ruta_users/index, application/index with {:locale=>[:en], :formats=>[:html], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder]}. Searched in:
+  * "/home/farroyo/Documents/pruebaRest/MiBusCR/app/views"
+):
+  actionview (4.1.1) lib/action_view/path_set.rb:46:in `find'
+  actionview (4.1.1) lib/action_view/lookup_context.rb:124:in `find'
+  actionview (4.1.1) lib/action_view/renderer/abstract_renderer.rb:18:in `find_template'
+  actionview (4.1.1) lib/action_view/renderer/template_renderer.rb:41:in `determine_template'
+  actionview (4.1.1) lib/action_view/renderer/template_renderer.rb:8:in `render'
+  actionview (4.1.1) lib/action_view/renderer/renderer.rb:42:in `render_template'
+  actionview (4.1.1) lib/action_view/renderer/renderer.rb:23:in `render'
+  actionview (4.1.1) lib/action_view/rendering.rb:99:in `_render_template'
+  actionpack (4.1.1) lib/action_controller/metal/streaming.rb:217:in `_render_template'
+  actionview (4.1.1) lib/action_view/rendering.rb:82:in `render_to_body'
+  actionpack (4.1.1) lib/action_controller/metal/rendering.rb:32:in `render_to_body'
+  actionpack (4.1.1) lib/action_controller/metal/renderers.rb:32:in `render_to_body'
+  actionpack (4.1.1) lib/abstract_controller/rendering.rb:25:in `render'
+  actionpack (4.1.1) lib/action_controller/metal/rendering.rb:16:in `render'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:41:in `block (2 levels) in render'
+  activesupport (4.1.1) lib/active_support/core_ext/benchmark.rb:12:in `block in ms'
+  /usr/share/ruby/benchmark.rb:296:in `realtime'
+  activesupport (4.1.1) lib/active_support/core_ext/benchmark.rb:12:in `ms'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:41:in `block in render'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:84:in `cleanup_view_runtime'
+  activerecord (4.1.1) lib/active_record/railties/controller_runtime.rb:25:in `cleanup_view_runtime'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:40:in `render'
+  actionpack (4.1.1) lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+  actionpack (4.1.1) lib/action_controller/metal/implicit_render.rb:5:in `send_action'
+  actionpack (4.1.1) lib/abstract_controller/base.rb:189:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (4.1.1) lib/abstract_controller/callbacks.rb:20:in `block in process_action'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:113:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:113:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:229:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:86:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:86:in `run_callbacks'
+  actionpack (4.1.1) lib/abstract_controller/callbacks.rb:19:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:31:in `block in process_action'
+  activesupport (4.1.1) lib/active_support/notifications.rb:159:in `block in instrument'
+  activesupport (4.1.1) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.1.1) lib/active_support/notifications.rb:159:in `instrument'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/params_wrapper.rb:250:in `process_action'
+  activerecord (4.1.1) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (4.1.1) lib/abstract_controller/base.rb:136:in `process'
+  actionview (4.1.1) lib/action_view/rendering.rb:30:in `process'
+  actionpack (4.1.1) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.1.1) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.1.1) lib/action_controller/metal.rb:231:in `block in action'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:80:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:80:in `dispatch'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:48:in `call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:676:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  activerecord (4.1.1) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.1.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:621:in `call'
+  activerecord (4.1.1) lib/active_record/migration.rb:380:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:82:in `run_callbacks'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.1.1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:26:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.1.1) lib/rails/engine.rb:514:in `call'
+  railties (4.1.1) lib/rails/application.rb:144:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:138:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:94:in `run'
+  /usr/share/ruby/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/missing_template.html.erb within rescues/layout (0.5ms)
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-04 23:36:42 -0600
+Processing by RutaUsersController#index as HTML
+Completed 500 Internal Server Error in 4ms
+
+ActionView::MissingTemplate (Missing template ruta_users/index, application/index with {:locale=>[:en], :formats=>[:html], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder]}. Searched in:
+  * "/home/farroyo/Documents/pruebaRest/MiBusCR/app/views"
+):
+  actionview (4.1.1) lib/action_view/path_set.rb:46:in `find'
+  actionview (4.1.1) lib/action_view/lookup_context.rb:124:in `find'
+  actionview (4.1.1) lib/action_view/renderer/abstract_renderer.rb:18:in `find_template'
+  actionview (4.1.1) lib/action_view/renderer/template_renderer.rb:41:in `determine_template'
+  actionview (4.1.1) lib/action_view/renderer/template_renderer.rb:8:in `render'
+  actionview (4.1.1) lib/action_view/renderer/renderer.rb:42:in `render_template'
+  actionview (4.1.1) lib/action_view/renderer/renderer.rb:23:in `render'
+  actionview (4.1.1) lib/action_view/rendering.rb:99:in `_render_template'
+  actionpack (4.1.1) lib/action_controller/metal/streaming.rb:217:in `_render_template'
+  actionview (4.1.1) lib/action_view/rendering.rb:82:in `render_to_body'
+  actionpack (4.1.1) lib/action_controller/metal/rendering.rb:32:in `render_to_body'
+  actionpack (4.1.1) lib/action_controller/metal/renderers.rb:32:in `render_to_body'
+  actionpack (4.1.1) lib/abstract_controller/rendering.rb:25:in `render'
+  actionpack (4.1.1) lib/action_controller/metal/rendering.rb:16:in `render'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:41:in `block (2 levels) in render'
+  activesupport (4.1.1) lib/active_support/core_ext/benchmark.rb:12:in `block in ms'
+  /usr/share/ruby/benchmark.rb:296:in `realtime'
+  activesupport (4.1.1) lib/active_support/core_ext/benchmark.rb:12:in `ms'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:41:in `block in render'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:84:in `cleanup_view_runtime'
+  activerecord (4.1.1) lib/active_record/railties/controller_runtime.rb:25:in `cleanup_view_runtime'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:40:in `render'
+  actionpack (4.1.1) lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+  actionpack (4.1.1) lib/action_controller/metal/implicit_render.rb:5:in `send_action'
+  actionpack (4.1.1) lib/abstract_controller/base.rb:189:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (4.1.1) lib/abstract_controller/callbacks.rb:20:in `block in process_action'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:113:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:113:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:229:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:86:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:86:in `run_callbacks'
+  actionpack (4.1.1) lib/abstract_controller/callbacks.rb:19:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:31:in `block in process_action'
+  activesupport (4.1.1) lib/active_support/notifications.rb:159:in `block in instrument'
+  activesupport (4.1.1) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.1.1) lib/active_support/notifications.rb:159:in `instrument'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/params_wrapper.rb:250:in `process_action'
+  activerecord (4.1.1) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (4.1.1) lib/abstract_controller/base.rb:136:in `process'
+  actionview (4.1.1) lib/action_view/rendering.rb:30:in `process'
+  actionpack (4.1.1) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.1.1) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.1.1) lib/action_controller/metal.rb:231:in `block in action'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:80:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:80:in `dispatch'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:48:in `call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:676:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  activerecord (4.1.1) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.1.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:621:in `call'
+  activerecord (4.1.1) lib/active_record/migration.rb:380:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:82:in `run_callbacks'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.1.1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:26:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.1.1) lib/rails/engine.rb:514:in `call'
+  railties (4.1.1) lib/rails/application.rb:144:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:138:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:94:in `run'
+  /usr/share/ruby/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/missing_template.html.erb within rescues/layout (0.5ms)
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-04 23:36:43 -0600
+Processing by RutaUsersController#index as HTML
+Completed 500 Internal Server Error in 1ms
+
+ActionView::MissingTemplate (Missing template ruta_users/index, application/index with {:locale=>[:en], :formats=>[:html], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder]}. Searched in:
+  * "/home/farroyo/Documents/pruebaRest/MiBusCR/app/views"
+):
+  actionview (4.1.1) lib/action_view/path_set.rb:46:in `find'
+  actionview (4.1.1) lib/action_view/lookup_context.rb:124:in `find'
+  actionview (4.1.1) lib/action_view/renderer/abstract_renderer.rb:18:in `find_template'
+  actionview (4.1.1) lib/action_view/renderer/template_renderer.rb:41:in `determine_template'
+  actionview (4.1.1) lib/action_view/renderer/template_renderer.rb:8:in `render'
+  actionview (4.1.1) lib/action_view/renderer/renderer.rb:42:in `render_template'
+  actionview (4.1.1) lib/action_view/renderer/renderer.rb:23:in `render'
+  actionview (4.1.1) lib/action_view/rendering.rb:99:in `_render_template'
+  actionpack (4.1.1) lib/action_controller/metal/streaming.rb:217:in `_render_template'
+  actionview (4.1.1) lib/action_view/rendering.rb:82:in `render_to_body'
+  actionpack (4.1.1) lib/action_controller/metal/rendering.rb:32:in `render_to_body'
+  actionpack (4.1.1) lib/action_controller/metal/renderers.rb:32:in `render_to_body'
+  actionpack (4.1.1) lib/abstract_controller/rendering.rb:25:in `render'
+  actionpack (4.1.1) lib/action_controller/metal/rendering.rb:16:in `render'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:41:in `block (2 levels) in render'
+  activesupport (4.1.1) lib/active_support/core_ext/benchmark.rb:12:in `block in ms'
+  /usr/share/ruby/benchmark.rb:296:in `realtime'
+  activesupport (4.1.1) lib/active_support/core_ext/benchmark.rb:12:in `ms'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:41:in `block in render'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:84:in `cleanup_view_runtime'
+  activerecord (4.1.1) lib/active_record/railties/controller_runtime.rb:25:in `cleanup_view_runtime'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:40:in `render'
+  actionpack (4.1.1) lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+  actionpack (4.1.1) lib/action_controller/metal/implicit_render.rb:5:in `send_action'
+  actionpack (4.1.1) lib/abstract_controller/base.rb:189:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (4.1.1) lib/abstract_controller/callbacks.rb:20:in `block in process_action'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:113:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:113:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:229:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:86:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:86:in `run_callbacks'
+  actionpack (4.1.1) lib/abstract_controller/callbacks.rb:19:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:31:in `block in process_action'
+  activesupport (4.1.1) lib/active_support/notifications.rb:159:in `block in instrument'
+  activesupport (4.1.1) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.1.1) lib/active_support/notifications.rb:159:in `instrument'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/params_wrapper.rb:250:in `process_action'
+  activerecord (4.1.1) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (4.1.1) lib/abstract_controller/base.rb:136:in `process'
+  actionview (4.1.1) lib/action_view/rendering.rb:30:in `process'
+  actionpack (4.1.1) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.1.1) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.1.1) lib/action_controller/metal.rb:231:in `block in action'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:80:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:80:in `dispatch'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:48:in `call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:676:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  activerecord (4.1.1) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.1.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:621:in `call'
+  activerecord (4.1.1) lib/active_record/migration.rb:380:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:82:in `run_callbacks'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.1.1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:26:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.1.1) lib/rails/engine.rb:514:in `call'
+  railties (4.1.1) lib/rails/application.rb:144:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:138:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:94:in `run'
+  /usr/share/ruby/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/missing_template.html.erb within rescues/layout (0.4ms)
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-04 23:37:35 -0600
+Processing by RutaUsersController#index as HTML
+  [1m[35mRutaUser Load (0.4ms)[0m  SELECT "ruta_users".* FROM "ruta_users"
+Completed 200 OK in 3ms (Views: 0.2ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-04 23:39:02 -0600
+Processing by RutaUsersController#index as HTML
+Filter chain halted as :restrict_access rendered or redirected
+Completed 401 Unauthorized in 1ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-04 23:39:06 -0600
+Processing by RutaUsersController#index as HTML
+  Parameters: {"ruta_user"=>{}}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.1ms)[0m  SELECT "ruta_users".* FROM "ruta_users"
+Completed 200 OK in 6ms (Views: 0.2ms | ActiveRecord: 1.4ms)
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-04 23:40:45 -0600
+Processing by RutaUsersController#index as HTML
+  Parameters: {"ruta_user"=>{}}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.1ms)[0m  SELECT "ruta_users".* FROM "ruta_users"
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"   ORDER BY "users"."id" ASC LIMIT 1[0m
+  [1m[35mRuta Load (0.3ms)[0m  SELECT "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ?  [["user_id", 1]]
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-04 23:46:50 -0600
+Processing by RutaUsersController#index as HTML
+Filter chain halted as :restrict_access rendered or redirected
+Completed 401 Unauthorized in 1ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-04 23:46:56 -0600
+Processing by RutaUsersController#index as HTML
+  Parameters: {"ruta_user"=>{}}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRuta Load (0.2ms)[0m  SELECT "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ?  [["user_id", 1]]
+Completed 200 OK in 110ms (Views: 0.2ms | ActiveRecord: 1.5ms)
+  [1m[36mRuta Load (0.2ms)[0m  [1mSELECT  "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ? AND "rutas"."id" = ? LIMIT 1[0m  [["user_id", 1], ["id", 1]]
+  [1m[35mRuta Load (0.7ms)[0m  SELECT  "rutas".* FROM "rutas"   ORDER BY "rutas"."id" ASC LIMIT 1
+  [1m[36mRuta Load (0.1ms)[0m  [1mSELECT  "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ? AND "rutas"."id" = ? LIMIT 1[0m  [["user_id", 1], ["id", 1]]
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-04 23:58:19 -0600
+Processing by RutaUsersController#index as HTML
+  Parameters: {"ruta_user"=>{}}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRuta Load (0.1ms)[0m  SELECT "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ?  [["user_id", 1]]
+Completed 200 OK in 16ms (Views: 0.2ms | ActiveRecord: 1.4ms)
+  [1m[35mUser Load (0.5ms)[0m  SELECT  "users".* FROM "users"   ORDER BY "users"."id" ASC LIMIT 1
+  [1m[36mRuta Load (0.2ms)[0m  [1mSELECT "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ?[0m  [["user_id", 1]]
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-05 00:00:23 -0600
+Processing by RutaUsersController#index as HTML
+  Parameters: {"ruta_user"=>{}}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRuta Load (0.2ms)[0m  SELECT "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ?  [["user_id", 1]]
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 00:00:27 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"id_ruta"=>"1", "ruta_user"=>{}}
+  [1m[36mUser Load (0.5ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRuta Load (0.4ms)[0m  SELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mRuta Load (0.4ms)[0m  [1mSELECT  "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ? AND "rutas"."id" = ? LIMIT 1[0m  [["user_id", 1], ["id", 1]]
+Completed 404 Not Found in 18ms
+
+ActiveRecord::RecordNotFound (Couldn't find Ruta with 'id'=1 [WHERE "ruta_users"."user_id" = ?]):
+  app/controllers/ruta_users_controller.rb:33:in `block in create'
+  app/controllers/ruta_users_controller.rb:30:in `create'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.6ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (0.9ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (12.2ms)
+  [1m[35mRuta Load (0.2ms)[0m  SELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = ? LIMIT 1  [["id", 1]]
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 00:01:19 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"id_ruta"=>"1", "ruta_user"=>{}}
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mRuta Load (0.1ms)[0m  [1mSELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = ? LIMIT 1[0m  [["id", 1]]
+Completed 500 Internal Server Error in 15ms
+
+RuntimeError (Circular dependency detected while autoloading constant Ruta_User):
+  app/controllers/ruta_users_controller.rb:34:in `block in create'
+  app/controllers/ruta_users_controller.rb:30:in `create'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.6ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.1ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (12.0ms)
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-05 00:03:35 -0600
+Processing by RutaUsersController#index as HTML
+  Parameters: {"ruta_user"=>{}}
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mRuta Load (0.1ms)[0m  [1mSELECT "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ?[0m  [["user_id", 1]]
+Completed 200 OK in 15ms (Views: 0.2ms | ActiveRecord: 1.3ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 00:03:39 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"id_ruta"=>"1", "ruta_user"=>{}}
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mRuta Load (0.2ms)[0m  [1mSELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = ? LIMIT 1[0m  [["id", 1]]
+Completed 500 Internal Server Error in 4ms
+
+RuntimeError (Circular dependency detected while autoloading constant Ruta_User):
+  app/controllers/ruta_users_controller.rb:34:in `block in create'
+  app/controllers/ruta_users_controller.rb:30:in `create'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.7ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.2ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (13.0ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users" INNER JOIN "ruta_users" ON "users"."id" = "ruta_users"."user_id" WHERE "ruta_users"."ruta_id" = ?[0m  [["ruta_id", 1]]
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 00:08:11 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"id_ruta"=>"1", "ruta_user"=>{}}
+  [1m[35mUser Load (1.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mRuta Load (0.1ms)[0m  [1mSELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = ? LIMIT 1[0m  [["id", 1]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "ruta_users" ("created_at", "ruta_id", "updated_at", "user_id") VALUES (?, ?, ?, ?)[0m  [["created_at", "2014-10-05 06:08:11.240500"], ["ruta_id", 1], ["updated_at", "2014-10-05 06:08:11.240500"], ["user_id", 1]]
+  [1m[35m (19.0ms)[0m  commit transaction
+Completed 406 Not Acceptable in 98ms
+
+ActionController::UnknownFormat (ActionController::UnknownFormat):
+  app/controllers/ruta_users_controller.rb:30:in `create'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.6ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.0ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (12.3ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 00:09:41 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"id_ruta"=>"1", "ruta_user"=>{}}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRuta Load (0.1ms)[0m  SELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "ruta_users" ("created_at", "ruta_id", "updated_at", "user_id") VALUES (?, ?, ?, ?)  [["created_at", "2014-10-05 06:09:41.388142"], ["ruta_id", 1], ["updated_at", "2014-10-05 06:09:41.388142"], ["user_id", 1]]
+  [1m[36m (20.0ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 42ms (Views: 0.9ms | ActiveRecord: 21.8ms)
+  [1m[35mRutaUser Load (0.5ms)[0m  SELECT "ruta_users".* FROM "ruta_users"
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-05 00:10:02 -0600
+Processing by RutaUsersController#index as HTML
+  Parameters: {"ruta_user"=>{}}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mRuta Load (0.2ms)[0m  [1mSELECT "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ?[0m  [["user_id", 1]]
+Completed 200 OK in 9ms (Views: 0.5ms | ActiveRecord: 0.4ms)
+  [1m[36mUser Load (0.5ms)[0m  [1mSELECT  "users".* FROM "users"   ORDER BY "users"."id" ASC LIMIT 1[0m
+  [1m[35mRuta Load (0.2ms)[0m  SELECT "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ?  [["user_id", 1]]
+  [1m[36mRuta Load (0.3ms)[0m  [1mSELECT  "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ? AND "rutas"."id" = ? LIMIT 1[0m  [["user_id", 1], ["id", 1]]
+  [1m[35mRuta Load (0.9ms)[0m  SELECT  "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ? AND "rutas"."ruta_id" = 1 LIMIT 1  [["user_id", 1]]
+SQLite3::SQLException: no such column: rutas.ruta_id: SELECT  "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ? AND "rutas"."ruta_id" = 1 LIMIT 1
+  [1m[36mRuta Load (0.6ms)[0m  [1mSELECT  "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ? AND (1) LIMIT 1[0m  [["user_id", 1]]
+  [1m[35mRuta Load (0.3ms)[0m  SELECT  "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ? AND (1) LIMIT 1  [["user_id", 1]]
+  [1m[36mRutaUser Load (0.6ms)[0m  [1mSELECT "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ?[0m  [["user_id", 1]]
+  [1m[35mRutaUser Load (0.4ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 1 LIMIT 1  [["user_id", 1]]
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.9ms)[0m  DELETE FROM "users" WHERE "users"."id" = ?  [["id", 1]]
+  [1m[36m (18.0ms)[0m  [1mcommit transaction[0m
+  [1m[36m (21.7ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [1m[35m (0.3ms)[0m  select sqlite_version(*)
+  [1m[36m (20.5ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.4ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+Migrating to CreateRutas (20140911233341)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  CREATE TABLE "rutas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "frecuencia" varchar(255), "precio" integer, "horario" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140911233341"]]
+  [1m[35m (17.2ms)[0m  commit transaction
+Migrating to CreateParadas (20140911233350)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  CREATE TABLE "paradas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "techo" boolean, "latitud" float, "longitud" float, "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140911233350"]]
+  [1m[35m (18.6ms)[0m  commit transaction
+Migrating to CreateRutaParadas (20140911233358)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.9ms)[0m  CREATE TABLE "ruta_paradas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "ruta_id" integer, "parada_id" integer, "tipo" integer) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140911233358"]]
+  [1m[35m (18.6ms)[0m  commit transaction
+Migrating to CreateUsers (20140913024922)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar(255), "password" varchar(255), "nombre" varchar(255), "fechaNac" date, "ciudad" varchar(255), "token" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140913024922"]]
+  [1m[35m (20.6ms)[0m  commit transaction
+Migrating to CreateRutaUsers (20140913024936)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.9ms)[0m  CREATE TABLE "ruta_users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "ruta_id" integer, "user_id" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140913024936"]]
+  [1m[35m (20.8ms)[0m  commit transaction
+Migrating to CreateBuses (20140913024943)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  CREATE TABLE "buses" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "ruta_id" integer, "placa" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140913024943"]]
+  [1m[35m (18.0ms)[0m  commit transaction
+Migrating to CreateGpsS (20140913024949)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.9ms)[0m  CREATE TABLE "gps_s" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "bus_id" integer, "id_gps" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140913024949"]]
+  [1m[35m (17.5ms)[0m  commit transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-05 06:14:22.137521"], ["latitud", 9.935521], ["longitud", -84.050252], ["nombre", "UCR-Cartago"], ["techo", "t"], ["updated_at", "2014-10-05 06:14:22.137521"]]
+  [1m[35m (18.2ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-05 06:14:22.161533"], ["latitud", 9.934813], ["longitud", -84.051813], ["nombre", "UCR-Pavas"], ["techo", "t"], ["updated_at", "2014-10-05 06:14:22.161533"]]
+  [1m[36m (20.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users"  WHERE "users"."token" = '36beb3ddc15517475f13ef73a36abed7' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("ciudad", "created_at", "email", "fechaNac", "nombre", "password", "token", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["ciudad", "san jose"], ["created_at", "2014-10-05 06:14:22.199451"], ["email", "Api@MiBusCR.co.cr"], ["fechaNac", "2014-10-04"], ["nombre", "ApiManager"], ["password", "?$jMEyp5P_9=E7L"], ["token", "36beb3ddc15517475f13ef73a36abed7"], ["updated_at", "2014-10-05 06:14:22.199451"]]
+  [1m[36m (17.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.8ms)[0m  [1mUPDATE "users" SET "token" = ?, "updated_at" = ? WHERE "users"."id" = 1[0m  [["token", "b0936d7e239775e770ce002307f0acda"], ["updated_at", "2014-10-05 06:14:22.226966"]]
+  [1m[35m (16.9ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-05 06:14:22.250412"], ["latitud", 9.935518], ["longitud", -84.049777], ["nombre", "UCR-Alajuela"], ["techo", "t"], ["updated_at", "2014-10-05 06:14:22.250412"]]
+  [1m[36m (20.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-05 06:14:22.274370"], ["latitud", 10.014628], ["longitud", -84.217198], ["nombre", "Alajuela-Final"], ["techo", "f"], ["updated_at", "2014-10-05 06:14:22.274370"]]
+  [1m[35m (19.2ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-05 06:14:22.298467"], ["latitud", 9.935149], ["longitud", -84.051142], ["nombre", "UCR-hatillo"], ["techo", "f"], ["updated_at", "2014-10-05 06:14:22.298467"]]
+  [1m[36m (17.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "paradas" ("created_at", "latitud", "longitud", "nombre", "techo", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-05 06:14:22.320435"], ["latitud", 9.920974], ["longitud", -84.103341], ["nombre", "Biblioteca-Hatillo"], ["techo", "f"], ["updated_at", "2014-10-05 06:14:22.320435"]]
+  [1m[35m (17.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "rutas" ("created_at", "frecuencia", "horario", "nombre", "precio", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", "2014-10-05 06:14:22.353722"], ["frecuencia", "1 hora"], ["horario", "7-10"], ["nombre", "UCR-Alajuela"], ["precio", 740], ["updated_at", "2014-10-05 06:14:22.353722"]]
+  [1m[36m (18.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "rutas" ("created_at", "frecuencia", "horario", "nombre", "precio", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", "2014-10-05 06:14:22.375435"], ["frecuencia", "30 min"], ["horario", "5:30-22:00"], ["nombre", "UCR-Hatillo"], ["precio", 330], ["updated_at", "2014-10-05 06:14:22.375435"]]
+  [1m[35m (17.2ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "ruta_paradas" ("tipo") VALUES (?)  [["tipo", 1]]
+  [1m[36m (17.0ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "ruta_paradas" ("tipo") VALUES (?)[0m  [["tipo", -1]]
+  [1m[35m (19.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  UPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 1  [["parada_id", 3], ["ruta_id", 1]]
+  [1m[36m (18.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mUPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 2[0m  [["parada_id", 4], ["ruta_id", 1]]
+  [1m[35m (19.7ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "ruta_paradas" ("tipo") VALUES (?)  [["tipo", 1]]
+  [1m[36m (16.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "ruta_paradas" ("tipo") VALUES (?)[0m  [["tipo", -1]]
+  [1m[35m (17.8ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 3  [["parada_id", 5], ["ruta_id", 2]]
+  [1m[36m (19.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mUPDATE "ruta_paradas" SET "parada_id" = ?, "ruta_id" = ? WHERE "ruta_paradas"."id" = 4[0m  [["parada_id", 6], ["ruta_id", 2]]
+  [1m[35m (19.3ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mBus Exists (0.1ms)[0m  SELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'AB-201' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "buses" ("created_at", "placa", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", "2014-10-05 06:14:22.597706"], ["placa", "AB-201"], ["updated_at", "2014-10-05 06:14:22.597706"]]
+  [1m[35m (18.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mBus Exists (0.3ms)[0m  SELECT  1 AS one FROM "buses"  WHERE "buses"."placa" = 'SJB-202' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "buses" ("created_at", "placa", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", "2014-10-05 06:14:22.620061"], ["placa", "SJB-202"], ["updated_at", "2014-10-05 06:14:22.620061"]]
+  [1m[35m (18.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mGps Exists (0.1ms)[0m  SELECT  1 AS one FROM "gps_s"  WHERE "gps_s"."id_gps" = '3a1bb1eb-be18-41db-9a2b-562506c86fef' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "gps_s" ("created_at", "id_gps", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", "2014-10-05 06:14:22.648044"], ["id_gps", "3a1bb1eb-be18-41db-9a2b-562506c86fef"], ["updated_at", "2014-10-05 06:14:22.648044"]]
+  [1m[35m (17.8ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mGps Exists (0.4ms)[0m  SELECT  1 AS one FROM "gps_s"  WHERE "gps_s"."id_gps" = 'cceed289-d438-41ed-a7e5-5e52c61ef1d0' LIMIT 1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "gps_s" ("created_at", "id_gps", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", "2014-10-05 06:14:22.669843"], ["id_gps", "cceed289-d438-41ed-a7e5-5e52c61ef1d0"], ["updated_at", "2014-10-05 06:14:22.669843"]]
+  [1m[35m (15.9ms)[0m  commit transaction
+  [1m[36mGps Load (0.2ms)[0m  [1mSELECT  "gps_s".* FROM "gps_s"  WHERE "gps_s"."bus_id" = ? LIMIT 1[0m  [["bus_id", 1]]
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mGps Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "gps_s"  WHERE ("gps_s"."id_gps" = '3a1bb1eb-be18-41db-9a2b-562506c86fef' AND "gps_s"."id" != 1) LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "gps_s" SET "bus_id" = ?, "updated_at" = ? WHERE "gps_s"."id" = 1  [["bus_id", 1], ["updated_at", "2014-10-05 06:14:22.695707"]]
+  [1m[36m (17.0ms)[0m  [1mcommit transaction[0m
+  [1m[35mGps Load (0.2ms)[0m  SELECT  "gps_s".* FROM "gps_s"  WHERE "gps_s"."bus_id" = ? LIMIT 1  [["bus_id", 2]]
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mGps Exists (0.4ms)[0m  SELECT  1 AS one FROM "gps_s"  WHERE ("gps_s"."id_gps" = 'cceed289-d438-41ed-a7e5-5e52c61ef1d0' AND "gps_s"."id" != 2) LIMIT 1
+  [1m[36mSQL (0.7ms)[0m  [1mUPDATE "gps_s" SET "bus_id" = ?, "updated_at" = ? WHERE "gps_s"."id" = 2[0m  [["bus_id", 2], ["updated_at", "2014-10-05 06:14:22.718754"]]
+  [1m[35m (17.6ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mBus Exists (0.1ms)[0m  SELECT  1 AS one FROM "buses"  WHERE ("buses"."placa" = 'AB-201' AND "buses"."id" != 1) LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mUPDATE "buses" SET "ruta_id" = ?, "updated_at" = ? WHERE "buses"."id" = 1[0m  [["ruta_id", 1], ["updated_at", "2014-10-05 06:14:22.785869"]]
+  [1m[35m (21.1ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mBus Exists (0.2ms)[0m  SELECT  1 AS one FROM "buses"  WHERE ("buses"."placa" = 'SJB-202' AND "buses"."id" != 2) LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mUPDATE "buses" SET "ruta_id" = ?, "updated_at" = ? WHERE "buses"."id" = 2[0m  [["ruta_id", 2], ["updated_at", "2014-10-05 06:14:22.810538"]]
+  [1m[35m (15.7ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.2ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  commit transaction
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-05 00:16:35 -0600
+Processing by RutaUsersController#index as HTML
+  Parameters: {"ruta_user"=>{}}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mRuta Load (0.1ms)[0m  [1mSELECT "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ?[0m  [["user_id", 1]]
+Completed 200 OK in 17ms (Views: 0.2ms | ActiveRecord: 1.4ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 00:16:40 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"id_ruta"=>"1", "ruta_user"=>{}}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+Completed 500 Internal Server Error in 3ms
+
+TypeError (can't cast Hash to integer):
+  app/controllers/ruta_users_controller.rb:31:in `create'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.8ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.2ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (13.3ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 00:17:18 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"id_ruta"=>"1", "ruta_user"=>{}}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.2ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."id_ruta" = '1' LIMIT 1  [["user_id", 1]]
+SQLite3::SQLException: no such column: ruta_users.id_ruta: SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."id_ruta" = '1' LIMIT 1
+Completed 500 Internal Server Error in 8ms
+
+ActiveRecord::StatementInvalid (SQLite3::SQLException: no such column: ruta_users.id_ruta: SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."id_ruta" = '1' LIMIT 1):
+  app/controllers/ruta_users_controller.rb:31:in `create'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.6ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.0ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.8ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (12.3ms)
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"   ORDER BY "users"."id" ASC LIMIT 1[0m
+  [1m[35mRutaUser Load (0.2ms)[0m  SELECT "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ?  [["user_id", 1]]
+  [1m[36mRutaUser Load (0.4ms)[0m  [1mSELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 1 LIMIT 1[0m  [["user_id", 1]]
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 00:22:36 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"id_ruta"=>"1", "ruta_user"=>{}}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.2ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 1 LIMIT 1  [["user_id", 1]]
+Completed 500 Internal Server Error in 8ms
+
+NoMethodError (undefined method `save' for nil:NilClass):
+  app/controllers/ruta_users_controller.rb:37:in `create'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (3.4ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.2ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.3ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (65.8ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 00:23:08 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"id_ruta"=>"1", "ruta_user"=>{}}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.1ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 1 LIMIT 1  [["user_id", 1]]
+  [1m[36mRuta Load (0.1ms)[0m  [1mSELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = ? LIMIT 1[0m  [["id", 1]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "ruta_users" ("created_at", "ruta_id", "updated_at", "user_id") VALUES (?, ?, ?, ?)[0m  [["created_at", "2014-10-05 06:23:08.494941"], ["ruta_id", 1], ["updated_at", "2014-10-05 06:23:08.494941"], ["user_id", 1]]
+  [1m[35m (21.0ms)[0m  commit transaction
+Completed 200 OK in 45ms (Views: 1.1ms | ActiveRecord: 23.0ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 00:23:12 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"id_ruta"=>"1", "ruta_user"=>{}}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.1ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 1 LIMIT 1  [["user_id", 1]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  commit transaction
+Completed 200 OK in 4ms (Views: 0.3ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-05 00:23:17 -0600
+Processing by RutaUsersController#index as HTML
+  Parameters: {"ruta_user"=>{}}
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRuta Load (0.2ms)[0m  SELECT "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ?  [["user_id", 1]]
+Completed 200 OK in 4ms (Views: 0.2ms | ActiveRecord: 0.4ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 00:23:35 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"id_ruta"=>"2", "ruta_user"=>{}}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.1ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 2 LIMIT 1  [["user_id", 1]]
+  [1m[36mRuta Load (0.1ms)[0m  [1mSELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "ruta_users" ("created_at", "ruta_id", "updated_at", "user_id") VALUES (?, ?, ?, ?)[0m  [["created_at", "2014-10-05 06:23:35.540976"], ["ruta_id", 2], ["updated_at", "2014-10-05 06:23:35.540976"], ["user_id", 1]]
+  [1m[35m (20.9ms)[0m  commit transaction
+Completed 200 OK in 27ms (Views: 0.6ms | ActiveRecord: 21.6ms)
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-05 00:23:40 -0600
+Processing by RutaUsersController#index as HTML
+  Parameters: {"ruta_user"=>{}}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRuta Load (0.1ms)[0m  SELECT "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ?  [["user_id", 1]]
+Completed 200 OK in 3ms (Views: 0.2ms | ActiveRecord: 0.3ms)
+
+
+Started DELETE "/favoritas" for 127.0.0.1 at 2014-10-05 00:25:43 -0600
+
+ActionController::RoutingError (No route matches [DELETE] "/favoritas"):
+  actionpack (4.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.1.1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:26:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.1.1) lib/rails/engine.rb:514:in `call'
+  railties (4.1.1) lib/rails/application.rb:144:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:138:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:94:in `run'
+  /usr/share/ruby/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.0ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/routes/_route.html.erb (2.7ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/routes/_table.html.erb (7.6ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (33.7ms)
+
+
+Started DELETE "/favoritas" for 127.0.0.1 at 2014-10-05 00:26:06 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"id_ruta"=>"2", "ruta_user"=>{}}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.1ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 2 LIMIT 1  [["user_id", 1]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  commit transaction
+Completed 200 OK in 12ms (Views: 0.4ms | ActiveRecord: 1.2ms)
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-05 00:26:13 -0600
+Processing by RutaUsersController#index as HTML
+  Parameters: {"ruta_user"=>{}}
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRuta Load (0.2ms)[0m  SELECT "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ?  [["user_id", 1]]
+Completed 200 OK in 17ms (Views: 0.3ms | ActiveRecord: 1.1ms)
+
+
+Started DELETE "/favoritas" for 127.0.0.1 at 2014-10-05 00:26:16 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"id_ruta"=>"2", "ruta_user"=>{}}
+  [1m[36mUser Load (0.5ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.3ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 2 LIMIT 1  [["user_id", 1]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  commit transaction
+Completed 200 OK in 9ms (Views: 0.4ms | ActiveRecord: 1.0ms)
+
+
+Started DELETE "/favoritas" for 127.0.0.1 at 2014-10-05 00:26:49 -0600
+Processing by RutaUsersController#destroy as HTML
+  Parameters: {"id_ruta"=>"2", "ruta_user"=>{}}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+Completed 500 Internal Server Error in 7ms
+
+TypeError (can't cast Hash to integer):
+  app/controllers/ruta_users_controller.rb:53:in `destroy'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.6ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.0ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.8ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (12.1ms)
+
+
+Started DELETE "/favoritas" for 127.0.0.1 at 2014-10-05 00:27:20 -0600
+Processing by RutaUsersController#destroy as HTML
+  Parameters: {"id_ruta"=>"2", "ruta_user"=>{}}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mRutaUser Load (0.1ms)[0m  [1mSELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 2 LIMIT 1[0m  [["user_id", 1]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mDELETE FROM "ruta_users" WHERE "ruta_users"."id" = ?[0m  [["id", 2]]
+  [1m[35m (21.6ms)[0m  commit transaction
+Completed 500 Internal Server Error in 89ms
+
+ActionView::MissingTemplate (Missing template ruta_users/destroy, application/destroy with {:locale=>[:en], :formats=>[:html], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder]}. Searched in:
+  * "/home/farroyo/Documents/pruebaRest/MiBusCR/app/views"
+):
+  actionview (4.1.1) lib/action_view/path_set.rb:46:in `find'
+  actionview (4.1.1) lib/action_view/lookup_context.rb:124:in `find'
+  actionview (4.1.1) lib/action_view/renderer/abstract_renderer.rb:18:in `find_template'
+  actionview (4.1.1) lib/action_view/renderer/template_renderer.rb:41:in `determine_template'
+  actionview (4.1.1) lib/action_view/renderer/template_renderer.rb:8:in `render'
+  actionview (4.1.1) lib/action_view/renderer/renderer.rb:42:in `render_template'
+  actionview (4.1.1) lib/action_view/renderer/renderer.rb:23:in `render'
+  actionview (4.1.1) lib/action_view/rendering.rb:99:in `_render_template'
+  actionpack (4.1.1) lib/action_controller/metal/streaming.rb:217:in `_render_template'
+  actionview (4.1.1) lib/action_view/rendering.rb:82:in `render_to_body'
+  actionpack (4.1.1) lib/action_controller/metal/rendering.rb:32:in `render_to_body'
+  actionpack (4.1.1) lib/action_controller/metal/renderers.rb:32:in `render_to_body'
+  actionpack (4.1.1) lib/abstract_controller/rendering.rb:25:in `render'
+  actionpack (4.1.1) lib/action_controller/metal/rendering.rb:16:in `render'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:41:in `block (2 levels) in render'
+  activesupport (4.1.1) lib/active_support/core_ext/benchmark.rb:12:in `block in ms'
+  /usr/share/ruby/benchmark.rb:296:in `realtime'
+  activesupport (4.1.1) lib/active_support/core_ext/benchmark.rb:12:in `ms'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:41:in `block in render'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:84:in `cleanup_view_runtime'
+  activerecord (4.1.1) lib/active_record/railties/controller_runtime.rb:25:in `cleanup_view_runtime'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:40:in `render'
+  actionpack (4.1.1) lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+  actionpack (4.1.1) lib/action_controller/metal/implicit_render.rb:5:in `send_action'
+  actionpack (4.1.1) lib/abstract_controller/base.rb:189:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (4.1.1) lib/abstract_controller/callbacks.rb:20:in `block in process_action'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:113:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:113:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:229:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:229:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:166:in `block in halting'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:86:in `call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:86:in `run_callbacks'
+  actionpack (4.1.1) lib/abstract_controller/callbacks.rb:19:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:31:in `block in process_action'
+  activesupport (4.1.1) lib/active_support/notifications.rb:159:in `block in instrument'
+  activesupport (4.1.1) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.1.1) lib/active_support/notifications.rb:159:in `instrument'
+  actionpack (4.1.1) lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  actionpack (4.1.1) lib/action_controller/metal/params_wrapper.rb:250:in `process_action'
+  activerecord (4.1.1) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (4.1.1) lib/abstract_controller/base.rb:136:in `process'
+  actionview (4.1.1) lib/action_view/rendering.rb:30:in `process'
+  actionpack (4.1.1) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.1.1) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.1.1) lib/action_controller/metal.rb:231:in `block in action'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:80:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:80:in `dispatch'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:48:in `call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:676:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:35:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  activerecord (4.1.1) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.1.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:621:in `call'
+  activerecord (4.1.1) lib/active_record/migration.rb:380:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:82:in `run_callbacks'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.1.1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:26:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.1.1) lib/rails/engine.rb:514:in `call'
+  railties (4.1.1) lib/rails/application.rb:144:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:138:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:94:in `run'
+  /usr/share/ruby/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/missing_template.html.erb within rescues/layout (0.5ms)
+  [1m[35mRutaUser Load (0.1ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 1 LIMIT 1  [["user_id", 1]]
+  [1m[36mRutaUser Load (0.6ms)[0m  [1mSELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 2 LIMIT 1[0m  [["user_id", 1]]
+  [1m[35mRutaUser Load (0.3ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 2 LIMIT 1  [["user_id", 1]]
+  [1m[36mRutaUser Load (0.3ms)[0m  [1mSELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 2 LIMIT 1[0m  [["user_id", 1]]
+  [1m[35mRutaUser Load (0.1ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 1 LIMIT 1  [["user_id", 1]]
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-05 00:29:29 -0600
+Processing by RutaUsersController#index as HTML
+  Parameters: {"ruta_user"=>{}}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRuta Load (0.2ms)[0m  SELECT "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ?  [["user_id", 1]]
+Completed 200 OK in 18ms (Views: 0.3ms | ActiveRecord: 1.7ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 00:29:32 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"id_ruta"=>"2", "ruta_user"=>{}}
+  [1m[36mUser Load (0.5ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.1ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 2 LIMIT 1  [["user_id", 1]]
+  [1m[36mRuta Load (0.1ms)[0m  [1mSELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "ruta_users" ("created_at", "ruta_id", "updated_at", "user_id") VALUES (?, ?, ?, ?)[0m  [["created_at", "2014-10-05 06:29:32.994153"], ["ruta_id", 2], ["updated_at", "2014-10-05 06:29:32.994153"], ["user_id", 1]]
+  [1m[35m (18.2ms)[0m  commit transaction
+Completed 200 OK in 32ms (Views: 0.4ms | ActiveRecord: 19.4ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 00:30:32 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"id_ruta"=>"2", "ruta_user"=>{}}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.1ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 2 LIMIT 1  [["user_id", 1]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  commit transaction
+Completed 200 OK in 4ms (Views: 0.3ms | ActiveRecord: 0.4ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 00:30:33 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"id_ruta"=>"2", "ruta_user"=>{}}
+  [1m[36mUser Load (0.5ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.3ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 2 LIMIT 1  [["user_id", 1]]
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.2ms)[0m  commit transaction
+Completed 200 OK in 9ms (Views: 0.6ms | ActiveRecord: 1.1ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 00:30:37 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"id_ruta"=>"2", "ruta_user"=>{}}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.1ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 2 LIMIT 1  [["user_id", 1]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  commit transaction
+Completed 200 OK in 12ms (Views: 0.2ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-05 00:30:51 -0600
+Processing by RutaUsersController#index as HTML
+  Parameters: {"ruta_user"=>{}}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRuta Load (0.2ms)[0m  SELECT "rutas".* FROM "rutas" INNER JOIN "ruta_users" ON "rutas"."id" = "ruta_users"."ruta_id" WHERE "ruta_users"."user_id" = ?  [["user_id", 1]]
+Completed 200 OK in 18ms (Views: 0.2ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-05 00:31:08 -0600
+Processing by RutaUsersController#index as HTML
+  Parameters: {"ruta_user"=>{}}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.1ms)[0m  SELECT "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ?  [["user_id", 1]]
+Completed 200 OK in 12ms (Views: 0.3ms | ActiveRecord: 1.0ms)
+
+
+Started DELETE "/favoritas" for 127.0.0.1 at 2014-10-05 00:31:22 -0600
+Processing by RutaUsersController#destroy as HTML
+  Parameters: {"id_ruta"=>"2", "ruta_user"=>{}}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.1ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 2 LIMIT 1  [["user_id", 1]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  DELETE FROM "ruta_users" WHERE "ruta_users"."id" = ?  [["id", 3]]
+  [1m[36m (19.3ms)[0m  [1mcommit transaction[0m
+Completed 204 No Content in 24ms (ActiveRecord: 20.0ms)
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-05 00:32:15 -0600
+Processing by RutaUsersController#index as HTML
+  Parameters: {"ruta_user"=>{}}
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mRutaUser Load (0.1ms)[0m  [1mSELECT "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ?[0m  [["user_id", 1]]
+Completed 200 OK in 4ms (Views: 0.2ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/users" for 127.0.0.1 at 2014-10-05 00:32:35 -0600
+Processing by UsersController#index as HTML
+  Parameters: {"user"=>{}}
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users"[0m
+Completed 200 OK in 16ms (Views: 0.7ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/users" for 127.0.0.1 at 2014-10-05 00:32:35 -0600
+Processing by UsersController#index as HTML
+  Parameters: {"user"=>{}}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users"[0m
+Completed 200 OK in 3ms (Views: 0.3ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-05 01:32:51 -0600
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by RutaUsersController#index as HTML
+Filter chain halted as :restrict_access rendered or redirected
+Completed 401 Unauthorized in 1ms (Views: 0.8ms | ActiveRecord: 0.0ms)
+
+
+Started DELETE "/favoritas" for 127.0.0.1 at 2014-10-05 01:32:58 -0600
+Processing by RutaUsersController#destroy as HTML
+  Parameters: {"ruta_id"=>"3", "ruta_user"=>{"ruta_id"=>"3"}}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mRutaUser Load (0.3ms)[0m  [1mSELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 3 LIMIT 1[0m  [["user_id", 1]]
+Completed 500 Internal Server Error in 19ms
+
+NoMethodError (undefined method `destroy' for nil:NilClass):
+  app/controllers/ruta_users_controller.rb:52:in `destroy'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.7ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.2ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (14.1ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 01:33:06 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"ruta_id"=>"3", "ruta_user"=>{"ruta_id"=>"3"}}
+  [1m[35mUser Load (0.6ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mRutaUser Load (0.2ms)[0m  [1mSELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 3 LIMIT 1[0m  [["user_id", 1]]
+  [1m[35mRuta Load (0.1ms)[0m  SELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = ? LIMIT 1  [["id", 3]]
+Completed 404 Not Found in 18ms
+
+ActiveRecord::RecordNotFound (Couldn't find Ruta with 'id'=3):
+  app/controllers/ruta_users_controller.rb:32:in `create'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.6ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.1ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (12.6ms)
+  [1m[36mRuta Load (0.2ms)[0m  [1mSELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = ? LIMIT 1[0m  [["id", 3]]
+  [1m[35mRuta Load (0.3ms)[0m  SELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = ? LIMIT 1  [["id", 2]]
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 01:36:58 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"ruta_id"=>"3", "ruta_user"=>{"ruta_id"=>"3"}}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.1ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 3 LIMIT 1  [["user_id", 1]]
+  [1m[36mRuta Load (0.1ms)[0m  [1mSELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = 3 LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "ruta_users" ("created_at", "updated_at", "user_id") VALUES (?, ?, ?)[0m  [["created_at", "2014-10-05 07:36:58.593326"], ["updated_at", "2014-10-05 07:36:58.593326"], ["user_id", 1]]
+  [1m[35m (23.5ms)[0m  commit transaction
+Completed 200 OK in 51ms (Views: 0.7ms | ActiveRecord: 25.5ms)
+
+
+Started DELETE "/favoritas" for 127.0.0.1 at 2014-10-05 01:37:26 -0600
+Processing by RutaUsersController#destroy as HTML
+  Parameters: {"ruta_id"=>"3", "ruta_user"=>{"ruta_id"=>"3"}}
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.1ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 3 LIMIT 1  [["user_id", 1]]
+Completed 500 Internal Server Error in 4ms
+
+NoMethodError (undefined method `destroy' for nil:NilClass):
+  app/controllers/ruta_users_controller.rb:52:in `destroy'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.6ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (0.9ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.8ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (12.2ms)
+
+
+Started GET "/favoritas" for 127.0.0.1 at 2014-10-05 01:37:50 -0600
+Processing by RutaUsersController#index as HTML
+  Parameters: {"ruta_user"=>{}}
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.3ms)[0m  SELECT "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ?  [["user_id", 1]]
+Completed 200 OK in 5ms (Views: 0.3ms | ActiveRecord: 0.6ms)
+
+
+Started DELETE "/favoritas" for 127.0.0.1 at 2014-10-05 01:38:01 -0600
+Processing by RutaUsersController#destroy as HTML
+  Parameters: {"ruta_id"=>"null", "ruta_user"=>{"ruta_id"=>"null"}}
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.2ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 0 LIMIT 1  [["user_id", 1]]
+Completed 500 Internal Server Error in 3ms
+
+NoMethodError (undefined method `destroy' for nil:NilClass):
+  app/controllers/ruta_users_controller.rb:52:in `destroy'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.6ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (0.9ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (12.1ms)
+
+
+Started DELETE "/favoritas" for 127.0.0.1 at 2014-10-05 01:38:09 -0600
+Processing by RutaUsersController#destroy as HTML
+  Parameters: {"ruta_id"=>"1", "ruta_user"=>{"ruta_id"=>"1"}}
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.5ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 1 LIMIT 1  [["user_id", 1]]
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.7ms)[0m  DELETE FROM "ruta_users" WHERE "ruta_users"."id" = ?  [["id", 1]]
+  [1m[36m (17.4ms)[0m  [1mcommit transaction[0m
+Completed 204 No Content in 25ms (ActiveRecord: 19.0ms)
+
+
+Started DELETE "/favoritas" for 127.0.0.1 at 2014-10-05 01:38:13 -0600
+Processing by RutaUsersController#destroy as HTML
+  Parameters: {"ruta_id"=>"1", "ruta_user"=>{"ruta_id"=>"1"}}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mRutaUser Load (0.1ms)[0m  [1mSELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 1 LIMIT 1[0m  [["user_id", 1]]
+Completed 500 Internal Server Error in 2ms
+
+NoMethodError (undefined method `destroy' for nil:NilClass):
+  app/controllers/ruta_users_controller.rb:52:in `destroy'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.7ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.1ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (12.4ms)
+
+
+Started DELETE "/favoritas" for 127.0.0.1 at 2014-10-05 01:38:42 -0600
+Processing by RutaUsersController#destroy as HTML
+  Parameters: {"ruta_id"=>"1", "ruta_user"=>{"ruta_id"=>"1"}}
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mRutaUser Load (0.1ms)[0m  [1mSELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 1 LIMIT 1[0m  [["user_id", 1]]
+Completed 204 No Content in 54ms (ActiveRecord: 1.2ms)
+
+
+Started DELETE "/favoritas" for 127.0.0.1 at 2014-10-05 01:38:43 -0600
+Processing by RutaUsersController#destroy as HTML
+  Parameters: {"ruta_id"=>"1", "ruta_user"=>{"ruta_id"=>"1"}}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mRutaUser Load (0.1ms)[0m  [1mSELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 1 LIMIT 1[0m  [["user_id", 1]]
+Completed 204 No Content in 2ms (ActiveRecord: 0.3ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 01:38:48 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"ruta_id"=>"1", "ruta_user"=>{"ruta_id"=>"1"}}
+  [1m[35mUser Load (0.5ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mRutaUser Load (0.2ms)[0m  [1mSELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 1 LIMIT 1[0m  [["user_id", 1]]
+  [1m[35mRuta Load (0.1ms)[0m  SELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = 1 LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "ruta_users" ("created_at", "ruta_id", "updated_at", "user_id") VALUES (?, ?, ?, ?)  [["created_at", "2014-10-05 07:38:48.561218"], ["ruta_id", 1], ["updated_at", "2014-10-05 07:38:48.561218"], ["user_id", 1]]
+  [1m[36m (19.3ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 45ms (Views: 0.7ms | ActiveRecord: 20.9ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 01:39:47 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"ruta_id"=>"3", "ruta_user"=>{"ruta_id"=>"3"}}
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mRutaUser Load (0.1ms)[0m  [1mSELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 3 LIMIT 1[0m  [["user_id", 1]]
+  [1m[35mRuta Load (0.1ms)[0m  SELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = 3 LIMIT 1
+Completed 500 Internal Server Error in 16ms
+
+NoMethodError (undefined method `save' for nil:NilClass):
+  app/controllers/ruta_users_controller.rb:38:in `create'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.6ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (0.9ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.8ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (12.4ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 01:40:32 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"ruta_id"=>"3", "ruta_user"=>{"ruta_id"=>"3"}}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.1ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 3 LIMIT 1  [["user_id", 1]]
+  [1m[36mRuta Load (0.1ms)[0m  [1mSELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = 3 LIMIT 1[0m
+Completed 500 Internal Server Error in 16ms
+
+NoMethodError (undefined method `errors' for nil:NilClass):
+  app/controllers/ruta_users_controller.rb:36:in `create'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (1.6ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.1ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (59.0ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 01:40:44 -0600
+
+SyntaxError (/home/farroyo/Documents/pruebaRest/MiBusCR/app/controllers/ruta_users_controller.rb:36: syntax error, unexpected ':', expecting keyword_end
+          status: :unprocessable_entity
+                 ^):
+  activesupport (4.1.1) lib/active_support/dependencies.rb:443:in `load'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:443:in `block in load_file'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:633:in `new_constants_in'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:442:in `load_file'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:342:in `require_or_load'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:480:in `load_missing_constant'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:180:in `const_missing'
+  activesupport (4.1.1) lib/active_support/inflector/methods.rb:238:in `const_get'
+  activesupport (4.1.1) lib/active_support/inflector/methods.rb:238:in `block in constantize'
+  activesupport (4.1.1) lib/active_support/inflector/methods.rb:236:in `each'
+  activesupport (4.1.1) lib/active_support/inflector/methods.rb:236:in `inject'
+  activesupport (4.1.1) lib/active_support/inflector/methods.rb:236:in `constantize'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:552:in `get'
+  activesupport (4.1.1) lib/active_support/dependencies.rb:583:in `constantize'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:76:in `controller_reference'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:66:in `controller'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:44:in `call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.1.1) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.1.1) lib/action_dispatch/routing/route_set.rb:676:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:35:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  activerecord (4.1.1) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.1.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:621:in `call'
+  activerecord (4.1.1) lib/active_record/migration.rb:380:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.1.1) lib/active_support/callbacks.rb:82:in `run_callbacks'
+  actionpack (4.1.1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.1.1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.1.1) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.1.1) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:26:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.1.1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.1.1) lib/rails/engine.rb:514:in `call'
+  railties (4.1.1) lib/rails/application.rb:144:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:138:in `service'
+  /usr/share/ruby/webrick/httpserver.rb:94:in `run'
+  /usr/share/ruby/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.4ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (0.9ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.8ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (11.5ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 01:40:52 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"ruta_id"=>"3", "ruta_user"=>{"ruta_id"=>"3"}}
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mRutaUser Load (0.1ms)[0m  [1mSELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 3 LIMIT 1[0m  [["user_id", 1]]
+  [1m[35mRuta Load (0.1ms)[0m  SELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = 3 LIMIT 1
+Completed 500 Internal Server Error in 17ms
+
+ActionView::MissingTemplate (Missing template ruta_users/create, application/create with {:locale=>[:en], :formats=>[:html], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder]}. Searched in:
+  * "/home/farroyo/Documents/pruebaRest/MiBusCR/app/views"
+):
+  app/controllers/ruta_users_controller.rb:36:in `create'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/missing_template.html.erb within rescues/layout (0.4ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 01:41:06 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"ruta_id"=>"3", "ruta_user"=>{"ruta_id"=>"3"}}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.1ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 3 LIMIT 1  [["user_id", 1]]
+  [1m[36mRuta Load (0.1ms)[0m  [1mSELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = 3 LIMIT 1[0m
+Completed 500 Internal Server Error in 63ms
+
+NoMethodError (undefined method `save' for nil:NilClass):
+  app/controllers/ruta_users_controller.rb:40:in `create'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.6ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.1ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (12.4ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 01:41:50 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"ruta_id"=>"3", "ruta_user"=>{"ruta_id"=>"3"}}
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mRutaUser Load (0.1ms)[0m  [1mSELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 3 LIMIT 1[0m  [["user_id", 1]]
+  [1m[35mRuta Load (0.1ms)[0m  SELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = 3 LIMIT 1
+Completed 422 Unprocessable Entity in 15ms (ActiveRecord: 1.3ms)
+
+
+Started POST "/favoritas" for 127.0.0.1 at 2014-10-05 01:42:42 -0600
+Processing by RutaUsersController#create as HTML
+  Parameters: {"ruta_id"=>"3", "ruta_user"=>{"ruta_id"=>"3"}}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaUser Load (0.1ms)[0m  SELECT  "ruta_users".* FROM "ruta_users"  WHERE "ruta_users"."user_id" = ? AND "ruta_users"."ruta_id" = 3 LIMIT 1  [["user_id", 1]]
+  [1m[36mRuta Load (0.1ms)[0m  [1mSELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = 3 LIMIT 1[0m
+Completed 422 Unprocessable Entity in 50ms (Views: 0.3ms | ActiveRecord: 1.4ms)
+
+
+Started GET "/rutas/1" for 127.0.0.1 at 2014-10-13 23:58:29 -0600
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by RutasController#show as HTML
+  Parameters: {"id"=>"1", "ruta"=>{}}
+  [1m[35mRuta Load (0.2ms)[0m  SELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaParada Load (0.2ms)[0m  SELECT "ruta_paradas".* FROM "ruta_paradas"  WHERE "ruta_paradas"."ruta_id" = ?  [["ruta_id", 1]]
+Completed 200 OK in 33ms (Views: 0.4ms | ActiveRecord: 1.5ms)
+
+
+Started GET "/rutas/1" for 127.0.0.1 at 2014-10-13 23:58:51 -0600
+Processing by RutasController#show as HTML
+  Parameters: {"id"=>"1", "ruta"=>{}}
+  [1m[36mRuta Load (0.1ms)[0m  [1mSELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = ? LIMIT 1[0m  [["id", 1]]
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mRutaParada Load (0.1ms)[0m  [1mSELECT "ruta_paradas".* FROM "ruta_paradas"  WHERE "ruta_paradas"."ruta_id" = ?[0m  [["ruta_id", 1]]
+Completed 200 OK in 4ms (Views: 0.3ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/rutas/1" for 127.0.0.1 at 2014-10-13 23:58:56 -0600
+Processing by RutasController#show as HTML
+  Parameters: {"id"=>"1", "ruta"=>{}}
+  [1m[35mRuta Load (0.1ms)[0m  SELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1[0m
+  [1m[35mRutaParada Load (0.1ms)[0m  SELECT "ruta_paradas".* FROM "ruta_paradas"  WHERE "ruta_paradas"."ruta_id" = ?  [["ruta_id", 1]]
+Completed 200 OK in 66ms (Views: 0.3ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/rutas/1" for 127.0.0.1 at 2014-10-13 23:59:13 -0600
+Processing by RutasController#show as HTML
+  Parameters: {"id"=>"1", "ruta"=>{}}
+  [1m[36mRuta Load (0.2ms)[0m  [1mSELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = ? LIMIT 1[0m  [["id", 1]]
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+Completed 500 Internal Server Error in 6ms
+
+TypeError (no implicit conversion of Symbol into Integer):
+  app/controllers/rutas_controller.rb:16:in `[]'
+  app/controllers/rutas_controller.rb:16:in `show'
+
+
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.6ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (0.9ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.8ms)
+  Rendered /home/farroyo/.gem/ruby/gems/actionpack-4.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (12.9ms)
+
+
+Started GET "/rutas/1" for 127.0.0.1 at 2014-10-14 00:00:02 -0600
+Processing by RutasController#show as HTML
+  Parameters: {"id"=>"1", "ruta"=>{}}
+  [1m[36mRuta Load (0.1ms)[0m  [1mSELECT  "rutas".* FROM "rutas"  WHERE "rutas"."id" = ? LIMIT 1[0m  [["id", 1]]
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."token" = 'b0936d7e239775e770ce002307f0acda' LIMIT 1
+  [1m[36mRutaParada Load (0.1ms)[0m  [1mSELECT "ruta_paradas".* FROM "ruta_paradas"  WHERE "ruta_paradas"."ruta_id" = ?[0m  [["ruta_id", 1]]
+Completed 200 OK in 19ms (Views: 0.3ms | ActiveRecord: 1.6ms)
