@@ -132,30 +132,7 @@ public class Ruta {
      * @return devuelve un string con el request solicitado.
      */
     private String requestHttpApi(String end, String token){
-        String resultado = "";
-        try{
-            InputStream inputStream = null;
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet("https://murmuring-anchorage-1614.herokuapp.com/"+end);
-            httpGet.setHeader("Accept", "application/json");
-            httpGet.setHeader("Content-type", "application/json");
-            httpGet.setHeader("Authorization",
-                    "Token token=\"" + token +"\"");
-            HttpResponse httpResponse = httpclient.execute(httpGet);
-            inputStream = httpResponse.getEntity().getContent();
-            if(inputStream != null){
-                BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-                String linea = "";
-                while( (linea = bufferedReader.readLine()) != null){
-                    resultado += linea;
-                }
-                inputStream.close();
-            }else{
-                resultado = "Error al cargar datos";
-            }
-        }catch (Exception e){
-            Log.d("InputStream", e.getLocalizedMessage());
-        }
+        String resultado = ApiManager.httpGet("https://murmuring-anchorage-1614.herokuapp.com/"+end,token);
         return resultado;
     }
 }
