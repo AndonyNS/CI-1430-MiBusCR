@@ -5,19 +5,13 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONObject;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -81,64 +75,7 @@ public class CrearCuentaActivity extends ActionBarActivity {
      */
     public String Post(String url, Usuario usuario){
         InputStream inputStream = null;
-        String resultado = "";
-        try{
-
-            //Crear cliente
-            HttpClient httpclient = new DefaultHttpClient();
-
-            //Hacer el request para un POST a la url
-            HttpPost httpPost = new HttpPost(url);
-
-            String json = "";
-
-            //Construir el objeto json
-            JSONObject jsonObject = new JSONObject();
-
-            // se acumulan los campos necesarios, el primer parametro
-            // es la etiqueta json que tendran los campos de la base
-            jsonObject.accumulate("email", usuario.getEmail());
-            jsonObject.accumulate("password", usuario.getEncrypted_password());
-            jsonObject.accumulate("nombre", usuario.getNombre());
-            jsonObject.accumulate("fechaNac", usuario.getFechaNac());
-            jsonObject.accumulate("ciudad", usuario.getCiudad());
-
-            // Convertir el objeto Json a String
-            json = jsonObject.toString();
-
-            // setear json al stringEntity
-            StringEntity se = new StringEntity(json);
-
-            // setear la Entity de httpPost
-            httpPost.setEntity(se);
-
-            //  incluir header con el token del usuario general
-            //  para crear usuario de manera segura
-            httpPost.setHeader("Authorization",
-                    "Token token=\"b0936d7e239775e770ce002307f0acda\"");
-
-            // incluir los headers para que el Api sepa que es json
-            httpPost.setHeader("Accept", "application/json");
-            httpPost.setHeader("Content-type", "application/json");
-
-            // ejecutar el request de post en la url
-            HttpResponse httpResponse = httpclient.execute(httpPost);
-
-            // recibir la respuesta como un inputStream
-            inputStream = httpResponse.getEntity().getContent();
-
-            // convertir el inputStream a String si tiene valor null
-            // quiere decir que el post no sirvio
-            if(inputStream != null){
-                resultado = convertInputStreamToString(inputStream);
-            }else{
-                resultado = "Error al guardar datos";
-            }
-
-        }catch (Exception e){
-            Log.d("InputStream", e.getLocalizedMessage());
-        }
-
+        String resultado = ApiManager.httpPost(url, "b0936d7e239775e770ce002307f0acda", usuario);
         return resultado;
     }
 
