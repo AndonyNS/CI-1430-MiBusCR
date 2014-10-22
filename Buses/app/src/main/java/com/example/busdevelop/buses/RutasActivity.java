@@ -12,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -20,10 +19,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -34,12 +29,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RutasActivity extends ActionBarActivity {//implements LocationListener {
+public class RutasActivity extends ActionBarActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private Usuario mUsuario;
     private ListView listViewRutas;
     private List<Ruta> mListaRutas;
+    private List<Row> rows;
 
 
     @Override
@@ -52,7 +48,6 @@ public class RutasActivity extends ActionBarActivity {//implements LocationListe
         setUpMapIfNeeded();
 
         if (mMap != null) {
-
             // Enable MyLocation Button in the Map
             mMap.setMyLocationEnabled(true);
             // The map will be cleared on long click
@@ -71,9 +66,6 @@ public class RutasActivity extends ActionBarActivity {//implements LocationListe
 
             showBuses();
         }
-
-        listViewRutas = (ListView) findViewById(R.id.rutaslist);
-        listViewRutas.setVisibility(View.GONE);
 
     }
 
@@ -217,46 +209,38 @@ public class RutasActivity extends ActionBarActivity {//implements LocationListe
     private void createListView(){
         // Get ListView object from xml
         listViewRutas = (ListView) findViewById(R.id.rutaslist);
+        rows = new ArrayList<Row>();
 
-        List<String> nombresRutas = new ArrayList<String>();
+        Row row = null;
+        //Llena toda las filas del listview con las listas obtenidas
         for ( Ruta r : mListaRutas){
-            nombresRutas.add(r.getNombre());
-            Log.d("Prueba",r.getNombre());
+            row = new Row();
+            row.setTitle(r.getNombre());
+            rows.add(row);
+            //nombresRutas.add(r.getNombre());
+            Log.d("Prueba", r.getNombre());
         }
-        if(!nombresRutas.isEmpty()) {
+        if(!rows.isEmpty()) {
             listViewRutas.setVisibility(View.VISIBLE);
         }
-        // Define a new Adapter
-        // First parameter - Context
-        // Second parameter - Layout for the row
-        // Third parameter - ID of the TextView to which the data is written
-        // Forth - the Array of data
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, nombresRutas);
 
+        //Le envía al array adapter personalizado el contexto del cual va a llamarlo y el ArrayList de filas
+        CustomArrayAdapter adapter = new CustomArrayAdapter(this, rows);
 
-        // Assign adapter to ListView
         listViewRutas.setAdapter(adapter);
 
-        // ListView Item Click Listener
         listViewRutas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                //Toast.makeText(getApplicationContext(), rows.get(position).getTitle(), Toast.LENGTH_SHORT).show();
 
-                /*for(Marker marker: mMarkerRuta){
-                    marker.remove();
-                }
-                mMarkerRuta.clear();*/
-
-                // ListView Clicked item value
+                // Obtiene la ruta seleccionada
                 Ruta  itemValue = mListaRutas.get(position);
-                //Toast.makeText(getBaseContext(), "Rutas Obtenidas!", Toast.LENGTH_LONG).show();
 
                 //Llama a la clase que dibuja la ruta,
                 new DibujarRuta(mMap,itemValue);
-
             }
         });
     }
