@@ -132,34 +132,7 @@ public class Usuario {
      */
     public String getUsuario(String token, String url){
         InputStream inputStream = null;
-        String resultado = "";
-        try {
-
-            // Crear el cliente http
-            HttpClient httpclient = new DefaultHttpClient();
-
-            //Preparar el request y agregarle los header necesarios
-            HttpGet request = new HttpGet(url);
-            request.setHeader("Authorization",
-                    "Token token=\""+ token + "\"");
-            request.setHeader("Content-type", "application/json");
-
-            // hacer el request get al API
-            HttpResponse httpResponse = httpclient.execute(request);
-
-            // recibir la respuesta en un imputStream
-            inputStream = httpResponse.getEntity().getContent();
-
-            // convertir el imputStream a String
-            if(inputStream != null)
-                resultado = convertInputStreamToString(inputStream);
-            else
-                resultado = "Error al conectar a la Base de Datos";
-
-        } catch (Exception e) {
-            Log.d("InputStream", e.getLocalizedMessage());
-        }
-
+        String resultado = ApiManager.httpGet(url,token);
         return resultado;
     }
 
@@ -266,7 +239,7 @@ public class Usuario {
      * @return
      */
     public String obtenerToken(String email, String password){
-        String urlToken = "http://murmuring-anchorage-1614.herokuapp.com/tokens";
+        String urlToken = "https://murmuring-anchorage-1614.herokuapp.com/tokens";
         InputStream inputStream = null;
         String resultado = "";
         try{
