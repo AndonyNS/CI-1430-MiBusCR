@@ -35,10 +35,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -307,56 +303,10 @@ public class MiUbicacionActivity extends ActionBarActivity implements LocationLi
      * @return String con  el array Json
      */
     public  String GET(String url){
-        InputStream inputStream = null;
-        String resultado = "";
-        try {
-
-            // Crear el cliente http
-            HttpClient httpclient = new DefaultHttpClient();
-
-            //Preparar el request y agregarle los header necesarios
-            HttpGet request = new HttpGet(url);
-            request.setHeader("Authorization",
-                    "Token token=\"" + mUsuario.getToken() + "\"");
-            request.setHeader("Content-type", "application/json");
-
-            // hacer el request get al API
-            HttpResponse httpResponse = httpclient.execute(request);
-
-            // recibir la respuesta en un imputStream
-            inputStream = httpResponse.getEntity().getContent();
-
-            // convertir el imputStream a String
-            if(inputStream != null)
-                resultado = convertInputStreamToString(inputStream);
-            else
-                resultado = "Error al conectar a la Base de Datos";
-
-        } catch (Exception e) {
-            Log.d("InputStream", e.getLocalizedMessage());
-        }
-
+        String resultado = ApiManager.httpGet(url, mUsuario.getToken());
         return resultado;
     }
 
-    /**
-     * Metodo que convierte el imput stream que se recibe del servidor
-     * web a un String
-     * @param inputStream
-     * @return
-     * @throws IOException
-     */
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException{
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-        String linea;
-        String result = "";
-        while((linea = bufferedReader.readLine()) != null)
-            result += linea;
-
-        inputStream.close();
-        return result;
-
-    }
 
     // Fetches data from url passed
     private class DownloadTask extends AsyncTask<String, Void, String> {

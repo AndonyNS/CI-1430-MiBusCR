@@ -13,20 +13,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 /**
  *
@@ -120,82 +109,11 @@ public class EditarCuentaActivity extends ActionBarActivity {
 
     }
 
-    /**
-     * Covierte lo que recibe de la API a un string
-     * @param inputStream
-     * @return
-     * @throws java.io.IOException
-     */
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-        String linea = "";
-        String resultado = "";
-        while( (linea = bufferedReader.readLine()) != null){
-            resultado += linea;
-        }
-        inputStream.close();
-        return resultado;
-    }
-
     ///////////////////////////////////////////////////////////////////
     //      Metodos y clase requerida para recuperar el token       //
 
     public String PostToken(String url, Usuario usuario){
-        InputStream inputStream = null;
-        String resultado = "";
-        try{
-
-            //Crear cliente
-            HttpClient httpclient = new DefaultHttpClient();
-
-            //Hacer el request para un POST a la url
-            HttpPost httpPost = new HttpPost(url);
-
-            String json = "";
-
-            //Construir el objeto json
-            JSONObject jsonObject = new JSONObject();
-
-            // se acumulan los campos necesarios, el primer parametro
-            // es la etiqueta json que tendran los campos de la base
-            jsonObject.accumulate("email", usuario.getEmail());
-            jsonObject.accumulate("password", usuario.getEncrypted_password());
-
-
-            // Convertir el objeto Json a String
-            json = jsonObject.toString();
-
-            // setear json al stringEntity
-            StringEntity se = new StringEntity(json);
-
-            // setear la Entity de httpPost
-            httpPost.setEntity(se);
-
-
-            // incluir los headers para que el Api sepa que es json
-            httpPost.setHeader("Accept", "application/json");
-            httpPost.setHeader("Content-type", "application/json");
-
-            // ejecutar el request de post en la url
-            HttpResponse httpResponse = httpclient.execute(httpPost);
-
-            // recibir la respuesta como un inputStream
-            inputStream = httpResponse.getEntity().getContent();
-
-            // convertir el inputStream a String si tiene valor null
-            // quiere decir que el post no sirvio
-            if(inputStream != null){
-                resultado = convertInputStreamToString(inputStream);
-
-            }else{
-                resultado = "Error al guardar datos";
-                
-            }
-
-        }catch (Exception e){
-            Log.d("InputStream", "Error: "+e.getLocalizedMessage());
-        }
-
+        String resultado = ApiManager.httpPost(url,"",usuario.getClassToken());
         return resultado;
     }
 
@@ -245,7 +163,6 @@ public class EditarCuentaActivity extends ActionBarActivity {
      * @return String con  el array Json
      */
     public  String GetUsuario(String url){
-        InputStream inputStream = null;
         String resultado = ApiManager.httpGet(url,mTokenUsuario);
         return resultado;
     }
@@ -276,7 +193,7 @@ public class EditarCuentaActivity extends ActionBarActivity {
 
                 //Parsear datos de jsonObject a la instancia de usuario
                 mUsuarioObtenido .setEmail(datosUsuario.getString("email"));
-                mUsuarioObtenido .setEncrypted_password(datosUsuario.getString("password"));
+                //mUsuarioObtenido .setEncrypted_password(datosUsuario.getString("password"));
                 mUsuarioObtenido .setNombre(datosUsuario.getString("nombre"));
                 mUsuarioObtenido .setFechaNac(datosUsuario.getString("fechaNac"));
                 mUsuarioObtenido .setCiudad(datosUsuario.getString("ciudad"));
@@ -302,68 +219,7 @@ public class EditarCuentaActivity extends ActionBarActivity {
     //      Metodos y clase requerida para actualizar usuario      //
 
     public String PutUsuario(String url, Usuario usuario){
-        InputStream inputStream = null;
-        String resultado = "";
-        try{
-
-            //Crear cliente
-            HttpClient httpclient = new DefaultHttpClient();
-
-            //Hacer el request para un POST a la url
-            HttpPut httpPost = new HttpPut(url);
-
-            String json = "";
-
-            //Construir el objeto json
-            JSONObject jsonObject = new JSONObject();
-
-            // se acumulan los campos necesarios, el primer parametro
-            // es la etiqueta json que tendran los campos de la base
-            jsonObject.accumulate("email", usuario.getEmail());
-            jsonObject.accumulate("password", usuario.getEncrypted_password());
-            jsonObject.accumulate("nombre", usuario.getNombre());
-            jsonObject.accumulate("fechaNac", usuario.getFechaNac());
-            jsonObject.accumulate("ciudad", usuario.getCiudad());
-
-
-            // Convertir el objeto Json a String
-            json = jsonObject.toString();
-
-            // setear json al stringEntity
-            StringEntity se = new StringEntity(json);
-
-            // setear la Entity de httpPost
-            httpPost.setEntity(se);
-
-
-            // incluir los headers para que el Api sepa que es json
-            // y mandar el token
-            httpPost.setHeader("Accept", "application/json");
-            httpPost.setHeader("Content-type", "application/json");
-            httpPost.setHeader("Authorization",
-                    "Token token=\""+mTokenUsuario + "\"");
-
-
-            // ejecutar el request de post en la url
-            HttpResponse httpResponse = httpclient.execute(httpPost);
-
-            // recibir la respuesta como un inputStream
-            inputStream = httpResponse.getEntity().getContent();
-
-            // convertir el inputStream a String si tiene valor null
-            // quiere decir que el post no sirvio
-            if(inputStream != null){
-                resultado = convertInputStreamToString(inputStream);
-
-            }else{
-                resultado = "Error al guardar datos";
-
-            }
-
-        }catch (Exception e){
-            Log.d("InputStream", e.getLocalizedMessage());
-        }
-
+        String resultado = ApiManager.httpPut(url,mTokenUsuario,usuario);
         return resultado;
     }
 

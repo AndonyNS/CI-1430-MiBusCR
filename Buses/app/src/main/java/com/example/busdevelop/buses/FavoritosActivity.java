@@ -25,12 +25,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -403,34 +398,6 @@ public class FavoritosActivity extends ActionBarActivity {
     }
 
 
-
-
-    /**
-     * Metodo que convierte el imput stream que se recibe del servidor
-     * web a un String
-     * @param inputStream
-     * @return
-     * @throws java.io.IOException
-     */
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-        String linea;
-        String result = "";
-        while((linea = bufferedReader.readLine()) != null)
-            result += linea;
-
-        inputStream.close();
-        return result;
-
-    }
-
-
-
-
-
-
-
-
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
         Activity mActivity;
         private HttpAsyncTask(Activity activity){
@@ -513,14 +480,12 @@ public class FavoritosActivity extends ActionBarActivity {
      * @return String con  el array Json
      */
     public  String GetFavoritos(String url){
-        InputStream inputStream = null;
         String resultado = ApiManager.httpGet(url,mUsuario.getToken());
 
         return resultado;
     }
 
     public  String GET(String url){
-        InputStream inputStream = null;
         String resultado = ApiManager.httpGet(url,mUsuario.getToken());
 
         return resultado;

@@ -1,22 +1,10 @@
 package com.example.busdevelop.buses;
 
 import android.util.Log;
-import android.widget.Toast;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 /**
  *
@@ -24,29 +12,25 @@ import java.io.InputStreamReader;
  * para poder enviar objetos JSON o recibirlos
  * y manejarlos de mejor manera
  */
-public class Usuario {
-    private String email;
+public class Usuario implements ClassToRest {
     private String nombre;
-    private String encrypted_password;
     private String fechaNac;
     private String ciudad;
-    private String token;
+    private Token token;
     private int id;
 
 
     //Constructor por omision
-    public Usuario(){
-
+    public Usuario() {
+        token = new Token();
     }
 
-    public Usuario(String email,String nombre, String password,
-                   String fechaNac, String ciudad){
-        this.email = email;
+    public Usuario(String email, String nombre, String password,
+                   String fechaNac, String ciudad) {
+        token = new Token(email,password);
         this.nombre = nombre;
-        this.encrypted_password = password;
         this.fechaNac = fechaNac;
         this.ciudad = ciudad;
-        this.token = "";
         this.id = -1;
     }
 
@@ -59,15 +43,19 @@ public class Usuario {
     }
 
     public String getToken() {
+        return token.getToken();
+    }
+
+    public Token getClassToken() {
         return token;
     }
 
     public void setToken(String token) {
-        this.token = token;
+        this.token.setToken(token);
     }
 
     public String getEncrypted_password() {
-        return encrypted_password;
+        return token.getPassword();
     }
 
     public String getFechaNac() {
@@ -79,7 +67,7 @@ public class Usuario {
     }
 
     public String getEmail() {
-        return email;
+        return token.getEmail();
     }
 
     public String getCiudad() {
@@ -87,7 +75,7 @@ public class Usuario {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        token.setEmail(email);
     }
 
     public void setNombre(String nombre) {
@@ -95,7 +83,7 @@ public class Usuario {
     }
 
     public void setEncrypted_password(String encrypted_password) {
-        this.encrypted_password = encrypted_password;
+        token.setPassword(encrypted_password);
     }
 
     public void setFechaNac(String fechaNac) {
@@ -106,44 +94,29 @@ public class Usuario {
         this.ciudad = ciudad;
     }
 
-    /**
-     * Covierte lo que recibe de la API a un string
-     * @param inputStream
-     * @return
-     * @throws java.io.IOException
-     */
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-        String linea = "";
-        String resultado = "";
-        while( (linea = bufferedReader.readLine()) != null){
-            resultado += linea;
-        }
-        inputStream.close();
-        return resultado;
-    }
 
     /**
      * Metodo que hace un get request al api para obtener el string
      * con el json de los datos de la cuenta del usuario
+     *
      * @param token
      * @param url
      * @return
      */
-    public String getUsuario(String token, String url){
-        InputStream inputStream = null;
-        String resultado = ApiManager.httpGet(url,token);
+    public String getUsuario(String token, String url) {
+        String resultado = ApiManager.httpGet(url, token);
         return resultado;
     }
 
     /**
      * Metodo que recibe el string retornado por un request hecho al API
      * y lo parsea a los atributos de usuario
+     *
      * @param resultado
      */
-    public void parsearDatosUsuario(String resultado){
+    public void parsearDatosUsuario(String resultado) {
 
-        try{
+        try {
 
             //Parsear el json string a un json object para obtener los datos
             JSONObject datosUsuario = new JSONObject(resultado);
@@ -156,7 +129,7 @@ public class Usuario {
             this.setFechaNac(datosUsuario.getString("fechaNac"));
             this.setCiudad(datosUsuario.getString("ciudad"));
 
-        }catch(JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
@@ -164,135 +137,26 @@ public class Usuario {
 
     /**
      * Metodo que hace un put request para actualizar datos del usuario
+     *
      * @param token
      * @param url
      * @return
      */
-    public String actualizarUsuario(String token, String url){
-        InputStream inputStream = null;
-        String resultado = "";
-        try{
-
-            //Crear cliente
-            HttpClient httpclient = new DefaultHttpClient();
-
-            //Hacer el request para un POST a la url
-            HttpPut httpPost = new HttpPut(url);
-
-            String json = "";
-
-            //Construir el objeto json
-            JSONObject jsonObject = new JSONObject();
-
-            // se acumulan los campos necesarios, el primer parametro
-            // es la etiqueta json que tendran los campos de la base
-            jsonObject.accumulate("email", this.getEmail());
-            jsonObject.accumulate("password", this.getEncrypted_password());
-            jsonObject.accumulate("nombre", this.getNombre());
-            jsonObject.accumulate("fechaNac", this.getFechaNac());
-            jsonObject.accumulate("ciudad", this.getCiudad());
-
-
-            // Convertir el objeto Json a String
-            json = jsonObject.toString();
-
-            // setear json al stringEntity
-            StringEntity se = new StringEntity(json);
-
-            // setear la Entity de httpPost
-            httpPost.setEntity(se);
-
-
-            // incluir los headers para que el Api sepa que es json
-            // y mandar el token
-            httpPost.setHeader("Accept", "application/json");
-            httpPost.setHeader("Content-type", "application/json");
-            httpPost.setHeader("Authorization",
-                    "Token token=\""+ token + "\"");
-
-
-            // ejecutar el request de post en la url
-            HttpResponse httpResponse = httpclient.execute(httpPost);
-
-            // recibir la respuesta como un inputStream
-            inputStream = httpResponse.getEntity().getContent();
-
-            // convertir el inputStream a String si tiene valor null
-            // quiere decir que el post no sirvio
-            if(inputStream != null){
-                resultado = convertInputStreamToString(inputStream);
-
-            }else{
-                resultado = "Error al guardar datos";
-            }
-
-        }catch (Exception e){
-            Log.d("InputStream", e.getLocalizedMessage());
-        }
+    public String actualizarUsuario(String token, String url) {
+        String resultado = ApiManager.httpPut(url,token,this);
         return resultado;
     }
 
     /**
      * Metodo para hacer un post al API y obtener un token
+     *
      * @param email
      * @param password
      * @return
      */
-    public String obtenerToken(String email, String password){
+    public String obtenerToken(String email, String password) {
         String urlToken = "https://murmuring-anchorage-1614.herokuapp.com/tokens";
-        InputStream inputStream = null;
-        String resultado = "";
-        try{
-
-            //Crear cliente
-            HttpClient httpclient = new DefaultHttpClient();
-
-            //Hacer el request para un POST a la url
-            HttpPost httpPost = new HttpPost(urlToken);
-
-            String json = "";
-
-            //Construir el objeto json
-            JSONObject jsonObject = new JSONObject();
-
-            // se acumulan los campos necesarios, el primer parametro
-            // es la etiqueta json que tendran los campos de la base
-            jsonObject.accumulate("email", email);
-            jsonObject.accumulate("password", password);
-
-
-            // Convertir el objeto Json a String
-            json = jsonObject.toString();
-
-            // setear json al stringEntity
-            StringEntity se = new StringEntity(json);
-
-            // setear la Entity de httpPost
-            httpPost.setEntity(se);
-
-
-            // incluir los headers para que el Api sepa que es json
-            httpPost.setHeader("Accept", "application/json");
-            httpPost.setHeader("Content-type", "application/json");
-
-            // ejecutar el request de post en la url
-            HttpResponse httpResponse = httpclient.execute(httpPost);
-
-            // recibir la respuesta como un inputStream
-            inputStream = httpResponse.getEntity().getContent();
-
-            // convertir el inputStream a String si tiene valor null
-            // quiere decir que el post no sirvio
-            if(inputStream != null){
-                resultado = convertInputStreamToString(inputStream);
-            }else{
-                resultado = "Error al obtener Token";
-            }
-
-        }catch (Exception e){
-            Log.d("InputStream", e.getLocalizedMessage());
-        }
-
+        String resultado = ApiManager.httpPost(urlToken,"",token);
         return resultado;
     }
 
@@ -301,10 +165,11 @@ public class Usuario {
      * Metodo que recibe la hilera json del post request de un token
      * y lo parsea, si despues del parse el id es -1 o el token
      * es "" entonces quiere decir que el usuario no existe
+     *
      * @param resultado
      */
-    public void guardarTokenId(String resultado){
-        try{
+    public void guardarTokenId(String resultado) {
+        try {
             // una vez recibido el string con  el json
             //  se parsea sacando las variables id y token del usuario
             JSONObject usuarioToken = new JSONObject(resultado);
@@ -314,9 +179,37 @@ public class Usuario {
             //Url a la que el usuario tiene que pedir sus datos
             //mUrlUsuario +=  Integer.toString(mIdUser);
 
-        }catch(JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
+    @Override
+    public StringEntity JsonAcumulator() {
+        StringEntity se = null;
+        try {
+            String json = "";
+
+            //Construir el objeto json
+            JSONObject jsonObject = new JSONObject();
+
+            // se acumulan los campos necesarios, el primer parametro
+            // es la etiqueta json que tendran los campos de la base
+            jsonObject.accumulate("email", getEmail());
+            jsonObject.accumulate("password", getEncrypted_password());
+            jsonObject.accumulate("nombre", getNombre());
+            jsonObject.accumulate("fechaNac", getFechaNac());
+            jsonObject.accumulate("ciudad", getCiudad());
+
+            // Convertir el objeto Json a String
+            json = jsonObject.toString();
+
+            // setear json al stringEntity
+            se = new StringEntity(json);
+
+        }catch (Exception e){
+            Log.d("String to json error", e.getLocalizedMessage());
+        }
+        return se;
+    }
 }
