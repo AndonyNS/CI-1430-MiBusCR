@@ -7,34 +7,18 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 
 public class ObtRutasActivity extends ActionBarActivity {
 
-    ArrayList<Ruta> mRutasArray  = new ArrayList<Ruta>();
+    ManejadorRutas mManejador;
     ListView mList;
     ListViewAdapter mAdapter;
     EditText searchText;
@@ -118,38 +102,22 @@ public class ObtRutasActivity extends ActionBarActivity {
     }
 
     /**
-     * Metodo que hace un request al API con la url donde
-     * se pregunta por la tabla de rutas
-     * @param url url que almacena las rutas
+     * Metodo que llama a la instancia del ManejadordeRutas
+     *
+     * @param token token del usuario
      * @return String con  el array Json
      */
-    public  String GET(String url){
-        InputStream inputStream = null;
-        String resultado = ApiManager.httpGet(url,mUsuario.getToken());
-
-        return resultado;
+    public  boolean llenarRutas(String token){
+        mManejador = ManejadorRutas.getInstancia(token);
+        if(mManejador.getListaRutas() != null){
+            return true;
+        }else
+            return false;
     }
 
-    /**
-     * Metodo que convierte el imput stream que se recibe del servidor
-     * web a un String
-     * @param inputStream
-     * @return
-     * @throws IOException
-     */
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException{
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-        String linea;
-        String result = "";
-        while((linea = bufferedReader.readLine()) != null)
-            result += linea;
 
-        inputStream.close();
-        return result;
 
-    }
-
-    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
+    private class HttpAsyncTask extends AsyncTask<String, Void, Boolean> {
         Activity mActivity;
         private HttpAsyncTask(Activity activity){
             this.mActivity = activity;
@@ -157,51 +125,30 @@ public class ObtRutasActivity extends ActionBarActivity {
 
 
         @Override
-        protected String doInBackground(String... urls) {
+        protected Boolean doInBackground(String... token) {
 
-            return GET(urls[0]);
+            return llenarRutas(token[0]);
         }
 
         /**
          * metodo que se ejecuta después de obtener la respuesta
          * al request get
-         * @param result
+         * @param succes
          */
         @Override
-        protected void onPostExecute(String result) {
-            Toast.makeText(getBaseContext(), "Rutas Obtenidas!", Toast.LENGTH_LONG).show();
-            try{
-                // una vez recibido el string con  el json
-                //  se parsea guardando en un array
-                JSONArray rutas = new JSONArray(result);
+        protected void onPostExecute(final Boolean succes) {
+               if( succes){
+                   Toast.makeText(getBaseContext(), "Rutas Obtenidas!", Toast.LENGTH_LONG).show();
+                   // Pasar las rutas al  ListViewAdapter
+                   mAdapter = new ListViewAdapter(mActivity, mManejador.getListaRutas());
 
+                   // enlazar el adaptador con el listView
+                   mList.setAdapter(mAdapter);
+               }else{
+                   Toast.makeText(getBaseContext(), "Error al obtener rutas!",
+                           Toast.LENGTH_LONG).show();
+               }
 
-                //  cada i corresponderia a una diferente ruta
-                // se obtiene el objetoJson de esa posicion
-                // y se le sacan los atributos que todos serian
-                //  Strings. Se guarda una ruta en el arreglo de rutas
-                for(int i = 0; i < rutas.length(); i++){
-                    Ruta ruta = new Ruta();
-                    ruta.setId(Integer.toString(rutas.getJSONObject(i).getInt("id")));
-                    ruta.setNombre(rutas.getJSONObject(i).getString("nombre"));
-                    ruta.setFrecuencia(rutas.getJSONObject(i).getString("frecuencia"));
-                    ruta.setPrecio(rutas.getJSONObject(i).getString("precio"));
-                    ruta.setHorario(rutas.getJSONObject(i).getString("horario"));
-                    mRutasArray.add(ruta);
-                }
-
-               // mResultRutas.setText(mRutasArray.get(1).getFrecuencia());
-
-                // Pasar las rutas al  ListViewAdapter
-                mAdapter = new ListViewAdapter(mActivity, mRutasArray);
-
-                // enlazar el adaptador con el listView
-                mList.setAdapter(mAdapter);
-
-
-            }catch(JSONException e){
-                e.printStackTrace();
-            }
         }
     }
 
@@ -231,7 +178,7 @@ public class ObtRutasActivity extends ActionBarActivity {
             mUsuario.guardarTokenId(resultado);
 
             // una vez obtenido el token se pide las rutas
-            new HttpAsyncTask(mActivity).execute("https://murmuring-anchorage-1614.herokuapp.com/rutas");
+            new HttpAsyncTask(mActivity).execute(mUsuario.getToken());
 
         }
     }
