@@ -7,6 +7,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.BufferedReader;
@@ -91,6 +92,33 @@ public class ApiManager {
         try{
             // ejecutar el request de post en la url
             httpResponse = httpclient.execute(httpPut);
+        }catch (Exception e){
+            Log.d("InputStream", e.getLocalizedMessage());
+        }
+        resultado = StreamToString(httpResponse);
+        return resultado;
+    }
+
+
+    public static String httpDelete(String url, String token){
+        String resultado = "";
+
+        //Crear cliente
+        HttpClient httpclient = new DefaultHttpClient();
+
+        //Hacer el request para un POST a la url
+        HttpDelete httpDelete = new HttpDelete(url);
+
+        //  incluir header con el token del usuario general
+        //  para crear usuario de manera segura
+        httpDelete.setHeader("Authorization",
+                "Token token=\""+ token +"\"");
+
+        // incluir los headers para que el Api sepa que es json
+        HttpResponse httpResponse = null;
+        try{
+            // ejecutar el request de post en la url
+            httpResponse = httpclient.execute(httpDelete);
         }catch (Exception e){
             Log.d("InputStream", e.getLocalizedMessage());
         }
