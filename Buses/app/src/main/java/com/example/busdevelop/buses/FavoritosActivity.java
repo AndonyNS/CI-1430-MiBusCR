@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -25,12 +24,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,7 +48,8 @@ public class FavoritosActivity extends ActionBarActivity {
     private ListView mList;
     private List<LatLng> mMarkerParadas;
     private Usuario mUsuario;
-    private String mUrlFavorita= "https://murmuring-anchorage-1614.herokuapp.com/rutas/";
+    private String mUrlRuta= "https://murmuring-anchorage-1614.herokuapp.com/rutas/";
+    private String mUrlFavorita= "https://murmuring-anchorage-1614.herokuapp.com/favoritas";
     private ArrayAdapter<String> mAdapter;
     private List<String> ids = new ArrayList<String>();
     private final String mPrefs_Name = "MyPrefsFile";
@@ -71,6 +66,7 @@ public class FavoritosActivity extends ActionBarActivity {
 
 
        getRutas();
+        showBuses();
 
         // Locate the ListView in activity_obt_rutas.xml
         mList = (ListView) findViewById(R.id.favoritoslist);
@@ -90,6 +86,7 @@ public class FavoritosActivity extends ActionBarActivity {
         mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
         mGoogleMap.moveCamera(centro);
         mGoogleMap.animateCamera(zoom);
+        mGoogleMap.setTrafficEnabled(true);
 
         } catch (Exception e) {
 
@@ -166,7 +163,48 @@ public class FavoritosActivity extends ActionBarActivity {
         });
     }
 
+    /* TODO: Muestra los buses*/
+    public void showBuses() {
+        /*Firebase firebaseRef = new Firebase(mFIREBASE_URL);
 
+        firebaseRef.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
+
+                Location location = new Location("dummyprovider");
+
+                mGps = (String) snapshot.child("GpsID").getValue();
+                mLocation = (String) snapshot.child("Location").getValue();
+                String[] parts = mLocation.split(" ");
+                mLatitud = Double.parseDouble(parts[0]);
+                mLongitud = Double.parseDouble(parts[1]);
+                location.setLatitude(mLatitud);
+                location.setLongitude(mLongitud);
+                onLocationChanged(location);
+                mMarcadorBus = mMarcadorUpdate;
+
+            }
+
+            @Override
+            public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot snapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+            }
+
+        });*/
+    }
 
 
     @Override
@@ -486,7 +524,7 @@ public class FavoritosActivity extends ActionBarActivity {
 
             // una vez obtenido el token se pide las rutas
             for(String id : ids) {
-                new HttpAsyncTaskRutas(mActivity).execute("https://murmuring-anchorage-1614.herokuapp.com/rutas/"+id);
+                new HttpAsyncTaskRutas(mActivity).execute(mUrlRuta+id);
             }
         }
 
@@ -607,7 +645,7 @@ public class FavoritosActivity extends ActionBarActivity {
             mUsuario.guardarTokenId(resultado);
 
             // una vez obtenido el token se pide las rutas
-            new HttpAsyncTask(mActivity).execute("https://murmuring-anchorage-1614.herokuapp.com/favoritas");
+            new HttpAsyncTask(mActivity).execute(mUrlFavorita);
 
         }
     }
