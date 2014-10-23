@@ -52,7 +52,7 @@ class RutaUsersController < ApplicationController
   # DELETE /ruta_users/1
   # DELETE /ruta_users/1.json
   def destroy
-    @ruta_user = @current_user.ruta_user.find_by(ruta_id: params[:ruta_id])
+    @ruta_user = @current_user.ruta_user.find_by(ruta_id: params[:id])
     if !@ruta_user.nil?
       @ruta_user.destroy
     end

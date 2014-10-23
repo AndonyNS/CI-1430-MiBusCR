@@ -21,11 +21,6 @@ import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -176,28 +171,8 @@ public class RutasActivity extends ActionBarActivity {
      * @return String con  el array Json
      */
     public  String GET(String url){
-        InputStream inputStream = null;
         String resultado = ApiManager.httpGet(url,mUsuario.getToken());
         return resultado;
-    }
-
-    /**
-     * Metodo que convierte el imput stream que se recibe del servidor
-     * web a un String
-     * @param inputStream
-     * @return
-     * @throws IOException
-     */
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException{
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-        String linea;
-        String result = "";
-        while((linea = bufferedReader.readLine()) != null)
-            result += linea;
-
-        inputStream.close();
-        return result;
-
     }
 
     @Override
