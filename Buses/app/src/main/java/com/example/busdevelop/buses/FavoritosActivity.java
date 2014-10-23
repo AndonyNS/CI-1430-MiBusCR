@@ -122,7 +122,6 @@ public class FavoritosActivity extends ActionBarActivity {
         }
         if(!mNombreRutaArray.isEmpty()){
             mList.setVisibility(View.VISIBLE);
-            Log.e("mensaje","lista vacia");
         }
 
         // Define a new Adapter
@@ -148,33 +147,21 @@ public class FavoritosActivity extends ActionBarActivity {
                 final int itemPosition = position;
 
                 // ListView Clicked item value
-                String itemValue = (String) mList.getItemAtPosition(position);
-
-                // Show Alert
-                Toast.makeText(getApplicationContext(),
-                        "Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
-                        .show();
-
-                view.animate().setDuration(2000).alpha(0).withEndAction(new Runnable() {
-                    @Override
-                    public void run() {
-                        Ruta seleccionada = mFavoritosArray.get(itemPosition);
-                        String nombre = mNombreRutaArray.get(itemPosition);
+                final Ruta itemValue = mFavoritosArray.get(itemPosition);
+                final String nombre = itemValue.getNombre();
 
 
-                        mFavoritosArray.clear();
-                        mNombreRutaArray.clear();
-                        mFavoritosArray.add(seleccionada);
-                        mNombreRutaArray.add(nombre);
+                mFavoritosArray.clear();
+                mNombreRutaArray.clear();
+                mFavoritosArray.add(itemValue);
+                mNombreRutaArray.add(nombre);
 
-                        mAdapter.notifyDataSetChanged();
+                mAdapter.notifyDataSetChanged();
 
-                        dibujarRuta(seleccionada);
+                //Llama a la clase que dibuja la ruta
+                new DibujarRuta(mGoogleMap, itemValue);
 
-                    }
 
-
-                });
             }
         });
     }
