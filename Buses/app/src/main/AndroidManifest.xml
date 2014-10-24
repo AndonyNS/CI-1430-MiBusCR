@@ -29,6 +29,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
@@ -76,6 +77,14 @@
             android:name=".MiUbicacionActivity"
             android:label="Mi Ubicación" >
         </activity>
+
+
+        <!--Include the AdActivity configChanges and theme. -->
+        <activity android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:theme="@android:style/Theme.Translucent" />
+
+
     </application>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
