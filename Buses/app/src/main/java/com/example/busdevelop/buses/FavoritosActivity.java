@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -52,7 +51,8 @@ public class FavoritosActivity extends ActionBarActivity {
     private ListView mList;
     private List<LatLng> mMarkerParadas;
     private Usuario mUsuario;
-    private String mUrlFavorita= "https://murmuring-anchorage-1614.herokuapp.com/rutas/";
+    private String mUrlRuta= "https://murmuring-anchorage-1614.herokuapp.com/rutas/";
+    private String mUrlFavorita= "https://murmuring-anchorage-1614.herokuapp.com/favoritas";
     private List<String> ids = new ArrayList<String>();
     private final String mPrefs_Name = "MyPrefsFile";
 
@@ -65,7 +65,6 @@ public class FavoritosActivity extends ActionBarActivity {
 
         mMarkerParadas = new ArrayList<LatLng>();
         mFavoritosArray = new ArrayList<Ruta>();
-
 
 
 
@@ -83,9 +82,11 @@ public class FavoritosActivity extends ActionBarActivity {
         mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
         mGoogleMap.moveCamera(centro);
         mGoogleMap.animateCamera(zoom);
+        mGoogleMap.setTrafficEnabled(true);
 
 
         getRutas();
+        showBuses();
 
 
        }
@@ -115,10 +116,10 @@ public class FavoritosActivity extends ActionBarActivity {
         }
         if(!rows.isEmpty()){
             mList.setVisibility(View.VISIBLE);
-            Log.e("mensaje","lista no vacia");
-        }
 
-        Log.d("sali del for","");
+            Log.e("mensaje","lista no vacia");
+
+        }
 
         //Le envía al array adapter personalizado el contexto del cual va a llamarlo y el ArrayList de filas
         CustomArrayAdapter adapter = new CustomArrayAdapter(this, rows);
@@ -126,9 +127,7 @@ public class FavoritosActivity extends ActionBarActivity {
         mList.setAdapter(adapter);
 
 
-
-
-        // ListView Item Click Listener
+     // ListView Item Click Listener
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -137,6 +136,7 @@ public class FavoritosActivity extends ActionBarActivity {
                 Ruta itemValue = mFavoritosArray.get(position);
 
                 Log.d("obtuve la seleccionada", itemValue.getNombre());
+               //Llama a la clase que dibuja la ruta
                 new DibujarRuta(mGoogleMap, itemValue);
 
 
@@ -144,15 +144,59 @@ public class FavoritosActivity extends ActionBarActivity {
         });
     }
 
-
     private void setUpMapIfNeed(){
-
-
-            if (mGoogleMap == null) {
-                mGoogleMap = ((SupportMapFragment) getSupportFragmentManager().
-                        findFragmentById(R.id.map)).getMap();
-            }
+        if (mGoogleMap == null) {
+            mGoogleMap = ((SupportMapFragment) getSupportFragmentManager().
+                    findFragmentById(R.id.map)).getMap();
+        }
     }
+
+
+    /* TODO: Muestra los buses*/
+    public void showBuses() {
+        /*Firebase firebaseRef = new Firebase(mFIREBASE_URL);
+
+        firebaseRef.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
+
+                Location location = new Location("dummyprovider");
+
+                mGps = (String) snapshot.child("GpsID").getValue();
+                mLocation = (String) snapshot.child("Location").getValue();
+                String[] parts = mLocation.split(" ");
+                mLatitud = Double.parseDouble(parts[0]);
+                mLongitud = Double.parseDouble(parts[1]);
+                location.setLatitude(mLatitud);
+                location.setLongitude(mLongitud);
+                onLocationChanged(location);
+                mMarcadorBus = mMarcadorUpdate;
+
+
+            }
+
+            @Override
+            public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot snapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+            }
+
+        });*/
+    }
+
+
 
     @Override
     protected void onResume(){
@@ -450,7 +494,7 @@ public class FavoritosActivity extends ActionBarActivity {
 
             // una vez obtenido el token se pide las rutas
             for(String id : ids) {
-                new HttpAsyncTaskRutas(mActivity).execute("https://murmuring-anchorage-1614.herokuapp.com/rutas/"+id);
+                new HttpAsyncTaskRutas(mActivity).execute(mUrlRuta+id);
             }
         }
 
@@ -569,7 +613,7 @@ public class FavoritosActivity extends ActionBarActivity {
             mUsuario.guardarTokenId(resultado);
 
             // una vez obtenido el token se pide las rutas
-            new HttpAsyncTask(mActivity).execute("https://murmuring-anchorage-1614.herokuapp.com/favoritas");
+            new HttpAsyncTask(mActivity).execute(mUrlFavorita);
 
         }
     }
