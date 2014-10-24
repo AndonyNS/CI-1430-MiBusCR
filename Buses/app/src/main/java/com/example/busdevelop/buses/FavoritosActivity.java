@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -24,7 +23,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +37,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class FavoritosActivity extends ActionBarActivity {
@@ -67,12 +66,6 @@ public class FavoritosActivity extends ActionBarActivity {
 
        getRutas();
 
-        // Locate the ListView in activity_obt_rutas.xml
-        mList = (ListView) findViewById(R.id.favoritoslist);
-        mList.setVisibility(View.GONE);
-
-
-
         try {
             if (mGoogleMap == null) {
                 mGoogleMap = ((MapFragment) getFragmentManager().
@@ -86,13 +79,12 @@ public class FavoritosActivity extends ActionBarActivity {
         mGoogleMap.moveCamera(centro);
         mGoogleMap.animateCamera(zoom);
 
-        } catch (Exception e) {
+        mGoogleMap.setTrafficEnabled(true);
 
+        } catch (Exception e) {
             e.printStackTrace();
             Log.e("Mapa", "exception", e);
         }
-
-
 
        }
 

@@ -11,13 +11,13 @@
         android:id="@+id/searchView4"
         android:layout_gravity="right|top" />
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <fragment
+        android:id="@+id/mapRutas"
+        android:name="com.google.android.gms.maps.MapFragment"
+        tools:context="com.example.busdevelop.buses.RutasActivity"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/map"
-        tools:context="com.example.busdevelop.buses.RutasActivity3"
-        android:name="com.google.android.gms.maps.SupportMapFragment"/>
+        android:layout_height="match_parent"/>
+        
 
     <!-- ListView "flotante" encima del mapa-->
     <ListView

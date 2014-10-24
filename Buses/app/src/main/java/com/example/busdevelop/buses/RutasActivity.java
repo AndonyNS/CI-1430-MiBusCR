@@ -15,12 +15,15 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +33,7 @@ public class RutasActivity extends ActionBarActivity {
     private Usuario mUsuario;
     private ListView listViewRutas;
     private List<Ruta> mListaRutas;
-    private List<Row> rows;
+
 
 
     @Override
@@ -40,14 +43,30 @@ public class RutasActivity extends ActionBarActivity {
 
         mListaRutas = new ArrayList<Ruta>();
 
-        setUpMapIfNeeded();
+        getRutas();
 
-        if (mMap != null) {
+        try {
+            if (mMap == null) {
+                mMap = ((MapFragment) getFragmentManager().
+                        findFragmentById(R.id.mapRutas)).getMap();
+            }
+
             // Enable MyLocation Button in the Map
             mMap.setMyLocationEnabled(true);
+
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            mMap.getUiSettings().setZoomGesturesEnabled(true);
+
+            //Obtiene la latitud y longitud de mi ubicación actual, y llama al método que mueve la cámara a una ubicación
+            //UCR new LatLng(9.935783, -84.051375)
+            //MiUbicacion new LatLng(mMap.getMyLocation().getLatitude(),mMap.getMyLocation().getLongitude());
+            //Inicia el mapa centrado en San José
+            LatLng latlng = new LatLng(9.634256,-83.996543);
+            Log.d("prueba",""+mMap.getMyLocation().getLatitude());
+            moveToLocation(latlng, 9);
+
             // The map will be cleared on long click
             mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-
                 @Override
                 public void onMapLongClick(LatLng point) {
                     // Removes all the points from Google Map
@@ -56,10 +75,12 @@ public class RutasActivity extends ActionBarActivity {
             });
 
             mMap.setTrafficEnabled(true);
-
-            getRutas();
-
             showBuses();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            Log.e("Mapa", "exception", e);
         }
 
     }
@@ -72,6 +93,151 @@ public class RutasActivity extends ActionBarActivity {
 
         new HttpAsyncTaskToken(this).execute();
     }
+
+    //Métod
+    private void moveToLocation(LatLng ll,int zoomDistance){
+        //new LatLng(9.935783, -84.051375)
+        CameraUpdate ubicacion = CameraUpdateFactory.newLatLng(ll);
+        CameraUpdate zoom=CameraUpdateFactory.zoomTo(zoomDistance);
+        mMap.moveCamera(ubicacion);
+        mMap.animateCamera(zoom);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    private void createListView(){
+        // Get ListView object from xml
+        listViewRutas = (ListView) findViewById(R.id.rutaslist);
+        List<Row> rows = new ArrayList<Row>();
+
+        Row row = null;
+        //Llena toda las filas del listview con las listas obtenidas
+        for ( Ruta r : mListaRutas){
+            row = new Row();
+            row.setTitle(r.getNombre());
+            rows.add(row);
+            //nombresRutas.add(r.getNombre());
+            Log.d("Prueba", r.getNombre());
+        }
+        if(!rows.isEmpty()) {
+            listViewRutas.setVisibility(View.VISIBLE);
+        }
+
+        //Le envía al array adapter personalizado el contexto del cual va a llamarlo y el ArrayList de filas
+        CustomArrayAdapter adapter = new CustomArrayAdapter(this, rows);
+
+        listViewRutas.setAdapter(adapter);
+
+        listViewRutas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                //Toast.makeText(getApplicationContext(), rows.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+
+                // Obtiene la ruta seleccionada
+                Ruta  itemValue = mListaRutas.get(position);
+
+                //Llama a la clase que dibuja la ruta,
+                new DibujarRuta(mMap,itemValue);
+
+                /*itemValue.getParadaFinal().getLatitud();
+
+                LatLngBoundsCreator bounds;
+                bounds = new LatLngBoundsCreator();
+
+                bounds.include(new LatLng(Double.parseDouble(itemValue.getParadaInicial().getLatitud()), Double.parseDouble(itemValue.getParadaInicial().getLongitud())));
+                */
+
+            }
+        });
+    }
+
+    /**
+     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
+     * just add a marker near Africa.
+     * <p>
+     * This should only be called once and when we are sure that {@link #mMap} is not null.
+     */
+    private void setUpMap() {
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+    }
+
+    /* TODO: Muestra los buses*/
+    public void showBuses() {
+        /*Firebase firebaseRef = new Firebase(mFIREBASE_URL);
+
+        firebaseRef.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
+
+                Location location = new Location("dummyprovider");
+
+                mGps = (String) snapshot.child("GpsID").getValue();
+                mLocation = (String) snapshot.child("Location").getValue();
+                String[] parts = mLocation.split(" ");
+                mLatitud = Double.parseDouble(parts[0]);
+                mLongitud = Double.parseDouble(parts[1]);
+                location.setLatitude(mLatitud);
+                location.setLongitude(mLongitud);
+                onLocationChanged(location);
+                mMarcadorBus = mMarcadorUpdate;
+
+            }
+
+            @Override
+            public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot snapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+            }
+
+        });*/
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.rutas, menu);
+        return true;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo)
+    {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.rutas, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
+
 
     /**
      * Obtener el token para poder consultar rutas
@@ -175,160 +341,5 @@ public class RutasActivity extends ActionBarActivity {
         return resultado;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setUpMapIfNeeded();
-    }
-
-    private void createListView(){
-        // Get ListView object from xml
-        listViewRutas = (ListView) findViewById(R.id.rutaslist);
-        rows = new ArrayList<Row>();
-
-        Row row = null;
-        //Llena toda las filas del listview con las listas obtenidas
-        for ( Ruta r : mListaRutas){
-            row = new Row();
-            row.setTitle(r.getNombre());
-            rows.add(row);
-            //nombresRutas.add(r.getNombre());
-            Log.d("Prueba", r.getNombre());
-        }
-        if(!rows.isEmpty()) {
-            listViewRutas.setVisibility(View.VISIBLE);
-        }
-
-        //Le envía al array adapter personalizado el contexto del cual va a llamarlo y el ArrayList de filas
-        CustomArrayAdapter adapter = new CustomArrayAdapter(this, rows);
-
-        listViewRutas.setAdapter(adapter);
-
-        listViewRutas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                //Toast.makeText(getApplicationContext(), rows.get(position).getTitle(), Toast.LENGTH_SHORT).show();
-
-                // Obtiene la ruta seleccionada
-                Ruta  itemValue = mListaRutas.get(position);
-
-                //Llama a la clase que dibuja la ruta,
-                new DibujarRuta(mMap,itemValue);
-            }
-        });
-    }
-
-    /**
-     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
-     * installed) and the map has not already been instantiated.. This will ensure that we only ever
-     * call {@link #setUpMap()} once when {@link #mMap} is not null.
-     * <p>
-     * If it isn't installed {@link SupportMapFragment} (and
-     * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
-     * install/update the Google Play services APK on their device.
-     * <p>
-     * A user can return to this FragmentActivity after following the prompt and correctly
-     * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
-     * have been completely destroyed during this process (it is likely that it would only be
-     * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
-     * method in {@link #onResume()} to guarantee that it will be called.
-     */
-    private void setUpMapIfNeeded() {
-        // Do a null check to confirm that we have not already instantiated the map.
-        if (mMap == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
-
-            // Check if we were successful in obtaining the map.
-            if (mMap != null) {
-                setUpMap();
-            }
-        }
-    }
-
-    /**
-     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
-     * just add a marker near Africa.
-     * <p>
-     * This should only be called once and when we are sure that {@link #mMap} is not null.
-     */
-    private void setUpMap() {
-        //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-    }
-
-    /* TODO: Muestra los buses*/
-    public void showBuses() {
-        /*Firebase firebaseRef = new Firebase(mFIREBASE_URL);
-
-        firebaseRef.addChildEventListener(new ChildEventListener() {
-
-            @Override
-            public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
-
-                Location location = new Location("dummyprovider");
-
-                mGps = (String) snapshot.child("GpsID").getValue();
-                mLocation = (String) snapshot.child("Location").getValue();
-                String[] parts = mLocation.split(" ");
-                mLatitud = Double.parseDouble(parts[0]);
-                mLongitud = Double.parseDouble(parts[1]);
-                location.setLatitude(mLatitud);
-                location.setLongitude(mLongitud);
-                onLocationChanged(location);
-                mMarcadorBus = mMarcadorUpdate;
-
-            }
-
-            @Override
-            public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot snapshot) {
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("The read failed: " + firebaseError.getMessage());
-            }
-
-        });*/
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.rutas, menu);
-        return true;
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo)
-    {
-        super.onCreateContextMenu(menu, v, menuInfo);
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.rutas, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        return true;
-    }
 }
 
