@@ -20,12 +20,10 @@
         android:padding="30dp"
         android:textSize="13dp"
         android:background="@drawable/custom_button"
-        android:translationX="-10dp"
-        android:translationY="10dp"
         android:minLines="1"
         android:lines="1"
         android:layout_toRightOf="@+id/Favoritosbutton"
-        android:layout_alignRight="@+id/Eventosbutton" />
+        android:translationX="-10dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -38,14 +36,11 @@
         android:textSize="13dp"
         android:background="@drawable/custom_button"
         android:layout_toStartOf="@+id/button"
-        android:translationX="10dp"
-        android:translationY="10dp"
         android:minLines="1"
         android:lines="1"
-        android:layout_alignTop="@+id/Alarmabutton"
+        android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/Favoritosbutton"
-        android:layout_alignBottom="@+id/Alarmabutton"
-        android:layout_alignLeft="@+id/Ubicacionbutton" />
+        android:translationX="10dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -57,14 +52,12 @@
         android:padding="30dp"
         android:textSize="13dp"
         android:background="@drawable/custom_button"
-        android:translationX="10dp"
-        android:translationY="-10dp"
         android:minLines="1"
         android:lines="1"
-        android:layout_alignTop="@+id/Eventosbutton"
-        android:layout_toLeftOf="@+id/Favoritosbutton"
-        android:layout_toStartOf="@+id/Favoritosbutton"
-        android:layout_alignBottom="@+id/Eventosbutton" />
+        android:layout_toLeftOf="@+id/Rutasbutton"
+        android:layout_below="@+id/Rutasbutton"
+        android:translationX="20dp"
+        android:translationY="-10dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -76,13 +69,12 @@
         android:padding="30dp"
         android:textSize="13dp"
         android:background="@drawable/custom_button"
-        android:translationX="-10dp"
-        android:translationY="-10dp"
         android:minLines="1"
         android:lines="1"
-        android:layout_toEndOf="@+id/Favoritosbutton"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/Favoritosbutton" />
+        android:layout_below="@+id/Alarmabutton"
+        android:layout_toRightOf="@+id/Alarmabutton"
+        android:translationX="-20dp"
+        android:translationY="-10dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -96,6 +88,17 @@
         android:background="@drawable/custom_button"
         android:minLines="1"
         android:lines="1"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentTop="false"
+        android:layout_marginTop="64dp"
+        android:layout_centerInParent="true" />
+
+    <fragment
+        android:id="@+id/adFragment"
+        android:name="com.example.busdevelop.buses.MainActivity$AdFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/Alarmabutton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"/>
+
 </RelativeLayout>
