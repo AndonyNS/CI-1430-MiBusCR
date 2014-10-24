@@ -20,6 +20,7 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -39,6 +40,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 
 public class FavoritosActivity extends ActionBarActivity {
@@ -46,11 +48,11 @@ public class FavoritosActivity extends ActionBarActivity {
     private GoogleMap mGoogleMap;
     private List<Ruta> mFavoritosArray;
     private List<String> mNombreRutaArray;
+    private List<Row> rows;
     private ListView mList;
     private List<LatLng> mMarkerParadas;
     private Usuario mUsuario;
     private String mUrlFavorita= "https://murmuring-anchorage-1614.herokuapp.com/rutas/";
-    private ArrayAdapter<String> mAdapter;
     private List<String> ids = new ArrayList<String>();
     private final String mPrefs_Name = "MyPrefsFile";
 
@@ -65,7 +67,7 @@ public class FavoritosActivity extends ActionBarActivity {
         mFavoritosArray = new ArrayList<Ruta>();
 
 
-       getRutas();
+
 
         // Locate the ListView in activity_obt_rutas.xml
         mList = (ListView) findViewById(R.id.favoritoslist);
@@ -73,11 +75,7 @@ public class FavoritosActivity extends ActionBarActivity {
 
 
 
-        try {
-            if (mGoogleMap == null) {
-                mGoogleMap = ((MapFragment) getFragmentManager().
-                        findFragmentById(R.id.map)).getMap();
-            }
+        setUpMapIfNeed();
 
         CameraUpdate centro = CameraUpdateFactory.newLatLng(new LatLng(9.935783, -84.051375));
         CameraUpdate zoom=CameraUpdateFactory.zoomTo(14);
@@ -86,12 +84,8 @@ public class FavoritosActivity extends ActionBarActivity {
         mGoogleMap.moveCamera(centro);
         mGoogleMap.animateCamera(zoom);
 
-        } catch (Exception e) {
 
-            e.printStackTrace();
-            Log.e("Mapa", "exception", e);
-        }
-
+        getRutas();
 
 
        }
@@ -107,75 +101,65 @@ public class FavoritosActivity extends ActionBarActivity {
     }
 
     private void createListView(){
-        // Get ListView object from xml
+
         mList = (ListView) findViewById(R.id.favoritoslist);
+        rows = new ArrayList<Row>();
+        //mNombreRutaArray = new ArrayList<String>();
+        Row row = null;
 
-        mNombreRutaArray = new ArrayList<String>();
         for ( Ruta r : mFavoritosArray){
-            mNombreRutaArray.add(r.getNombre());
-            Log.d("Prueba",r.getNombre());
+            row = new Row();
+            row.setTitle(r.getNombre());
+            rows.add(row);
+            Log.d("hasta aqui voy bien", r.getNombre());
         }
-        if(!mNombreRutaArray.isEmpty()){
+        if(!rows.isEmpty()){
             mList.setVisibility(View.VISIBLE);
-            Log.e("mensaje","lista vacia");
+            Log.e("mensaje","lista no vacia");
         }
 
-        // Define a new Adapter
-        // First parameter - Context
-        // Second parameter - Layout for the row
-        // Third parameter - ID of the TextView to which the data is written
-        // Forth - the Array of data
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1,mNombreRutaArray);
+        Log.d("sali del for","");
 
+        //Le envía al array adapter personalizado el contexto del cual va a llamarlo y el ArrayList de filas
+        CustomArrayAdapter adapter = new CustomArrayAdapter(this, rows);
 
-        // Assign adapter to ListView
         mList.setAdapter(adapter);
+
+
+
 
         // ListView Item Click Listener
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                // ListView Clicked item index
-                final int itemPosition = position;
+                Ruta itemValue = mFavoritosArray.get(position);
 
-                // ListView Clicked item value
-                String itemValue = (String) mList.getItemAtPosition(position);
-
-                // Show Alert
-                Toast.makeText(getApplicationContext(),
-                        "Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
-                        .show();
-
-                view.animate().setDuration(2000).alpha(0).withEndAction(new Runnable() {
-                    @Override
-                    public void run() {
-                        Ruta seleccionada = mFavoritosArray.get(itemPosition);
-                        String nombre = mNombreRutaArray.get(itemPosition);
+                Log.d("obtuve la seleccionada", itemValue.getNombre());
+                new DibujarRuta(mGoogleMap, itemValue);
 
 
-                        mFavoritosArray.clear();
-                        mNombreRutaArray.clear();
-                        mFavoritosArray.add(seleccionada);
-                        mNombreRutaArray.add(nombre);
-
-                        mAdapter.notifyDataSetChanged();
-
-                        dibujarRuta(seleccionada);
-
-                    }
-
-
-                });
             }
         });
     }
 
 
+    private void setUpMapIfNeed(){
 
+
+            if (mGoogleMap == null) {
+                mGoogleMap = ((SupportMapFragment) getSupportFragmentManager().
+                        findFragmentById(R.id.map)).getMap();
+            }
+    }
+
+    @Override
+    protected void onResume(){
+
+        super.onResume();
+        setUpMapIfNeed();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
