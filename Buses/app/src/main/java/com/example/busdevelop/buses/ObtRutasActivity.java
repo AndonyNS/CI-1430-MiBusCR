@@ -27,7 +27,7 @@ public class ObtRutasActivity extends ActionBarActivity {
 
     ManejadorRutas mManejador;
     ListView mList;
-    static ListViewAdapter mAdapter;
+    static ListViewAdapter smAdapter;
     EditText searchText;
     Usuario mUsuario;
     private final String mPrefs_Name = "MyPrefsFile";
@@ -66,7 +66,7 @@ public class ObtRutasActivity extends ActionBarActivity {
             public void afterTextChanged(Editable arg0) {
                 // TODO Auto-generated method stub
                 String text = searchText.getText().toString().toLowerCase(Locale.getDefault());
-                    mAdapter.filter(text);
+                    smAdapter.filter(text);
             }
 
             /*
@@ -147,10 +147,10 @@ public class ObtRutasActivity extends ActionBarActivity {
                if( succes){
                    Toast.makeText(getBaseContext(), "Rutas Obtenidas!", Toast.LENGTH_LONG).show();
                    // Pasar las rutas al  ListViewAdapter
-                   mAdapter = new ListViewAdapter(mActivity, mManejador.getListaRutas());
+                   smAdapter = new ListViewAdapter(mActivity, mManejador.getListaRutas());
 
                    // enlazar el adaptador con el listView
-                   mList.setAdapter(mAdapter);
+                   mList.setAdapter(smAdapter);
                }else{
                    Toast.makeText(getBaseContext(), "Error al obtener rutas!",
                            Toast.LENGTH_LONG).show();

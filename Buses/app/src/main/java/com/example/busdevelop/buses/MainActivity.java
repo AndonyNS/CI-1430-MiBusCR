@@ -27,7 +27,7 @@ import com.google.android.gms.ads.AdListener;
 public class MainActivity extends ActionBarActivity {
 
     private final String mPrefs_Name = "MyPrefsFile";
-    private static boolean pubIni = true;
+    private static boolean spubIni = true;
     private String[] mOpcionesMenu;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -89,7 +89,7 @@ public class MainActivity extends ActionBarActivity {
         } else {
             Log.d("comments", "" + settings.getString("UserEmail", ""));
         }
-        if (pubIni){
+        if (spubIni){
             // Create the interstitial.
             interstitial = new InterstitialAd(this);
             interstitial.setAdUnitId("ca-app-pub-7772032558547848/9595547219");
@@ -104,7 +104,7 @@ public class MainActivity extends ActionBarActivity {
                     displayInterstitial();
                 }
             });
-            pubIni = false;
+            spubIni = false;
         }
 
     }
