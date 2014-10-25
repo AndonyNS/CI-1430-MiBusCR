@@ -24,36 +24,7 @@ public class AutenticationTest extends ActivityTestCase {
 
     public void testObtenerToken()  {
         InputStream inputStream = null;
-        String resultado = "";
-        try{
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost("https://murmuring-anchorage-1614.herokuapp.com/tokens");
-            String json = "";
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.accumulate("email", "Api@MiBusCR.co.cr");
-            jsonObject.accumulate("password", "?$jMEyp5P_9=E7L");
-            json = jsonObject.toString();
-            StringEntity se = new StringEntity(json);
-            httpPost.setEntity(se);
-            httpPost.setHeader("Accept", "application/json");
-            httpPost.setHeader("Content-type", "application/json");
-            HttpResponse httpResponse = httpclient.execute(httpPost);
-            inputStream = httpResponse.getEntity().getContent();
-            if(inputStream != null){
-                BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-                String linea = "";
-                while( (linea = bufferedReader.readLine()) != null){
-                    resultado += linea;
-                }
-                inputStream.close();
-            }else{
-                fail("Error al jalar los datos");
-                resultado = "Error al guardar datos";
-            }
-        }catch (Exception e){
-            fail("Stream error");
-            Log.d("InputStream", e.getLocalizedMessage());
-        }
+        String resultado = ApiManager.httpPost("https://murmuring-anchorage-1614.herokuapp.com/tokens","",new Token("Api@MiBusCR.co.cr","?$jMEyp5P_9=E7L"));
         try{
             JSONObject token = new JSONObject(resultado);
             assertEquals("b0936d7e239775e770ce002307f0acda", token.getString("token"));
@@ -66,36 +37,7 @@ public class AutenticationTest extends ActivityTestCase {
 
     public void testObtenerTokenPasswordIncorrecto()  {
         InputStream inputStream = null;
-        String resultado = "";
-        try{
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost("https://murmuring-anchorage-1614.herokuapp.com/tokens");
-            String json = "";
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.accumulate("email", "Api@MiBusCR.co.cr");
-            jsonObject.accumulate("password", "aaa");
-            json = jsonObject.toString();
-            StringEntity se = new StringEntity(json);
-            httpPost.setEntity(se);
-            httpPost.setHeader("Accept", "application/json");
-            httpPost.setHeader("Content-type", "application/json");
-            HttpResponse httpResponse = httpclient.execute(httpPost);
-            inputStream = httpResponse.getEntity().getContent();
-            if(inputStream != null){
-                BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-                String linea = "";
-                while( (linea = bufferedReader.readLine()) != null){
-                    resultado += linea;
-                }
-                inputStream.close();
-            }else{
-                fail("Error al jalar los datos");
-                resultado = "Error al guardar datos";
-            }
-        }catch (Exception e){
-            fail("Stream error");
-            Log.d("InputStream", e.getLocalizedMessage());
-        }
+        String resultado = ApiManager.httpPost("https://murmuring-anchorage-1614.herokuapp.com/tokens","",new Token("Api@MiBusCR.co.cr","aaa"));
         assertEquals(resultado, " ");
     }
 
@@ -113,29 +55,7 @@ public class AutenticationTest extends ActivityTestCase {
 
     public void testAutenticacionSinToken()  {
         InputStream inputStream = null;
-        String resultado = "";
-        try{
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet("https://murmuring-anchorage-1614.herokuapp.com/users/1");
-            httpGet.setHeader("Accept", "application/json");
-            httpGet.setHeader("Content-type", "application/json");
-            HttpResponse httpResponse = httpclient.execute(httpGet);
-            inputStream = httpResponse.getEntity().getContent();
-            if(inputStream != null){
-                BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-                String linea = "";
-                while( (linea = bufferedReader.readLine()) != null){
-                    resultado += linea;
-                }
-                inputStream.close();
-            }else{
-                fail("Error al jalar los datos");
-                resultado = "Error al guardar datos";
-            }
-        }catch (Exception e){
-            fail("Stream error");
-            Log.d("InputStream", e.getLocalizedMessage());
-        }
+        String resultado = ApiManager.httpGet("https://murmuring-anchorage-1614.herokuapp.com/users/1","");
         try{
             JSONObject token = new JSONObject(resultado);
             assertEquals("Invalid API Token", token.getString("message"));

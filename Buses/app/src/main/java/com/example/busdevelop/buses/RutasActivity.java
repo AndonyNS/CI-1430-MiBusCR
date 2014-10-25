@@ -96,7 +96,7 @@ public class RutasActivity extends ActionBarActivity {
             try {
                 mUsuario.guardarTokenId(resultado);
                 // una vez obtenido el token se pide las rutas
-                new HttpAsyncTask(mActivity).execute("https://murmuring-anchorage-1614.herokuapp.com/rutas");
+                new HttpAsyncTask(mActivity).execute();
             } catch(IllegalArgumentException i){
                 Log.e("Error de argumento",""+i.getMessage());
             }
@@ -111,39 +111,8 @@ public class RutasActivity extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... urls) {
-            try{
-                // una vez recibido el string con  el json
-                //  se parsea guardando en un array
-                JSONArray rutas = new JSONArray(GET(urls[0]));
-
-
-                //  cada i corresponderia a una diferente ruta
-                // se obtiene el objetoJson de esa posicion
-                // y se le sacan los atributos que todos serian
-                //  Strings. Se guarda una ruta en el arreglo de rutas
-                for(int i = 0; i < rutas.length(); i++){
-                    Ruta ruta = new Ruta();
-                    ruta.setId(Integer.toString(rutas.getJSONObject(i).getInt("id")));
-                    ruta.setNombre(rutas.getJSONObject(i).getString("nombre"));
-                    ruta.setFrecuencia(rutas.getJSONObject(i).getString("frecuencia"));
-                    ruta.setPrecio(rutas.getJSONObject(i).getString("precio"));
-                    ruta.setHorario(rutas.getJSONObject(i).getString("horario"));
-                    ruta.setParadas(mUsuario.getToken());
-                    mListaRutas.add(ruta);
-                }
-
-                // mResultRutas.setText(mRutasArray.get(1).getFrecuencia());
-
-                // Pasar las rutas al  ListViewAdapter
-                //mAdapter = new ListViewAdapter(mActivity, mRutasArray);
-
-                // enlazar el adaptador con el listView
-                //mList.setAdapter(mAdapter);
-
-
-            }catch(JSONException e){
-                e.printStackTrace();
-            }
+            ManejadorRutas manejador = ManejadorRutas.getInstancia(mUsuario.getToken());
+            mListaRutas = manejador.getListaRutas();
             return "Rutas Obtenidas!";
         }
 
@@ -164,16 +133,6 @@ public class RutasActivity extends ActionBarActivity {
         }
     }
 
-    /**
-     * Metodo que hace un request al API con la url donde
-     * se pregunta por la tabla de rutas
-     * @param url url que almacena las rutas
-     * @return String con  el array Json
-     */
-    public  String GET(String url){
-        String resultado = ApiManager.httpGet(url,mUsuario.getToken());
-        return resultado;
-    }
 
     @Override
     protected void onResume() {
