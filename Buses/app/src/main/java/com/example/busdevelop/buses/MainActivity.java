@@ -18,15 +18,21 @@ import android.widget.ListView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.AdListener;
+
 
 
 
 public class MainActivity extends ActionBarActivity {
 
     private final String mPrefs_Name = "MyPrefsFile";
+    private static boolean pubIni = true;
     private String[] mOpcionesMenu;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    private InterstitialAd interstitial;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +42,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
 
-        mOpcionesMenu = new String[] {"Editar cuenta", "Buscar", "Cerrar Sesión"};
+        mOpcionesMenu = new String[]{"Editar cuenta", "Buscar", "Cerrar Sesión"};
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -75,15 +81,37 @@ public class MainActivity extends ActionBarActivity {
 
         SharedPreferences settings = getSharedPreferences(mPrefs_Name, 0);
         Intent intent;
-        if (settings.getBoolean("SinRegistrar",true)){
+        if (settings.getBoolean("SinRegistrar", true)) {
 
             Log.d("Comments", "No se ha registrado");
             intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
-        }else{
-            Log.d("comments",""+settings.getString("UserEmail",""));
+        } else {
+            Log.d("comments", "" + settings.getString("UserEmail", ""));
+        }
+        if (pubIni){
+            // Create the interstitial.
+            interstitial = new InterstitialAd(this);
+            interstitial.setAdUnitId("ca-app-pub-7772032558547848/9595547219");
+
+            // Create ad request.
+            AdRequest adRequest = new AdRequest.Builder().build();
+
+            // Begin loading your interstitial.
+            interstitial.loadAd(adRequest);
+            interstitial.setAdListener(new AdListener() {
+                public void onAdLoaded() {
+                    displayInterstitial();
+                }
+            });
+            pubIni = false;
         }
 
+    }
+    public void displayInterstitial() {
+        if (interstitial.isLoaded()) {
+            interstitial.show();
+        }
     }
 
 
