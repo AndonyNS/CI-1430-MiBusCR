@@ -1,10 +1,9 @@
 package com.example.busdevelop.buses;
 
 
-import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
+
 import java.util.ArrayList;
 
 /**
@@ -20,7 +19,7 @@ public class ManejadorRutas {
 
     private ManejadorRutas(String token){
         mToken = token;
-       llenarLista(GET(urlRutas));
+       llenarLista(GET(urlRutas),token);
     }
 
 
@@ -64,7 +63,7 @@ public class ManejadorRutas {
      * metodo que parse el json recibido
      */
 
-    public void llenarLista(String resultado){
+    public void llenarLista(String resultado,String token){
         try{
             // una vez recibido el string con  el json
             //  se parsea guardando en un array
@@ -82,6 +81,7 @@ public class ManejadorRutas {
                 ruta.setFrecuencia(rutas.getJSONObject(i).getString("frecuencia"));
                 ruta.setPrecio(rutas.getJSONObject(i).getString("precio"));
                 ruta.setHorario(rutas.getJSONObject(i).getString("horario"));
+                ruta.setParadas(token);
                 mRutasArray.add(ruta);
             }
 
