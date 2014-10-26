@@ -20,6 +20,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,9 +62,13 @@ public class RutasActivity extends ActionBarActivity {
             //UCR new LatLng(9.935783, -84.051375)
             //MiUbicacion new LatLng(mMap.getMyLocation().getLatitude(),mMap.getMyLocation().getLongitude());
             //Inicia el mapa centrado en San José
-            LatLng latlng = new LatLng(9.634256,-83.996543);
-            Log.d("prueba",""+mMap.getMyLocation().getLatitude());
-            moveToLocation(latlng, 9);
+            LatLng latlng;
+            try{
+                latlng = new LatLng(mMap.getMyLocation().getLatitude(),mMap.getMyLocation().getLongitude());
+            }catch(NullPointerException e){
+                latlng = new LatLng(9.9200652,-84.0846053);
+            }
+            moveToLocation(latlng, 13);
 
             // The map will be cleared on long click
             mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
@@ -103,6 +108,40 @@ public class RutasActivity extends ActionBarActivity {
         mMap.animateCamera(zoom);
     }
 
+    /* Método que mueve la cámara a los límites establecidos por
+    * dos paradas, el método LatLngBounds funciona formando un cuadrado
+    * en orden SO -> NE por lo que si la latitud de una parada está
+    * después que la latitud de la segunda, quedará un "cuadrado invertido"
+    * y esto es un error para el mapa
+    * */
+    private void moveToBounds(Parada parada1,Parada parada2){
+        Double latitudSur = Double.parseDouble(parada1.getLatitud());
+        Double longitudSur = Double.parseDouble(parada1.getLongitud());
+        Double latitudNorte = Double.parseDouble(parada2.getLatitud());
+        Double longitudNorte = Double.parseDouble(parada2.getLongitud());
+
+        if(latitudSur>latitudNorte){
+            Double temp = latitudSur;
+            latitudSur = latitudNorte;
+            latitudNorte = temp;
+
+            temp = longitudSur;
+            longitudSur = longitudNorte;
+            longitudNorte = temp;
+        }
+
+
+        LatLngBounds bounds = new LatLngBounds(
+                new LatLng(latitudSur,
+                        longitudSur),
+                new LatLng(latitudNorte,
+                        longitudNorte)
+        );
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,0));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(mMap.getCameraPosition().zoom-1));
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -134,23 +173,20 @@ public class RutasActivity extends ActionBarActivity {
         listViewRutas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(getApplicationContext(), rows.get(position).getTitle(), Toast.LENGTH_SHORT).show();
 
                 // Obtiene la ruta seleccionada
-                Ruta  itemValue = mListaRutas.get(position);
+                Ruta rutaSeleccionada = mListaRutas.get(position);
 
                 //Llama a la clase que dibuja la ruta,
-                new DibujarRuta(mMap,itemValue);
+                new DibujarRuta(mMap, rutaSeleccionada);
 
-                /*itemValue.getParadaFinal().getLatitud();
-
-                LatLngBoundsCreator bounds;
-                bounds = new LatLngBoundsCreator();
-
-                bounds.include(new LatLng(Double.parseDouble(itemValue.getParadaInicial().getLatitud()), Double.parseDouble(itemValue.getParadaInicial().getLongitud())));
-                */
+                Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaInicial().getLatitud());
+                Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaInicial().getLongitud());
+                Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaFinal().getLatitud());
+                Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaFinal().getLongitud());
+                moveToBounds(rutaSeleccionada.getParadaInicial(), rutaSeleccionada.getParadaFinal());
 
             }
         });
@@ -297,14 +333,6 @@ public class RutasActivity extends ActionBarActivity {
                     ruta.setParadas(mUsuario.getToken());
                     mListaRutas.add(ruta);
                 }
-
-                // mResultRutas.setText(mRutasArray.get(1).getFrecuencia());
-
-                // Pasar las rutas al  ListViewAdapter
-                //mAdapter = new ListViewAdapter(mActivity, mRutasArray);
-
-                // enlazar el adaptador con el listView
-                //mList.setAdapter(mAdapter);
 
 
             }catch(JSONException e){
