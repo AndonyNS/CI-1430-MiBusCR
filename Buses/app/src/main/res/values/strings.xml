@@ -16,6 +16,6 @@
     <string name="title_activity_single_item_view">SingleItemView</string>
     <string name="editar_cuenta">Editar cuenta</string>
     <string name="title_activity_favoritos_detail">FavoritosDetail</string>
-
+    <string name="title_activity_eventos">EventosActivity</string>
 
 </resources>
