@@ -189,10 +189,22 @@ public class FavoritosActivity extends ActionBarActivity {
                 Ruta itemValue = mFavoritosArray.get(position);
 
                 Log.d("obtuve la seleccionada", itemValue.getNombre());
-                //Llama a la clase que dibuja la ruta
-                new DibujarRuta(mGoogleMap, itemValue);
 
-            }
+                try {
+                    if (mGoogleMap == null) {
+                        mGoogleMap = ((MapFragment) getFragmentManager().
+                                findFragmentById(R.id.map)).getMap();
+                    }
+                    //itemValue.setParadas(mUsuario.getToken());
+                    //Llama a la clase que dibuja la ruta
+                    new DibujarRuta(mGoogleMap, itemValue);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e("Mapa", "exception", e);
+                }
+
+                }
         });
     }
 
@@ -348,7 +360,7 @@ public class FavoritosActivity extends ActionBarActivity {
                     favoritos.setFrecuencia(rutas.getString("frecuencia"));
                     favoritos.setPrecio(rutas.getString("precio"));
                     favoritos.setHorario(rutas.getString("horario"));
-                    //favoritos.setParadas(mUsuario.getToken());
+                    favoritos.setParadas(mUsuario.getToken());
                     mFavoritosArray.add(favoritos);
 
 
