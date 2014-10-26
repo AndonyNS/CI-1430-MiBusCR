@@ -303,7 +303,7 @@ public class RutasActivity extends ActionBarActivity {
             try {
                 mUsuario.guardarTokenId(resultado);
                 // una vez obtenido el token se pide las rutas
-                new HttpAsyncTask(mActivity).execute("https://murmuring-anchorage-1614.herokuapp.com/rutas");
+                new HttpAsyncTask(mActivity).execute();
             } catch(IllegalArgumentException i){
                 Log.e("Error de argumento",""+i.getMessage());
             }
