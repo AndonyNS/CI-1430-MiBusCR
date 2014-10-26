@@ -16,13 +16,23 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.AdListener;
+
+
+
 
 public class MainActivity extends ActionBarActivity {
 
     private final String mPrefs_Name = "MyPrefsFile";
+    private static boolean spubIni = true;
     private String[] mOpcionesMenu;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    private InterstitialAd interstitial;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +41,8 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mOpcionesMenu = new String[] {"Editar cuenta", "Buscar", "Cerrar Sesión"};
+
+        mOpcionesMenu = new String[]{"Editar cuenta", "Buscar", "Cerrar Sesión"};
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -70,15 +81,37 @@ public class MainActivity extends ActionBarActivity {
 
         SharedPreferences settings = getSharedPreferences(mPrefs_Name, 0);
         Intent intent;
-        if (settings.getBoolean("SinRegistrar",true)){
+        if (settings.getBoolean("SinRegistrar", true)) {
 
             Log.d("Comments", "No se ha registrado");
             intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
-        }else{
-            Log.d("comments",""+settings.getString("UserEmail",""));
+        } else {
+            Log.d("comments", "" + settings.getString("UserEmail", ""));
+        }
+        if (spubIni){
+            // Create the interstitial.
+            interstitial = new InterstitialAd(this);
+            interstitial.setAdUnitId("ca-app-pub-7772032558547848/9595547219");
+
+            // Create ad request.
+            AdRequest adRequest = new AdRequest.Builder().build();
+
+            // Begin loading your interstitial.
+            interstitial.loadAd(adRequest);
+            interstitial.setAdListener(new AdListener() {
+                public void onAdLoaded() {
+                    displayInterstitial();
+                }
+            });
+            spubIni = false;
         }
 
+    }
+    public void displayInterstitial() {
+        if (interstitial.isLoaded()) {
+            interstitial.show();
+        }
     }
 
 
@@ -146,6 +179,9 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+
+
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -161,5 +197,57 @@ public class MainActivity extends ActionBarActivity {
             return rootView;
         }
     }
+
+    public static class AdFragment extends Fragment {
+
+        private AdView mAdView;
+
+        public AdFragment() {
+        }
+
+        @Override
+        public void onActivityCreated(Bundle bundle) {
+            super.onActivityCreated(bundle);
+            mAdView = (AdView) getView().findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            return inflater.inflate(R.layout.fragment_ad, container, false);
+        }
+
+        /** Called when leaving the activity */
+        @Override
+        public void onPause() {
+            if (mAdView != null) {
+                mAdView.pause();
+            }
+            super.onPause();
+        }
+
+        /** Called when returning to the activity */
+        @Override
+        public void onResume() {
+            super.onResume();
+            if (mAdView != null) {
+                mAdView.resume();
+            }
+        }
+
+        /** Called before the activity is destroyed */
+        @Override
+        public void onDestroy() {
+            if (mAdView != null) {
+                mAdView.destroy();
+            }
+            super.onDestroy();
+        }
+
+
+    }
+
 
 }

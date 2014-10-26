@@ -19,10 +19,18 @@
     <ListView
         android:id="@+id/listviewRutas"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:divider="#ee7b1012"
         android:dividerHeight="1dp"
-        android:layout_below="@+id/search_text"/>
+        android:layout_below="@+id/search_text"
+        android:layout_above="@+id/adFragment" />
+
+    <fragment
+        android:id="@+id/adFragment"
+        android:name="com.example.busdevelop.buses.MainActivity$AdFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
 
 
 </RelativeLayout>

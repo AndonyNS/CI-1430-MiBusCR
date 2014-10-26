@@ -22,9 +22,6 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,11 +96,11 @@ public class RutasActivity extends ActionBarActivity {
         new HttpAsyncTaskToken(this).execute();
     }
 
-    //Métod
-    private void moveToLocation(LatLng ll,int zoomDistance){
+    //Método que mueve la cámara al LatLng dado y al zoom indicado
+    private void moveToLocation(LatLng ll,int zoomDistance) {
         //new LatLng(9.935783, -84.051375)
         CameraUpdate ubicacion = CameraUpdateFactory.newLatLng(ll);
-        CameraUpdate zoom=CameraUpdateFactory.zoomTo(zoomDistance);
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(zoomDistance);
         mMap.moveCamera(ubicacion);
         mMap.animateCamera(zoom);
     }
@@ -139,23 +136,15 @@ public class RutasActivity extends ActionBarActivity {
             este = temp;
         }
 
-
         LatLngBounds bounds = new LatLngBounds(
-                new LatLng(sur,
-                        oeste),
-                new LatLng(norte,
-                        este)
+                new LatLng(sur,oeste),
+                new LatLng(norte,este)
         );
 
         //Mueve la cámara al cuadrado creado por LatLngBounds
         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,0));
         //Hace el zoom 1 para "afuera" porque sino quedan las paradas en el borde de la cámara
         mMap.animateCamera(CameraUpdateFactory.zoomTo(mMap.getCameraPosition().zoom-1));
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     private void createListView(){
@@ -257,6 +246,11 @@ public class RutasActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.rutas, menu);
@@ -324,31 +318,8 @@ public class RutasActivity extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... urls) {
-            try{
-                // una vez recibido el string con  el json
-                //  se parsea guardando en un array
-                JSONArray rutas = new JSONArray(GET(urls[0]));
-
-
-                //  cada i corresponderia a una diferente ruta
-                // se obtiene el objetoJson de esa posicion
-                // y se le sacan los atributos que todos serian
-                //  Strings. Se guarda una ruta en el arreglo de rutas
-                for(int i = 0; i < rutas.length(); i++){
-                    Ruta ruta = new Ruta();
-                    ruta.setId(Integer.toString(rutas.getJSONObject(i).getInt("id")));
-                    ruta.setNombre(rutas.getJSONObject(i).getString("nombre"));
-                    ruta.setFrecuencia(rutas.getJSONObject(i).getString("frecuencia"));
-                    ruta.setPrecio(rutas.getJSONObject(i).getString("precio"));
-                    ruta.setHorario(rutas.getJSONObject(i).getString("horario"));
-                    ruta.setParadas(mUsuario.getToken());
-                    mListaRutas.add(ruta);
-                }
-
-
-            }catch(JSONException e){
-                e.printStackTrace();
-            }
+            ManejadorRutas manejador = ManejadorRutas.getInstancia(mUsuario.getToken());
+            mListaRutas = manejador.getListaRutas();
             return "Rutas Obtenidas!";
         }
 
@@ -368,17 +339,5 @@ public class RutasActivity extends ActionBarActivity {
             }
         }
     }
-
-    /**
-     * Metodo que hace un request al API con la url donde
-     * se pregunta por la tabla de rutas
-     * @param url url que almacena las rutas
-     * @return String con  el array Json
-     */
-    public  String GET(String url){
-        String resultado = ApiManager.httpGet(url,mUsuario.getToken());
-        return resultado;
-    }
-
 }
 

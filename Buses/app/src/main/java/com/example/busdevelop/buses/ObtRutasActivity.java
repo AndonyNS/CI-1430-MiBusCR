@@ -4,14 +4,22 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.Locale;
 
 
@@ -19,7 +27,7 @@ public class ObtRutasActivity extends ActionBarActivity {
 
     ManejadorRutas mManejador;
     ListView mList;
-    ListViewAdapter mAdapter;
+    static ListViewAdapter smAdapter;
     EditText searchText;
     Usuario mUsuario;
     private final String mPrefs_Name = "MyPrefsFile";
@@ -58,7 +66,7 @@ public class ObtRutasActivity extends ActionBarActivity {
             public void afterTextChanged(Editable arg0) {
                 // TODO Auto-generated method stub
                 String text = searchText.getText().toString().toLowerCase(Locale.getDefault());
-                mAdapter.filter(text);
+                    smAdapter.filter(text);
             }
 
             /*
@@ -139,10 +147,10 @@ public class ObtRutasActivity extends ActionBarActivity {
                if( succes){
                    Toast.makeText(getBaseContext(), "Rutas Obtenidas!", Toast.LENGTH_LONG).show();
                    // Pasar las rutas al  ListViewAdapter
-                   mAdapter = new ListViewAdapter(mActivity, mManejador.getListaRutas());
+                   smAdapter = new ListViewAdapter(mActivity, mManejador.getListaRutas());
 
                    // enlazar el adaptador con el listView
-                   mList.setAdapter(mAdapter);
+                   mList.setAdapter(smAdapter);
                }else{
                    Toast.makeText(getBaseContext(), "Error al obtener rutas!",
                            Toast.LENGTH_LONG).show();
@@ -180,6 +188,73 @@ public class ObtRutasActivity extends ActionBarActivity {
             new HttpAsyncTask(mActivity).execute(mUsuario.getToken());
 
         }
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PlaceholderFragment extends Fragment {
+
+        public PlaceholderFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            return rootView;
+        }
+    }
+
+    public static class AdFragment extends Fragment {
+
+        private AdView mAdView;
+
+        public AdFragment() {
+        }
+
+        @Override
+        public void onActivityCreated(Bundle bundle) {
+            super.onActivityCreated(bundle);
+            mAdView = (AdView) getView().findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            return inflater.inflate(R.layout.fragment_ad, container, false);
+        }
+
+        // Called when leaving the activity
+        @Override
+        public void onPause() {
+            if (mAdView != null) {
+                mAdView.pause();
+            }
+            super.onPause();
+        }
+
+        // Called when returning to the activity
+        @Override
+        public void onResume() {
+            super.onResume();
+            if (mAdView != null) {
+                mAdView.resume();
+            }
+        }
+
+        // Called before the activity is destroyed
+        @Override
+        public void onDestroy() {
+            if (mAdView != null) {
+                mAdView.destroy();
+            }
+            super.onDestroy();
+        }
+
+
     }
 
 }
