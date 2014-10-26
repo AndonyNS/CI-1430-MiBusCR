@@ -115,30 +115,41 @@ public class RutasActivity extends ActionBarActivity {
     * y esto es un error para el mapa
     * */
     private void moveToBounds(Parada parada1,Parada parada2){
-        Double latitudSur = Double.parseDouble(parada1.getLatitud());
-        Double longitudSur = Double.parseDouble(parada1.getLongitud());
-        Double latitudNorte = Double.parseDouble(parada2.getLatitud());
-        Double longitudNorte = Double.parseDouble(parada2.getLongitud());
+        //Debido a que el orden es Sur Oeste
+        Double sur = Double.parseDouble(parada1.getLatitud());
+        Double oeste = Double.parseDouble(parada1.getLongitud());
+        Double norte = Double.parseDouble(parada2.getLatitud());
+        Double este = Double.parseDouble(parada2.getLongitud());
 
-        if(latitudSur>latitudNorte){
-            Double temp = latitudSur;
-            latitudSur = latitudNorte;
-            latitudNorte = temp;
+        /*Si el sur es mayor que el norte, significa que la
+        * parada1 está más arriba que la parada2, entonces
+        * hay que intercambiarlas */
+        if(sur>norte){
+            Double temp = sur;
+            sur = norte;
+            norte = temp;
+        }
 
-            temp = longitudSur;
-            longitudSur = longitudNorte;
-            longitudNorte = temp;
+        /* Si el oeste es mayor que el este, significa que la
+        * parada1 está a la derecha de la parada, entonces
+        * hay que intercambiarlas*/
+        if(oeste>este){
+            Double temp = oeste;
+            oeste = este;
+            este = temp;
         }
 
 
         LatLngBounds bounds = new LatLngBounds(
-                new LatLng(latitudSur,
-                        longitudSur),
-                new LatLng(latitudNorte,
-                        longitudNorte)
+                new LatLng(sur,
+                        oeste),
+                new LatLng(norte,
+                        este)
         );
 
+        //Mueve la cámara al cuadrado creado por LatLngBounds
         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,0));
+        //Hace el zoom 1 para "afuera" porque sino quedan las paradas en el borde de la cámara
         mMap.animateCamera(CameraUpdateFactory.zoomTo(mMap.getCameraPosition().zoom-1));
     }
 
@@ -182,10 +193,10 @@ public class RutasActivity extends ActionBarActivity {
                 //Llama a la clase que dibuja la ruta,
                 new DibujarRuta(mMap, rutaSeleccionada);
 
-                Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaInicial().getLatitud());
+                /*Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaInicial().getLatitud());
                 Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaInicial().getLongitud());
                 Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaFinal().getLatitud());
-                Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaFinal().getLongitud());
+                Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaFinal().getLongitud());*/
                 moveToBounds(rutaSeleccionada.getParadaInicial(), rutaSeleccionada.getParadaFinal());
 
             }
