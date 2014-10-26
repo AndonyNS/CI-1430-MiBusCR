@@ -22,6 +22,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -199,6 +200,8 @@ public class FavoritosActivity extends ActionBarActivity {
                     //Llama a la clase que dibuja la ruta
                     new DibujarRuta(mGoogleMap, itemValue);
 
+                    moveToBounds(itemValue.getParadaInicial(), itemValue.getParadaFinal());
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.e("Mapa", "exception", e);
@@ -207,6 +210,49 @@ public class FavoritosActivity extends ActionBarActivity {
                 }
         });
     }
+
+    /* Método que mueve la cámara a los límites establecidos por
+    * dos paradas, el método LatLngBounds funciona formando un cuadrado
+    * en orden SO -> NE por lo que si la latitud de una parada está
+    * después que la latitud de la segunda, quedará un "cuadrado invertido"
+    * y esto es un error para el mapa
+    * */
+    private void moveToBounds(Parada parada1,Parada parada2){
+        //Debido a que el orden es Sur Oeste
+        Double sur = Double.parseDouble(parada1.getLatitud());
+        Double oeste = Double.parseDouble(parada1.getLongitud());
+        Double norte = Double.parseDouble(parada2.getLatitud());
+        Double este = Double.parseDouble(parada2.getLongitud());
+
+        /*Si el sur es mayor que el norte, significa que la
+        * parada1 está más arriba que la parada2, entonces
+        * hay que intercambiarlas */
+        if(sur>norte){
+            Double temp = sur;
+            sur = norte;
+            norte = temp;
+        }
+
+        /* Si el oeste es mayor que el este, significa que la
+        * parada1 está a la derecha de la parada, entonces
+        * hay que intercambiarlas*/
+        if(oeste>este){
+            Double temp = oeste;
+            oeste = este;
+            este = temp;
+        }
+
+        LatLngBounds bounds = new LatLngBounds(
+                new LatLng(sur,oeste),
+                new LatLng(norte,este)
+        );
+
+        //Mueve la cámara al cuadrado creado por LatLngBounds
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,0));
+        //Hace el zoom 1 para "afuera" porque sino quedan las paradas en el borde de la cámara
+        mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(mGoogleMap.getCameraPosition().zoom-1));
+    }
+
 
     @Override
     protected void onResume() {
