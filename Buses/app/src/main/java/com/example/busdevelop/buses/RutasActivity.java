@@ -15,12 +15,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class RutasActivity extends ActionBarActivity {
     private Usuario mUsuario;
     private ListView listViewRutas;
     private List<Ruta> mListaRutas;
-    private List<Row> rows;
+
 
 
     @Override
@@ -40,14 +41,34 @@ public class RutasActivity extends ActionBarActivity {
 
         mListaRutas = new ArrayList<Ruta>();
 
-        setUpMapIfNeeded();
+        getRutas();
 
-        if (mMap != null) {
+        try {
+            if (mMap == null) {
+                mMap = ((MapFragment) getFragmentManager().
+                        findFragmentById(R.id.mapRutas)).getMap();
+            }
+
             // Enable MyLocation Button in the Map
             mMap.setMyLocationEnabled(true);
+
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            mMap.getUiSettings().setZoomGesturesEnabled(true);
+
+            //Obtiene la latitud y longitud de mi ubicación actual, y llama al método que mueve la cámara a una ubicación
+            //UCR new LatLng(9.935783, -84.051375)
+            //MiUbicacion new LatLng(mMap.getMyLocation().getLatitude(),mMap.getMyLocation().getLongitude());
+            //Inicia el mapa centrado en San José
+            LatLng latlng;
+            try{
+                latlng = new LatLng(mMap.getMyLocation().getLatitude(),mMap.getMyLocation().getLongitude());
+            }catch(NullPointerException e){
+                latlng = new LatLng(9.9200652,-84.0846053);
+            }
+            moveToLocation(latlng, 13);
+
             // The map will be cleared on long click
             mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-
                 @Override
                 public void onMapLongClick(LatLng point) {
                     // Removes all the points from Google Map
@@ -56,10 +77,12 @@ public class RutasActivity extends ActionBarActivity {
             });
 
             mMap.setTrafficEnabled(true);
-
-            getRutas();
-
             showBuses();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            Log.e("Mapa", "exception", e);
         }
 
     }
@@ -72,6 +95,190 @@ public class RutasActivity extends ActionBarActivity {
 
         new HttpAsyncTaskToken(this).execute();
     }
+
+    //Método que mueve la cámara al LatLng dado y al zoom indicado
+    private void moveToLocation(LatLng ll,int zoomDistance) {
+        //new LatLng(9.935783, -84.051375)
+        CameraUpdate ubicacion = CameraUpdateFactory.newLatLng(ll);
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(zoomDistance);
+        mMap.moveCamera(ubicacion);
+        mMap.animateCamera(zoom);
+    }
+
+    /* Método que mueve la cámara a los límites establecidos por
+    * dos paradas, el método LatLngBounds funciona formando un cuadrado
+    * en orden SO -> NE por lo que si la latitud de una parada está
+    * después que la latitud de la segunda, quedará un "cuadrado invertido"
+    * y esto es un error para el mapa
+    * */
+    private void moveToBounds(Parada parada1,Parada parada2){
+        //Debido a que el orden es Sur Oeste
+        Double sur = Double.parseDouble(parada1.getLatitud());
+        Double oeste = Double.parseDouble(parada1.getLongitud());
+        Double norte = Double.parseDouble(parada2.getLatitud());
+        Double este = Double.parseDouble(parada2.getLongitud());
+
+        /*Si el sur es mayor que el norte, significa que la
+        * parada1 está más arriba que la parada2, entonces
+        * hay que intercambiarlas */
+        if(sur>norte){
+            Double temp = sur;
+            sur = norte;
+            norte = temp;
+        }
+
+        /* Si el oeste es mayor que el este, significa que la
+        * parada1 está a la derecha de la parada, entonces
+        * hay que intercambiarlas*/
+        if(oeste>este){
+            Double temp = oeste;
+            oeste = este;
+            este = temp;
+        }
+
+        LatLngBounds bounds = new LatLngBounds(
+                new LatLng(sur,oeste),
+                new LatLng(norte,este)
+        );
+
+        //Mueve la cámara al cuadrado creado por LatLngBounds
+        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,0));
+        //Hace el zoom 1 para "afuera" porque sino quedan las paradas en el borde de la cámara
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(mMap.getCameraPosition().zoom-1));
+    }
+
+    private void createListView(){
+        // Get ListView object from xml
+        listViewRutas = (ListView) findViewById(R.id.rutaslist);
+        List<Row> rows = new ArrayList<Row>();
+
+        Row row = null;
+        //Llena toda las filas del listview con las listas obtenidas
+        for ( Ruta r : mListaRutas){
+            row = new Row();
+            row.setTitle(r.getNombre());
+            rows.add(row);
+            //nombresRutas.add(r.getNombre());
+            Log.d("Prueba", r.getNombre());
+        }
+        if(!rows.isEmpty()) {
+            listViewRutas.setVisibility(View.VISIBLE);
+        }
+
+        //Le envía al array adapter personalizado el contexto del cual va a llamarlo y el ArrayList de filas
+        CustomArrayAdapter adapter = new CustomArrayAdapter(this, rows);
+
+        listViewRutas.setAdapter(adapter);
+
+        listViewRutas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(getApplicationContext(), rows.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+
+                // Obtiene la ruta seleccionada
+                Ruta rutaSeleccionada = mListaRutas.get(position);
+
+                //Llama a la clase que dibuja la ruta,
+                new DibujarRuta(mMap, rutaSeleccionada);
+
+                /*Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaInicial().getLatitud());
+                Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaInicial().getLongitud());
+                Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaFinal().getLatitud());
+                Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaFinal().getLongitud());*/
+                moveToBounds(rutaSeleccionada.getParadaInicial(), rutaSeleccionada.getParadaFinal());
+
+            }
+        });
+    }
+
+    /**
+     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
+     * just add a marker near Africa.
+     * <p>
+     * This should only be called once and when we are sure that {@link #mMap} is not null.
+     */
+    private void setUpMap() {
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+    }
+
+    /* TODO: Muestra los buses*/
+    public void showBuses() {
+        /*Firebase firebaseRef = new Firebase(mFIREBASE_URL);
+
+        firebaseRef.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
+
+                Location location = new Location("dummyprovider");
+
+                mGps = (String) snapshot.child("GpsID").getValue();
+                mLocation = (String) snapshot.child("Location").getValue();
+                String[] parts = mLocation.split(" ");
+                mLatitud = Double.parseDouble(parts[0]);
+                mLongitud = Double.parseDouble(parts[1]);
+                location.setLatitude(mLatitud);
+                location.setLongitude(mLongitud);
+                onLocationChanged(location);
+                mMarcadorBus = mMarcadorUpdate;
+
+            }
+
+            @Override
+            public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot snapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+            }
+
+        });*/
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.rutas, menu);
+        return true;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo)
+    {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.rutas, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
+
 
     /**
      * Obtener el token para poder consultar rutas
@@ -131,163 +338,6 @@ public class RutasActivity extends ActionBarActivity {
                 Log.e("Error de argumento",""+i.getMessage());
             }
         }
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setUpMapIfNeeded();
-    }
-
-    private void createListView(){
-        // Get ListView object from xml
-        listViewRutas = (ListView) findViewById(R.id.rutaslist);
-        rows = new ArrayList<Row>();
-
-        Row row = null;
-        //Llena toda las filas del listview con las listas obtenidas
-        for ( Ruta r : mListaRutas){
-            row = new Row();
-            row.setTitle(r.getNombre());
-            rows.add(row);
-            //nombresRutas.add(r.getNombre());
-            Log.d("Prueba", r.getNombre());
-        }
-        if(!rows.isEmpty()) {
-            listViewRutas.setVisibility(View.VISIBLE);
-        }
-
-        //Le envía al array adapter personalizado el contexto del cual va a llamarlo y el ArrayList de filas
-        CustomArrayAdapter adapter = new CustomArrayAdapter(this, rows);
-
-        listViewRutas.setAdapter(adapter);
-
-        listViewRutas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                //Toast.makeText(getApplicationContext(), rows.get(position).getTitle(), Toast.LENGTH_SHORT).show();
-
-                // Obtiene la ruta seleccionada
-                Ruta  itemValue = mListaRutas.get(position);
-
-                //Llama a la clase que dibuja la ruta,
-                new DibujarRuta(mMap,itemValue);
-            }
-        });
-    }
-
-    /**
-     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
-     * installed) and the map has not already been instantiated.. This will ensure that we only ever
-     * call {@link #setUpMap()} once when {@link #mMap} is not null.
-     * <p>
-     * If it isn't installed {@link SupportMapFragment} (and
-     * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
-     * install/update the Google Play services APK on their device.
-     * <p>
-     * A user can return to this FragmentActivity after following the prompt and correctly
-     * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
-     * have been completely destroyed during this process (it is likely that it would only be
-     * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
-     * method in {@link #onResume()} to guarantee that it will be called.
-     */
-    private void setUpMapIfNeeded() {
-        // Do a null check to confirm that we have not already instantiated the map.
-        if (mMap == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
-
-            // Check if we were successful in obtaining the map.
-            if (mMap != null) {
-                setUpMap();
-            }
-        }
-    }
-
-    /**
-     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
-     * just add a marker near Africa.
-     * <p>
-     * This should only be called once and when we are sure that {@link #mMap} is not null.
-     */
-    private void setUpMap() {
-        //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-    }
-
-    /* TODO: Muestra los buses*/
-    public void showBuses() {
-        /*Firebase firebaseRef = new Firebase(mFIREBASE_URL);
-
-        firebaseRef.addChildEventListener(new ChildEventListener() {
-
-            @Override
-            public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
-
-                Location location = new Location("dummyprovider");
-
-                mGps = (String) snapshot.child("GpsID").getValue();
-                mLocation = (String) snapshot.child("Location").getValue();
-                String[] parts = mLocation.split(" ");
-                mLatitud = Double.parseDouble(parts[0]);
-                mLongitud = Double.parseDouble(parts[1]);
-                location.setLatitude(mLatitud);
-                location.setLongitude(mLongitud);
-                onLocationChanged(location);
-                mMarcadorBus = mMarcadorUpdate;
-
-            }
-
-            @Override
-            public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot snapshot) {
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("The read failed: " + firebaseError.getMessage());
-            }
-
-        });*/
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.rutas, menu);
-        return true;
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo)
-    {
-        super.onCreateContextMenu(menu, v, menuInfo);
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.rutas, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        return true;
     }
 }
 
