@@ -121,6 +121,8 @@ public class FavoritosActivity extends ActionBarActivity {
             @Override
             public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
 
+
+
                 Location location = new Location("dummyprovider");
 
                 mGps = (String) snapshot.child("GpsID").getValue();
