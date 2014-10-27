@@ -24,6 +24,8 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 
+import static com.google.android.gms.appstate.AppStateManager.signOut;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -67,6 +69,7 @@ public class MainActivity extends ActionBarActivity {
                         iniciarActivityMenu(ObtRutasActivity.class);
                         break;
                     case 2:
+                        signOut(mGoogleApiClient);
                         //Aqui hay que cerrar cesion de google
                         if(mGoogleApiClient != null) {
                             Toast.makeText(getBaseContext(), "Sesion de Google finalizada", Toast.LENGTH_SHORT).show();
