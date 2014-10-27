@@ -75,4 +75,20 @@
         android:layout_marginTop="370dp"
         android:layout_marginLeft="90dp" />
 
+    <!-- Google sign-in button -->
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/googleplus_sign_in_button"
+        android:layout_width="60dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="347dp"
+        android:layout_marginLeft="-17dp"/>
+
+    <!-- Google sign-out button -->
+    <Button
+        android:id="@+id/googleplus_sign_out_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Out"
+        android:visibility="gone" />
+
 </RelativeLayout>

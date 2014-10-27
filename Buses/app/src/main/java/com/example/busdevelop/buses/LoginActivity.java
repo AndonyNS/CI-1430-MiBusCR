@@ -5,9 +5,11 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -18,6 +20,7 @@ import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +32,10 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.plus.Plus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +44,10 @@ import java.util.List;
  * A login screen that offers login via email/password.
 
  */
-public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
+public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        View.OnClickListener {
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -50,12 +60,117 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
     private View mProgressView;
     private Usuario mUsuario;
 
+    private GoogleApiClient mGoogleApiClient;
+    private ConnectionResult mConnectionResult;
+    private ProgressDialog mConnectionProgressDialog;
+    private static final int REQUEST_CODE_RESOLVE_ERR = 9000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mUsuario = null;
         setUp();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Plus.API)
+                .addScope(Plus.SCOPE_PLUS_LOGIN)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+
+        // Progress bar to be displayed if the connection failure is not resolved.
+        mConnectionProgressDialog = new ProgressDialog(this);
+        mConnectionProgressDialog.setMessage("Signing in...");
+
+        this.findViewById(R.id.googleplus_sign_in_button).setOnClickListener(this);
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        if(mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
+    }
+
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+        if(mGoogleApiClient != null) {
+            if (mGoogleApiClient.isConnected()) {
+                mGoogleApiClient.disconnect();
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int responseCode, Intent intent)
+    {
+        if (requestCode == REQUEST_CODE_RESOLVE_ERR) {
+            Log.i("tag", "requestCode == REQUEST_CODE_RESOLVE_ERR. responseCode = " + responseCode);
+            if(responseCode == Activity.RESULT_OK) {
+                if(mGoogleApiClient != null) {
+                    if (!mGoogleApiClient.isConnecting()) {
+                        mGoogleApiClient.connect();
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onConnected(Bundle bundle)
+    {
+        mConnectionProgressDialog.dismiss();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {}
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult)
+    {
+        if (mConnectionProgressDialog.isShowing()) {
+            if (connectionResult.hasResolution()) {
+                try {
+                    connectionResult.startResolutionForResult(this, REQUEST_CODE_RESOLVE_ERR);
+                } catch (IntentSender.SendIntentException e) {
+                    mGoogleApiClient.connect();
+                }
+            }
+        }
+        mConnectionResult = connectionResult;
+    }
+
+    @Override
+    public void onClick(View view)
+    {
+        if (view.getId() == R.id.googleplus_sign_in_button) {
+            if(mGoogleApiClient != null) {
+                if(!mGoogleApiClient.isConnected()) {
+                    if (mConnectionResult == null) {
+                        mConnectionProgressDialog.show();
+                    } else {
+                        try {
+                            mConnectionResult.startResolutionForResult(this, REQUEST_CODE_RESOLVE_ERR);
+                        } catch (IntentSender.SendIntentException e) {
+                            // Try connecting again.
+                            mConnectionResult = null;
+                            mGoogleApiClient.connect();
+                        }
+                    }
+                }
+            }
+        } else if (view.getId() == R.id.googleplus_sign_out_button) {
+            if(mGoogleApiClient != null) {
+                if (mGoogleApiClient.isConnected()) {
+                    mGoogleApiClient.disconnect();
+                }
+            }
+        }
     }
 
     private void setUp(){
@@ -283,6 +398,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
 
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
+    }
+
+    public GoogleApiClient getGoogleApiClient() {
+        return mGoogleApiClient;
     }
 
     /**
