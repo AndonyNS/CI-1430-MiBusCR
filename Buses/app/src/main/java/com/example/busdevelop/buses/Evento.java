@@ -1,7 +1,10 @@
 package com.example.busdevelop.buses;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by jossue on 28/10/14.
@@ -91,7 +94,33 @@ public class Evento {
      * del objeto Evento
      * @param jsonString
      */
-    public void parsearDatosEvento(String jsonString){
+    /*public void parsearDatosEvento(String jsonString){
+
+        try{
+            // una vez recibido el string con  el json
+            //  se parsea guardando en un array
+            JSONArray datosEvento = new JSONArray(jsonString);
+            mRutasArray = new ArrayList<Ruta>();
+
+            //  cada i corresponderia a una diferente ruta
+            // se obtiene el objetoJson de esa posicion
+            // y se le sacan los atributos que todos serian
+            //  Strings. Se guarda una ruta en el arreglo de rutas
+            for(int i = 0; i < rutas.length(); i++){
+                Ruta ruta = new Ruta();
+                ruta.setId(Integer.toString(rutas.getJSONObject(i).getInt("id")));
+                ruta.setNombre(rutas.getJSONObject(i).getString("nombre"));
+                ruta.setFrecuencia(rutas.getJSONObject(i).getString("frecuencia"));
+                ruta.setPrecio(rutas.getJSONObject(i).getString("precio"));
+                ruta.setHorario(rutas.getJSONObject(i).getString("horario"));
+                ruta.setParadas(token);
+                mRutasArray.add(ruta);
+            }
+
+
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
 
         try {
             //Parsear el json string a un json object para obtener los datos
@@ -109,5 +138,5 @@ public class Evento {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }
