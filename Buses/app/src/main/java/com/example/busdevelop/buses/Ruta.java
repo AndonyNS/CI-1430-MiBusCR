@@ -1,4 +1,7 @@
 package com.example.busdevelop.buses;
+
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -129,16 +132,19 @@ public class Ruta {
             resultado = requestHttpApi("rutas/"+id, token);
             try{
                 JSONObject ruta = new JSONObject(resultado);
-                JSONArray buses = new JSONArray(ruta.getString("ruta_bus"));
+                JSONArray buses = new JSONArray(ruta.getString("bus"));
                 for(int i = 0; i < buses.length(); i++){
-                    resultado = requestHttpApi("buses/"+ buses.getJSONObject(i).getString("bus_id"),token);
+                    resultado = requestHttpApi("buses/"+ i,token);
+                    Log.d("Devuelve:",resultado);
                     Bus bus = new Bus();
-                    JSONObject paradaJSON = new JSONObject(resultado);
-                    bus.setId(paradaJSON.getString("id"));
-                    bus.setNombre(paradaJSON.getString("nombre"));
-                    bus.setLatitud(paradaJSON.getString("latitud"));
-                    bus.setLongitud(paradaJSON.getString("longitud"));
-                    bus.setRampa(Boolean.parseBoolean(paradaJSON.getString("rampa")));
+                    JSONObject busJSON = new JSONObject(resultado);
+                    bus.setId(busJSON.getString("id"));
+                    bus.setPlaca(busJSON.getString("placa"));
+                    resultado = busJSON.getString("gps");
+                    JSONObject gpsJSON = new JSONObject(resultado);
+                    bus.setGpsId(gpsJSON.getString("id_gps"));
+                    //bus.setRampa(Boolean.parseBoolean(busJSON.getString("rampa")));
+                    listaDeBuses.add(bus);
                 }
             }catch(JSONException e){
                 e.printStackTrace();

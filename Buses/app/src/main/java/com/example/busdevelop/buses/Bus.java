@@ -5,21 +5,18 @@ package com.example.busdevelop.buses;
  */
 public class Bus {
     private String id;
-    private String nombre;
+    private String placa;
     private boolean rampa;
-    private String caracteristicas;
-    private String latitud;
-    private String longitud;
+    private String gps_id;
 
     public Bus(){
     }
-    public Bus(String id, String nombre, boolean rampa, String caracteristicas, String latitud, String longitud){
+
+    public Bus(String id, String placa, boolean rampa, String gps_id){
         this.id = id;
-        this.nombre = nombre;
+        this.placa = placa;
         this.rampa = rampa;
-        this.caracteristicas = caracteristicas;
-        this.latitud = latitud;
-        this.longitud = longitud;
+        this.gps_id = gps_id;
     }
 
     public String getId() {
@@ -30,12 +27,12 @@ public class Bus {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getPlaca() {
+        return placa;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setPlaca(String placa) {
+        this.placa = placa;
     }
 
     public boolean getRampa() {
@@ -46,24 +43,17 @@ public class Bus {
         this.rampa = rampa;
     }
 
-    public String getLatitud() {
-        return latitud;
+    public String getGpsId() {
+        return gps_id;
     }
 
-    public void setLatitud(String latitud) {
-        this.latitud = latitud;
+    public void setGpsId(String gps_id) {
+        this.gps_id = gps_id;
     }
 
-    public String getLongitud() {
-        return longitud;
+    @Override
+    public String toString(){
+        return ("Bus: " + this.id + " Placa: " + this.placa );
     }
-
-    public void setLongitud(String longitud) {
-        this.longitud = longitud;
-    }
-
-    public String getCaracteristicas() { return caracteristicas; }
-
-    public void setCaracteristicas(String caracteristicas){ this.caracteristicas = caracteristicas; }
 
 }
