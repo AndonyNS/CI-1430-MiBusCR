@@ -49,14 +49,16 @@ public class DibujarRuta {
         MarkerOptions paradas;
 
         //Agregar parada inicial
-        mMarkerParadas.add(new LatLng(Double.parseDouble(rutaName.getParadaInicial().getLatitud().substring(0,7).replaceAll(" ",".")),
-                Double.parseDouble(rutaName.getParadaInicial().getLongitud().substring(0, 7).replaceAll(" ", "."))));
+        mMarkerParadas.add(new LatLng(Double.parseDouble(rutaName.getParadaInicial().getLatitud().replaceAll(" ",".")),
+                Double.parseDouble(rutaName.getParadaInicial().getLongitud().replaceAll(" ", "."))));
         // Poner marcador de parada inicial rojo
         paradas = new MarkerOptions();
         paradas.position(mMarkerParadas.get(0));
         paradas.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         Marker m = mMap.addMarker(paradas);
         mMarkerRuta.add(m);
+
+        Log.d("Devuelve",rutaName.getBuses().toString());
 
         //Agregar parada final verde
         mMarkerParadas.add(new LatLng(Double.parseDouble(rutaName.getParadaFinal().getLatitud().substring(0,7).replaceAll(" ",".")),

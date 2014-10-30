@@ -1,8 +1,12 @@
 package com.example.busdevelop.buses;
-import java.util.ArrayList;
+
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Crea un objeto ruta con los datos almacenados
@@ -17,6 +21,8 @@ public class Ruta {
     private Parada paradaInicial;
     private Parada paradaFinal;
     private ArrayList<Parada> paradasIntermedias;
+    private ArrayList<Bus> listaDeBuses;
+
     public Ruta(){
     }
     public Ruta(String id, String nombre, String frecuencia,
@@ -117,6 +123,39 @@ public class Ruta {
     public ArrayList<Parada> getParadasIntermedias() {
         return paradasIntermedias;
     }
+
+
+    public void setBuses(String token){
+        String resultado = "";
+        if(id != null && id != "") {
+            listaDeBuses = new ArrayList<Bus>();
+            resultado = requestHttpApi("rutas/"+id, token);
+            try{
+                JSONObject ruta = new JSONObject(resultado);
+                JSONArray buses = new JSONArray(ruta.getString("bus"));
+                for(int i = 0; i < buses.length(); i++){
+                    resultado = requestHttpApi("buses/"+ i,token);
+                    Log.d("Devuelve:",resultado);
+                    Bus bus = new Bus();
+                    JSONObject busJSON = new JSONObject(resultado);
+                    bus.setId(busJSON.getString("id"));
+                    bus.setPlaca(busJSON.getString("placa"));
+                    resultado = busJSON.getString("gps");
+                    JSONObject gpsJSON = new JSONObject(resultado);
+                    bus.setGpsId(gpsJSON.getString("id_gps"));
+                    //bus.setRampa(Boolean.parseBoolean(busJSON.getString("rampa")));
+                    listaDeBuses.add(bus);
+                }
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public ArrayList<Bus> getBuses() {
+        return listaDeBuses;
+    }
+
     /**
      *
      * @param end final del request http
