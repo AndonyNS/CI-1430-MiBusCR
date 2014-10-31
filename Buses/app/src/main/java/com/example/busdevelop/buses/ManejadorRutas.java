@@ -82,6 +82,7 @@ public class ManejadorRutas {
                 ruta.setPrecio(rutas.getJSONObject(i).getString("precio"));
                 ruta.setHorario(rutas.getJSONObject(i).getString("horario"));
                 ruta.setParadas(token);
+                ruta.setBuses(token);
                 mRutasArray.add(ruta);
             }
 
