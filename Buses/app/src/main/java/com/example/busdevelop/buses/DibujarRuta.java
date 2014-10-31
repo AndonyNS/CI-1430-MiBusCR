@@ -58,6 +58,8 @@ public class DibujarRuta {
         Marker m = mMap.addMarker(paradas);
         mMarkerRuta.add(m);
 
+        Log.d("Devuelve",rutaName.getBuses().toString());
+
         //Agregar parada final verde
         mMarkerParadas.add(new LatLng(Double.parseDouble(rutaName.getParadaFinal().getLatitud().replaceAll(" ",".")),
                 Double.parseDouble(rutaName.getParadaFinal().getLongitud().replaceAll(" ","."))));
