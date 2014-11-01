@@ -138,10 +138,10 @@ public class Ruta {
                     Bus bus = new Bus();
                     JSONObject busJSON = new JSONObject(resultado);
                     Log.d("Devuelve:",busJSON.toString());
-                    bus.setId(busJSON.getString("id"));
+                    bus.setId(busJSON.getInt("id"));
                     bus.setPlaca(busJSON.getString("placa"));
                     JSONObject gpsJSON = busJSON.getJSONObject("gps");
-                    bus.setGpsId(gpsJSON.getString("gps_id"));
+                    bus.setGpsId(gpsJSON.getString("id_gps"));
                     //bus.setRampa(Boolean.parseBoolean(busJSON.getString("rampa")));
                     listaDeBuses.add(bus);
                 }

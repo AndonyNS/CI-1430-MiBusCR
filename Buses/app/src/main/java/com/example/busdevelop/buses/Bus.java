@@ -4,7 +4,7 @@ package com.example.busdevelop.buses;
  * Created by Andony on 28/10/2014.
  */
 public class Bus {
-    private String id;
+    private int id;
     private String placa;
     private boolean rampa;
     private String gps_id;
@@ -12,18 +12,18 @@ public class Bus {
     public Bus(){
     }
 
-    public Bus(String id, String placa, boolean rampa, String gps_id){
+    public Bus(int id, String placa, boolean rampa, String gps_id){
         this.id = id;
         this.placa = placa;
         this.rampa = rampa;
         this.gps_id = gps_id;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
