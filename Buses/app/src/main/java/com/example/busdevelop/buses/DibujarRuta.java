@@ -58,8 +58,6 @@ public class DibujarRuta {
         Marker m = mMap.addMarker(paradas);
         mMarkerRuta.add(m);
 
-        Log.d("Devuelve",rutaName.getBuses().toString());
-
         //Agregar parada final verde
         mMarkerParadas.add(new LatLng(Double.parseDouble(rutaName.getParadaFinal().getLatitud().replaceAll(" ",".")),
                 Double.parseDouble(rutaName.getParadaFinal().getLongitud().replaceAll(" ","."))));
@@ -87,10 +85,9 @@ public class DibujarRuta {
             mMarkerRuta.add(m);
         }
 
-        if(!rutaName.getBuses().isEmpty()){
-            Log.d("LA RUTA DEVUELVE LOS BUSES", rutaName.getBuses().toString());
-        }else{
-            Log.d("LA RUTA","ESTA VACIA");
+        //Muestra los buses de la ruta
+        if(rutaName.getBuses().size() != 0){
+            new ShowBuses(mMap,rutaName.getBuses());
         }
 
         String url = getDirectionsUrl();
