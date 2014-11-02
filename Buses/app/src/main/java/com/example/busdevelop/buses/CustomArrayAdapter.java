@@ -75,17 +75,22 @@ public class CustomArrayAdapter extends ArrayAdapter<Row>
                 if (row.getTitle().equals(view.getTag().toString()))
                 {
                     row.setChecked(isChecked);
+
+                    Ruta seleccionada = mRutas.get(position);
+                    String url = mUrl + seleccionada.getId();
+                    Log.d(url,"esta es la url");
                     if(!isChecked){
 
                         //Aqui debe quitar la ruta de favoritos
                     	Toast.makeText(getContext(), "Ya no :( ", Toast.LENGTH_SHORT).show();
-                        Ruta seleccionada = mRutas.get(position);
-                        String url = mUrl + seleccionada.getId();
+
 
                         new HttpAsyncTaskDelete(mActivity).execute(url);
                     }else{
                         //Aqui debe agregar la ruta a favoritos
                     	Toast.makeText(getContext(), "Si :) ", Toast.LENGTH_SHORT).show();
+
+                        new HttpAsyncTaskAgregar(mActivity).execute(url);
                     }
                 }
                 //AQUI DEBE ESTAR EL HANDLER DE QUE EL TIPO DE CAMBIO FUE INCLUIDO
@@ -103,6 +108,13 @@ public class CustomArrayAdapter extends ArrayAdapter<Row>
         return resultado;
     }
 
+    public String postRuta(String url){
+        Token token = new Token(mUsuario.getEmail(),mUsuario.getEncrypted_password());
+        String resultado = ApiManager.httpPost(url, mUsuario.getToken(),token);
+
+        return resultado;
+    }
+
     private class HttpAsyncTaskDelete extends AsyncTask<String, Void, String> {
         Activity mActividad;
         private HttpAsyncTaskDelete(Activity activity){
@@ -114,12 +126,45 @@ public class CustomArrayAdapter extends ArrayAdapter<Row>
             try{
 
                 String resultado = deleteRuta(urls[0]);
+                Log.d(resultado,"");
+
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            return "Ruta borrada de Favoritas!";
+        }
+
+        /**
+         * metodo que se ejecuta después de obtener la respuesta
+         * al request get
+         * @param result
+         */
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(mActividad.getBaseContext(), result, Toast.LENGTH_SHORT).show();
+
+        }
+
+
+    }
+
+    private class HttpAsyncTaskAgregar extends AsyncTask<String, Void, String> {
+        Activity mActividad;
+        private HttpAsyncTaskAgregar(Activity activity){
+            this.mActividad = activity;
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            try{
+
+                String resultado = postRuta(urls[0]);
                 Log.e(resultado,"");
 
             }catch(Exception e){
                 e.printStackTrace();
             }
-            return "Ruta borrada!";
+            return "Ruta Agregada a Favoritas!";
         }
 
         /**
