@@ -166,7 +166,7 @@ public class RutasActivity extends ActionBarActivity {
         }
 
         //Le envía al array adapter personalizado el contexto del cual va a llamarlo y el ArrayList de filas
-        CustomArrayAdapter adapter = new CustomArrayAdapter(this, rows);
+        CustomArrayAdapter adapter = new CustomArrayAdapter(this, rows,this,mListaRutas,mUsuario);
 
         listViewRutas.setAdapter(adapter);
 
