@@ -152,7 +152,7 @@ public class RutasActivity extends ActionBarActivity {
         listViewRutas = (ListView) findViewById(R.id.rutaslist);
         List<Row> rows = new ArrayList<Row>();
 
-        Row row = null;
+        Row row;
         //Llena toda las filas del listview con las listas obtenidas
         for ( Ruta r : mListaRutas){
             row = new Row();
@@ -182,10 +182,6 @@ public class RutasActivity extends ActionBarActivity {
                 //Llama a la clase que dibuja la ruta,
                 new DibujarRuta(mMap, rutaSeleccionada);
 
-                /*Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaInicial().getLatitud());
-                Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaInicial().getLongitud());
-                Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaFinal().getLatitud());
-                Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaFinal().getLongitud());*/
                 moveToBounds(rutaSeleccionada.getParadaInicial(), rutaSeleccionada.getParadaFinal());
 
             }

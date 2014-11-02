@@ -41,7 +41,6 @@ Thumbs.db
 # idea project files
 .idea/
 .idea/.name
-.idea/libraries
 *.iml
 *.ipr
 *.iws

@@ -134,14 +134,13 @@ public class Ruta {
                 JSONObject ruta = new JSONObject(resultado);
                 JSONArray buses = new JSONArray(ruta.getString("bus"));
                 for(int i = 0; i < buses.length(); i++){
-                    resultado = requestHttpApi("buses/"+ i,token);
-                    Log.d("Devuelve:",resultado);
+                    resultado = requestHttpApi("buses/"+ buses.getJSONObject(i).getString("id"),token);
                     Bus bus = new Bus();
                     JSONObject busJSON = new JSONObject(resultado);
-                    bus.setId(busJSON.getString("id"));
+                    Log.d("Devuelve:",busJSON.toString());
+                    bus.setId(busJSON.getInt("id"));
                     bus.setPlaca(busJSON.getString("placa"));
-                    resultado = busJSON.getString("gps");
-                    JSONObject gpsJSON = new JSONObject(resultado);
+                    JSONObject gpsJSON = busJSON.getJSONObject("gps");
                     bus.setGpsId(gpsJSON.getString("id_gps"));
                     //bus.setRampa(Boolean.parseBoolean(busJSON.getString("rampa")));
                     listaDeBuses.add(bus);
