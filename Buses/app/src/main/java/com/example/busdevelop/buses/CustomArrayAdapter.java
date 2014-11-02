@@ -28,8 +28,9 @@ public class CustomArrayAdapter extends ArrayAdapter<Row>
     private LayoutInflater layoutInflater;
     private Activity mActivity;
     private List<Ruta> mRutas;
+    private Ruta mRutaSeleccionada;
     private Usuario mUsuario;
-    private String mUrl = "https://murmuring-anchorage-1614.herokuapp.com/favoritas/";
+    private String mUrl = "https://murmuring-anchorage-1614.herokuapp.com/favoritas";
  
     public CustomArrayAdapter(Context context, List<Row> objects,Activity activity,List<Ruta> array, Usuario usuario)
     {
@@ -76,8 +77,8 @@ public class CustomArrayAdapter extends ArrayAdapter<Row>
                 {
                     row.setChecked(isChecked);
 
-                    Ruta seleccionada = mRutas.get(position);
-                    String url = mUrl + seleccionada.getId();
+                     mRutaSeleccionada = mRutas.get(position);
+                    String url = mUrl + "/" + mRutaSeleccionada.getId();
                     Log.d(url,"esta es la url");
                     if(!isChecked){
 
@@ -90,7 +91,7 @@ public class CustomArrayAdapter extends ArrayAdapter<Row>
                         //Aqui debe agregar la ruta a favoritos
                     	Toast.makeText(getContext(), "Si :) ", Toast.LENGTH_SHORT).show();
 
-                        new HttpAsyncTaskAgregar(mActivity).execute(url);
+                        new HttpAsyncTaskAgregar(mActivity).execute(mUrl);
                     }
                 }
                 //AQUI DEBE ESTAR EL HANDLER DE QUE EL TIPO DE CAMBIO FUE INCLUIDO
@@ -109,8 +110,8 @@ public class CustomArrayAdapter extends ArrayAdapter<Row>
     }
 
     public String postRuta(String url){
-        Token token = new Token(mUsuario.getEmail(),mUsuario.getEncrypted_password());
-        String resultado = ApiManager.httpPost(url, mUsuario.getToken(),token);
+
+        String resultado = ApiManager.httpPost(url, mUsuario.getToken(),mRutaSeleccionada);
 
         return resultado;
     }

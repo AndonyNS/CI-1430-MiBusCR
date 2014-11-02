@@ -2,6 +2,7 @@ package com.example.busdevelop.buses;
 
 import android.util.Log;
 
+import org.apache.http.entity.StringEntity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  * Crea un objeto ruta con los datos almacenados
  * en la base de datos del servidor
  */
-public class Ruta {
+public class Ruta implements ClassToRest{
     private String id;
     private String nombre;
     private String frecuencia;
@@ -164,5 +165,31 @@ public class Ruta {
     private String requestHttpApi(String end, String token){
         String resultado = ApiManager.httpGet("https://murmuring-anchorage-1614.herokuapp.com/"+end,token);
         return resultado;
+    }
+
+    @Override
+    public StringEntity JsonAcumulator() {
+        StringEntity se = null;
+        try {
+            String json = "";
+
+            //Construir el objeto json
+            JSONObject jsonObject = new JSONObject();
+
+            // se acumulan los campos necesarios, el primer parametro
+            // es la etiqueta json que tendran los campos de la base
+            jsonObject.accumulate("id", getId());
+
+
+            // Convertir el objeto Json a String
+            json = jsonObject.toString();
+
+            // setear json al stringEntity
+            se = new StringEntity(json);
+
+        }catch (Exception e){
+            Log.d("String to json error", e.getLocalizedMessage());
+        }
+        return se;
     }
 }
