@@ -178,7 +178,7 @@ public class Ruta implements ClassToRest{
 
             // se acumulan los campos necesarios, el primer parametro
             // es la etiqueta json que tendran los campos de la base
-            jsonObject.accumulate("id", getId());
+            jsonObject.accumulate("ruta_id", getId());
 
 
             // Convertir el objeto Json a String
