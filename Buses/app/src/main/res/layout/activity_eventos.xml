@@ -51,7 +51,7 @@
             >
 
             <ListView
-                android:id="@+id/listviewRutas"
+                android:id="@+id/listviewEventos"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:divider="#ee7b1012"

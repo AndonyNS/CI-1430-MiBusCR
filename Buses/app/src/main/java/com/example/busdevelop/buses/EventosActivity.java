@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +24,8 @@ public class EventosActivity extends ActionBarActivity {
     Usuario mUsuario;
     private final String mPrefs_Name = "MyPrefsFile";
     List<Evento> mEventosArray ;
-
+    ListView mList;
+    EventoAdapter mAdapter;
     TextView prueba6;
 
     @Override
@@ -40,6 +42,10 @@ public class EventosActivity extends ActionBarActivity {
         mUsuario.setEmail(sharedPref.getString("UserEmail", ""));
         mUsuario.setEncrypted_password(sharedPref.getString("UserPass", ""));
 
+        // localizar el listview en activity_eventos.xml
+        mList = (ListView) findViewById(R.id.listviewEventos);
+
+        // obtener el token
         new HttpAsyncTaskToken(this).execute();
     }
 
@@ -121,15 +127,21 @@ public class EventosActivity extends ActionBarActivity {
                 }
 
 
+
+
             }catch(JSONException e){
                 e.printStackTrace();
             }
+            // se pasan los eventos al adaptador
+            mAdapter = new EventoAdapter(mActivity, mEventosArray);
+            // se enlaza el adaptador con el ListView
+            mList.setAdapter(mAdapter);
                 // Pasar las rutas al  ListViewAdapter
                 //smAdapter = new ListViewAdapter(mActivity, mManejador.getListaRutas());
 
                 // enlazar el adaptador con el listView
                 //mList.setAdapter(smAdapter);
-            prueba6.setText(mEventosArray.get(0).getNombre());
+            //prueba6.setText(mEventosArray.get(0).getLatitud());
 
 
         }
