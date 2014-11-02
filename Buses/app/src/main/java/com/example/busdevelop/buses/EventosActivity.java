@@ -113,9 +113,9 @@ public class EventosActivity extends ActionBarActivity {
                 // se obtiene el objetoJson de esa posicion
                 // y se le sacan los atributos que todos serian
                 //  Strings. Se guarda un evento en el arreglo de eventos
-                Evento evento = new Evento();
-                for(int i = 0; i < datosEvento.length(); i++){
 
+                for(int i = 0; i < datosEvento.length(); i++){
+                    Evento evento = new Evento();
                     evento.setNombre(datosEvento.getJSONObject(i).getString("nombre"));
                     evento.setDescripcion(datosEvento.getJSONObject(i).getString("descripcion"));
                     evento.setTipo(Integer.toString(datosEvento.getJSONObject(i).getInt("tipo")));
@@ -136,11 +136,7 @@ public class EventosActivity extends ActionBarActivity {
             mAdapter = new EventoAdapter(mActivity, mEventosArray);
             // se enlaza el adaptador con el ListView
             mList.setAdapter(mAdapter);
-                // Pasar las rutas al  ListViewAdapter
-                //smAdapter = new ListViewAdapter(mActivity, mManejador.getListaRutas());
 
-                // enlazar el adaptador con el listView
-                //mList.setAdapter(smAdapter);
             //prueba6.setText(mEventosArray.get(0).getLatitud());
 
 

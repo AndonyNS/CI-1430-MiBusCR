@@ -70,21 +70,44 @@ public class EventoAdapter extends BaseAdapter {
         }
 
         // Poner los resultados en los view
+        /*String nombreEvento = mEventosArray.get(position).getNombre();
+        if (nombreEvento.length() > 5){
+            holder.tituloEvento.setTextSize(8);
+        }*/
+
         holder.tituloEvento.setText(mEventosArray.get(position).getNombre());
         holder.fechaEvento.setText(mEventosArray.get(position).getFecha());
 
         // Dependiendo del tipo de evento la imagen cambiara
         switch(Integer.parseInt(mEventosArray.get(position).getTipo())){
             case 1: // Artistico
-                holder.imagenEvento.setImageResource(R.drawable.arte2);
+                if(position  == 0){
+                    holder.imagenEvento.setImageResource(R.drawable.arte2);
+                } else{
+                    holder.imagenEvento.setImageResource(R.drawable.arte1);
+                }
+
                 break;
             case 2: // Deportivo
+                holder.imagenEvento.setImageResource(R.drawable.deportes2);
                 break;
             case 3: // Fiesta
+                if(position % 2 == 0){
+                    holder.imagenEvento.setImageResource(R.drawable.fiesta2);
+                }else{
+                    holder.imagenEvento.setImageResource(R.drawable.fiesta3);
+                }
+
                 break;
             case 4: // Concierto
+                if(position % 2 != 0) {
+                    holder.imagenEvento.setImageResource(R.drawable.concierto2);
+                }else{
+                    holder.imagenEvento.setImageResource(R.drawable.concierto4);
+                }
                 break;
             case 5: // Exposicion
+                holder.imagenEvento.setImageResource(R.drawable.arte2);
                 break;
         }
 
@@ -94,18 +117,7 @@ public class EventoAdapter extends BaseAdapter {
             @Override
             public void onClick(View arg0) {
 
-                /*
-                // Mandar los datos de la ruta a la actividad SleItemView
-                Intent intent = new Intent(mContext, SingleItemView.class);
-                // Pasar el nombre
-                intent.putExtra("nombre",(mRutasArray.get(position).getNombre()));
-                // Pasar frecuencia
-                intent.putExtra("frecuencia",(mRutasArray.get(position).getFrecuencia()));
-                // Pasar precio
-                intent.putExtra("precio",(mRutasArray.get(position).getPrecio()));
-                intent.putExtra("horario",(mRutasArray.get(position).getHorario()));
-                // llamar a la actividad con la ruta elegida
-                mContext.startActivity(intent);*/
+
             }
         });
 
