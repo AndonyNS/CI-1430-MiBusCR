@@ -20,8 +20,10 @@ import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -31,6 +33,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphUser;
+import com.facebook.widget.LoginButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
@@ -64,12 +73,24 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
     private ProgressDialog mConnectionProgressDialog;
     private static final int REQUEST_CODE_RESOLVE_ERR = 9000;
 
+    private static final String TAG = "MainFragment";
+    private Session.StatusCallback callback = new Session.StatusCallback() {
+        @Override
+        public void call(Session session, SessionState state, Exception exception) {
+            onSessionStateChange(session, state, exception);
+        }
+    };
+    private UiLifecycleHelper uiHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mUsuario = null;
         setUp();
+
+        uiHelper = new UiLifecycleHelper(this, callback);
+        //uiHelper.onCreate(savedInstanceState);
 
         mGoogleApiClient = GoogleApiClientSing.getInstancia();
         mGoogleApiClient.setGoogleApiClient(new GoogleApiClient.Builder(this)
@@ -84,6 +105,49 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
         mConnectionProgressDialog.setMessage("Signing in...");
 
         this.findViewById(R.id.googleplus_sign_in_button).setOnClickListener(this);
+
+        // start Facebook Login
+        Session.openActiveSession(this, true, new Session.StatusCallback() {
+
+            // callback when session changes state
+            @Override
+            public void call(Session session, SessionState state, Exception exception) {
+                if (session.isOpened()) {
+
+                    // make request to the /me API
+                    Request.newMeRequest(session, new Request.GraphUserCallback() {
+
+                        // callback after Graph API response with user object
+                        @Override
+                        public void onCompleted(GraphUser user, Response response) {
+                            if (user != null) {
+                                Toast.makeText(getBaseContext(), "Hola " + user.getName() + "!", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                        }
+                    }).executeAsync();
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int responseCode, Intent intent) {
+        super.onActivityResult(requestCode, responseCode, intent);
+        uiHelper.onActivityResult(requestCode, responseCode, intent);
+        Session.getActiveSession().onActivityResult(this, requestCode, responseCode, intent);
+        if (requestCode == REQUEST_CODE_RESOLVE_ERR) {
+            Log.i("tag", "requestCode == REQUEST_CODE_RESOLVE_ERR. responseCode = " + responseCode);
+            if(responseCode == Activity.RESULT_OK) {
+                if(mGoogleApiClient != null) {
+                    if (!mGoogleApiClient.getGoogleApiClient().isConnecting()) {
+                        mGoogleApiClient.getGoogleApiClient().connect();
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -172,6 +236,58 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
 
         mProgressView = findViewById(R.id.login_progress);
     }
+
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_login, container, false);
+        LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
+        return view;
+
+    }
+
+    private void onSessionStateChange(Session session, SessionState state, Exception exception) {
+        if (state.isOpened()) {
+            Log.i(TAG, "Logged in...");
+        } else if (state.isClosed()) {
+            Log.i(TAG, "Logged out...");
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // For scenarios where the main activity is launched and user
+        // session is not null, the session state change notification
+        // may not be triggered. Trigger it if it's open/closed.
+        Session session = Session.getActiveSession();
+        if (session != null &&
+                (session.isOpened() || session.isClosed()) ) {
+            onSessionStateChange(session, session.getState(), null);
+        }
+
+        uiHelper.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        uiHelper.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        uiHelper.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        uiHelper.onSaveInstanceState(outState);
+    }
+
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -358,11 +474,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
 
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
-    }
-
-    public GoogleApiClient getGoogleApiClient() {
-        return mGoogleApiClient.getGoogleApiClient();
-
     }
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
