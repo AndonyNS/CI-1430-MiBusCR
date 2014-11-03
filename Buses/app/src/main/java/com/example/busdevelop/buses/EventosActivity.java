@@ -26,14 +26,11 @@ public class EventosActivity extends ActionBarActivity {
     List<Evento> mEventosArray ;
     ListView mList;
     EventoAdapter mAdapter;
-    TextView prueba6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eventos);
-
-        prueba6 = (TextView) findViewById(R.id.prueba6);
         // Obtener datos del usuario
         // obtener del shared preferences el email
         // y el password
