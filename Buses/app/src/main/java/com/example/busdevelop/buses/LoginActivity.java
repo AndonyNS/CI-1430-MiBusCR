@@ -513,7 +513,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
 
             // HAce un post a request para obtener el token
             mUsuario = new Usuario();
-            usersJsonStr = mUsuario.obtenerToken(mEmail, mPassword);
+            mUsuario.setEmail(mEmail);
+            mUsuario.setEncrypted_password(mPassword);
+            usersJsonStr = mUsuario.obtenerToken();
 
             mValid = validateData(usersJsonStr);
             if(mValid)

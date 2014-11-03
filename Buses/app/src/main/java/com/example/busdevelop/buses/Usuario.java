@@ -150,11 +150,9 @@ public class Usuario implements ClassToRest {
     /**
      * Metodo para hacer un post al API y obtener un token
      *
-     * @param email
-     * @param password
      * @return
      */
-    public String obtenerToken(String email, String password) {
+    public String obtenerToken() {
         String urlToken = "https://murmuring-anchorage-1614.herokuapp.com/tokens";
         String resultado = ApiManager.httpPost(urlToken,"",token);
         return resultado;
