@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -58,7 +59,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
     private View mProgressView;
     private Usuario mUsuario;
 
-    private GoogleApiClient mGoogleApiClient;
+    private GoogleApiClientSing mGoogleApiClient;
     private ConnectionResult mConnectionResult;
     private ProgressDialog mConnectionProgressDialog;
     private static final int REQUEST_CODE_RESOLVE_ERR = 9000;
@@ -70,12 +71,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
         mUsuario = null;
         setUp();
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+        mGoogleApiClient = GoogleApiClientSing.getInstancia();
+        mGoogleApiClient.setGoogleApiClient(new GoogleApiClient.Builder(this)
                 .addApi(Plus.API)
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
-                .build();
+                .build());
 
         // Progress bar to be displayed if the connection failure is not resolved.
         mConnectionProgressDialog = new ProgressDialog(this);
@@ -85,44 +87,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
     }
 
     @Override
-    public void onStart()
-    {
-        super.onStart();
-        if(mGoogleApiClient != null) {
-            mGoogleApiClient.connect();
-        }
-    }
-
-    @Override
-    public void onStop()
-    {
-        super.onStop();
-        if(mGoogleApiClient != null) {
-            if (mGoogleApiClient.isConnected()) {
-                mGoogleApiClient.disconnect();
-            }
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int responseCode, Intent intent)
-    {
-        if (requestCode == REQUEST_CODE_RESOLVE_ERR) {
-            Log.i("tag", "requestCode == REQUEST_CODE_RESOLVE_ERR. responseCode = " + responseCode);
-            if(responseCode == Activity.RESULT_OK) {
-                if(mGoogleApiClient != null) {
-                    if (!mGoogleApiClient.isConnecting()) {
-                        mGoogleApiClient.connect();
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onConnected(Bundle bundle)
-    {
+    public void onConnected(Bundle bundle) {
         mConnectionProgressDialog.dismiss();
+        Toast.makeText(getBaseContext(), "Bienvenido " + Plus.PeopleApi
+                .getCurrentPerson(mGoogleApiClient.getGoogleApiClient()).getDisplayName(), Toast.LENGTH_SHORT).show();
+        //iniciarMainActivity();
+
     }
 
     @Override
@@ -136,11 +106,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
                 try {
                     connectionResult.startResolutionForResult(this, REQUEST_CODE_RESOLVE_ERR);
                 } catch (IntentSender.SendIntentException e) {
-                    mGoogleApiClient.connect();
+                    mGoogleApiClient.getGoogleApiClient().connect();
                 }
             }
         }
         mConnectionResult = connectionResult;
+
     }
 
     @Override
@@ -148,30 +119,32 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
     {
         if (view.getId() == R.id.googleplus_sign_in_button) {
             if(mGoogleApiClient != null) {
-                if(!mGoogleApiClient.isConnected()) {
+                if(!mGoogleApiClient.getGoogleApiClient().isConnected()) {
                     if (mConnectionResult == null) {
                         mConnectionProgressDialog.show();
+                        mGoogleApiClient.getGoogleApiClient().connect();
+
                     } else {
                         try {
                             mConnectionResult.startResolutionForResult(this, REQUEST_CODE_RESOLVE_ERR);
                         } catch (IntentSender.SendIntentException e) {
                             // Try connecting again.
                             mConnectionResult = null;
-                            mGoogleApiClient.connect();
+                            mGoogleApiClient.getGoogleApiClient().connect();
                         }
                     }
                 }
             }
         } else if (view.getId() == R.id.googleplus_sign_out_button) {
             if(mGoogleApiClient != null) {
-                if (mGoogleApiClient.isConnected()) {
-                    mGoogleApiClient.disconnect();
+                if (mGoogleApiClient.getGoogleApiClient().isConnected()) {
+                    mGoogleApiClient.getGoogleApiClient().disconnect();
                 }
             }
         }
     }
 
-    private void setUp(){
+    private void setUp() {
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
@@ -335,8 +308,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
         }
     }
 
+    public void iniciarMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
     /** Metodo para pasar a a la actividad CrearCuenta*/
-    public void goToRegister(){
+    public void goToRegister() {
         Intent i = new Intent(this, CrearCuentaActivity.class);
         if(getCurrentEmail()!=null){
             i.putExtra("emailIngresado", getCurrentEmail());
@@ -389,7 +367,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
     }
 
     public GoogleApiClient getGoogleApiClient() {
-        return mGoogleApiClient;
+        return mGoogleApiClient.getGoogleApiClient();
+
     }
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
