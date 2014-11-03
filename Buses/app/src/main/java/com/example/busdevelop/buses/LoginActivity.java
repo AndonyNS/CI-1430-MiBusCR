@@ -135,12 +135,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
                     }
                 }
             }
-        } else if (view.getId() == R.id.googleplus_sign_out_button) {
-            if(mGoogleApiClient != null) {
-                if (mGoogleApiClient.getGoogleApiClient().isConnected()) {
-                    mGoogleApiClient.getGoogleApiClient().disconnect();
-                }
-            }
         }
     }
 
