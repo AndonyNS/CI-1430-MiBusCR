@@ -461,7 +461,7 @@ public class FavoritosActivity extends ActionBarActivity {
         @Override
         protected String doInBackground(Void...params) {
 
-            return mUsuario.obtenerToken(mUsuario.getEmail(), mUsuario.getEncrypted_password());
+            return mUsuario.obtenerToken();
         }
 
         /**
