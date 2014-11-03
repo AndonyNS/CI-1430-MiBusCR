@@ -71,6 +71,8 @@ public class Ruta implements ClassToRest{
      */
     public void setParadas(String token){
         String resultado = "";
+        ListaParadas listParadas = ListaParadas.getInstancia();
+        Parada parada;
         if(id != null && id != "") {
             paradasIntermedias = new ArrayList<Parada>();
             resultado = requestHttpApi("rutas/"+id, token);
@@ -78,24 +80,17 @@ public class Ruta implements ClassToRest{
                 JSONObject ruta = new JSONObject(resultado);
                 JSONArray paradas = new JSONArray(ruta.getString("ruta_parada"));
                 for(int i = 0; i < paradas.length(); i++){
-                    resultado = requestHttpApi("paradas/"+ paradas.getJSONObject(i).getString("parada_id"),token);
-                    Parada parada = new Parada();
-                    JSONObject paradaJSON = new JSONObject(resultado);
-                    parada.setId(paradaJSON.getString("id"));
-                    parada.setNombre(paradaJSON.getString("nombre"));
-                    parada.setLatitud(paradaJSON.getString("latitud"));
-                    parada.setLongitud(paradaJSON.getString("longitud"));
-                    parada.setTecho(Boolean.parseBoolean(paradaJSON.getString("techo")));
-                    String algo = paradas.getJSONObject(i).getString("tipo");
-                    if(algo.equals("0")) {
+                    parada = listParadas.getParada(paradas.getJSONObject(i).getString("parada_id"), token);
+                    String tipo = paradas.getJSONObject(i).getString("tipo");
+                    if(tipo.equals("0")) {
                         paradasIntermedias.add(parada);
                     }
                     else{
-                        if(algo.equals("1")) {
+                        if(tipo.equals("1")) {
                             paradaInicial = parada;
                         }
                         else {
-                            if(algo.equals("-1")) {
+                            if(tipo.equals("-1")) {
                                 paradaFinal = parada;
                             }
                         }
@@ -118,6 +113,7 @@ public class Ruta implements ClassToRest{
     public Parada getParadaFinal(){
         return paradaFinal;
     }
+
     /**
      * @return Las paradas intermedias que posee la ruta
      */
