@@ -6,7 +6,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -16,7 +15,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
@@ -31,6 +29,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -60,7 +59,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
     private View mProgressView;
     private Usuario mUsuario;
 
-    private GoogleApiClient mGoogleApiClient;
+    private GoogleApiClientSing mGoogleApiClient;
     private ConnectionResult mConnectionResult;
     private ProgressDialog mConnectionProgressDialog;
     private static final int REQUEST_CODE_RESOLVE_ERR = 9000;
@@ -72,12 +71,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
         mUsuario = null;
         setUp();
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+        mGoogleApiClient = GoogleApiClientSing.getInstancia();
+        mGoogleApiClient.setGoogleApiClient(new GoogleApiClient.Builder(this)
                 .addApi(Plus.API)
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
-                .build();
+                .build());
 
         // Progress bar to be displayed if the connection failure is not resolved.
         mConnectionProgressDialog = new ProgressDialog(this);
@@ -87,44 +87,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
     }
 
     @Override
-    public void onStart()
-    {
-        super.onStart();
-        if(mGoogleApiClient != null) {
-            mGoogleApiClient.connect();
-        }
-    }
-
-    @Override
-    public void onStop()
-    {
-        super.onStop();
-        if(mGoogleApiClient != null) {
-            if (mGoogleApiClient.isConnected()) {
-                mGoogleApiClient.disconnect();
-            }
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int responseCode, Intent intent)
-    {
-        if (requestCode == REQUEST_CODE_RESOLVE_ERR) {
-            Log.i("tag", "requestCode == REQUEST_CODE_RESOLVE_ERR. responseCode = " + responseCode);
-            if(responseCode == Activity.RESULT_OK) {
-                if(mGoogleApiClient != null) {
-                    if (!mGoogleApiClient.isConnecting()) {
-                        mGoogleApiClient.connect();
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onConnected(Bundle bundle)
-    {
+    public void onConnected(Bundle bundle) {
         mConnectionProgressDialog.dismiss();
+        Toast.makeText(getBaseContext(), "Bienvenido " + Plus.PeopleApi
+                .getCurrentPerson(mGoogleApiClient.getGoogleApiClient()).getDisplayName(), Toast.LENGTH_SHORT).show();
+        //iniciarMainActivity();
+
     }
 
     @Override
@@ -138,11 +106,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
                 try {
                     connectionResult.startResolutionForResult(this, REQUEST_CODE_RESOLVE_ERR);
                 } catch (IntentSender.SendIntentException e) {
-                    mGoogleApiClient.connect();
+                    mGoogleApiClient.getGoogleApiClient().connect();
                 }
             }
         }
         mConnectionResult = connectionResult;
+
     }
 
     @Override
@@ -150,33 +119,34 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
     {
         if (view.getId() == R.id.googleplus_sign_in_button) {
             if(mGoogleApiClient != null) {
-                if(!mGoogleApiClient.isConnected()) {
+                if(!mGoogleApiClient.getGoogleApiClient().isConnected()) {
                     if (mConnectionResult == null) {
                         mConnectionProgressDialog.show();
+                        mGoogleApiClient.getGoogleApiClient().connect();
+
                     } else {
                         try {
                             mConnectionResult.startResolutionForResult(this, REQUEST_CODE_RESOLVE_ERR);
                         } catch (IntentSender.SendIntentException e) {
                             // Try connecting again.
                             mConnectionResult = null;
-                            mGoogleApiClient.connect();
+                            mGoogleApiClient.getGoogleApiClient().connect();
                         }
                     }
                 }
             }
         } else if (view.getId() == R.id.googleplus_sign_out_button) {
             if(mGoogleApiClient != null) {
-                if (mGoogleApiClient.isConnected()) {
-                    mGoogleApiClient.disconnect();
+                if (mGoogleApiClient.getGoogleApiClient().isConnected()) {
+                    mGoogleApiClient.getGoogleApiClient().disconnect();
                 }
             }
         }
     }
 
-    private void setUp(){
+    private void setUp() {
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -207,16 +177,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
         });
 
         mProgressView = findViewById(R.id.login_progress);
-    }
-
-    private void populateAutoComplete() {
-        if (VERSION.SDK_INT >= 14) {
-            // Use ContactsContract.Profile (API 14+)
-            getLoaderManager().initLoader(0, null, this);
-        } else if (VERSION.SDK_INT >= 8) {
-            // Use AccountManager (API 8+)
-            new SetupEmailAutoCompleteTask().execute(null, null);
-        }
     }
 
     /**
@@ -267,7 +227,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
             // perform the user login attempt.
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            Log.d("tiene:",email+" "+password);
+            mAuthTask.execute();
         }
     }
 
@@ -347,8 +308,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
         }
     }
 
+    public void iniciarMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
     /** Metodo para pasar a a la actividad CrearCuenta*/
-    public void goToRegister(){
+    public void goToRegister() {
         Intent i = new Intent(this, CrearCuentaActivity.class);
         if(getCurrentEmail()!=null){
             i.putExtra("emailIngresado", getCurrentEmail());
@@ -401,37 +367,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
     }
 
     public GoogleApiClient getGoogleApiClient() {
-        return mGoogleApiClient;
-    }
-
-    /**
-     * Use an AsyncTask to fetch the user's email addresses on a background thread, and update
-     * the email text field with results on the main UI thread.
-     */
-    class SetupEmailAutoCompleteTask extends AsyncTask<Void, Void, List<String>> {
-
-        @Override
-        protected List<String> doInBackground(Void... voids) {
-            ArrayList<String> emailAddressCollection = new ArrayList<String>();
-
-            // Get all emails from the user's contacts and copy them to a list.
-            ContentResolver cr = getContentResolver();
-            Cursor emailCur = cr.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, null,
-                    null, null, null);
-            while (emailCur.moveToNext()) {
-                String email = emailCur.getString(emailCur.getColumnIndex(ContactsContract
-                        .CommonDataKinds.Email.DATA));
-                emailAddressCollection.add(email);
-            }
-            emailCur.close();
-
-            return emailAddressCollection;
-        }
-
-        @Override
-        protected void onPostExecute(List<String> emailAddressCollection) {
-            addEmailsToAutoComplete(emailAddressCollection);
-        }
+        return mGoogleApiClient.getGoogleApiClient();
     }
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
@@ -472,7 +408,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
             // HAce un post a request para obtener el token
             mUsuario = new Usuario();
             usersJsonStr = mUsuario.obtenerToken(mEmail, mPassword);
-
 
             mValid = validateData(usersJsonStr);
             if(mValid)

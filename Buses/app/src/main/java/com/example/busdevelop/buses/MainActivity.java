@@ -17,11 +17,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 
 
@@ -33,7 +32,7 @@ public class MainActivity extends ActionBarActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private InterstitialAd interstitial;
-    private GoogleApiClient mGoogleApiClient;
+    private GoogleApiClientSing mGoogleApiClient;
 
 
     @Override
@@ -67,15 +66,6 @@ public class MainActivity extends ActionBarActivity {
                         iniciarActivityMenu(ObtRutasActivity.class);
                         break;
                     case 2:
-                        //Aqui hay que cerrar cesion de google
-                        if(mGoogleApiClient != null) {
-                            Toast.makeText(getBaseContext(), "Sesion de Google finalizada", Toast.LENGTH_SHORT).show();
-                            if (mGoogleApiClient.isConnected()) {
-                                Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-                                mGoogleApiClient.disconnect();
-                                mGoogleApiClient.connect();
-                            }
-                        }
                         logoutAndRestart();
                         break;
                 }
@@ -177,6 +167,17 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void logoutAndRestart(){
+        // Cerrar sesion de google
+        mGoogleApiClient = GoogleApiClientSing.getInstancia();
+        if(mGoogleApiClient.getGoogleApiClient() != null) {
+            if (mGoogleApiClient.getGoogleApiClient().isConnected()) {
+                Toast.makeText(getBaseContext(), "Sesion de Google finalizada", Toast.LENGTH_SHORT).show();
+                Plus.AccountApi.clearDefaultAccount(mGoogleApiClient.getGoogleApiClient());
+                mGoogleApiClient.getGoogleApiClient().disconnect();
+
+            }
+
+        }
         SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.remove("UserEmail");
