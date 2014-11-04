@@ -152,7 +152,7 @@ public class RutasActivity extends ActionBarActivity {
         listViewRutas = (ListView) findViewById(R.id.rutaslist);
         List<Row> rows = new ArrayList<Row>();
 
-        Row row = null;
+        Row row;
         //Llena toda las filas del listview con las listas obtenidas
         for ( Ruta r : mListaRutas){
             row = new Row();
@@ -166,7 +166,7 @@ public class RutasActivity extends ActionBarActivity {
         }
 
         //Le envía al array adapter personalizado el contexto del cual va a llamarlo y el ArrayList de filas
-        CustomArrayAdapter adapter = new CustomArrayAdapter(this, rows);
+        CustomArrayAdapter adapter = new CustomArrayAdapter(this, rows,this,mListaRutas,mUsuario);
 
         listViewRutas.setAdapter(adapter);
 
@@ -182,10 +182,6 @@ public class RutasActivity extends ActionBarActivity {
                 //Llama a la clase que dibuja la ruta,
                 new DibujarRuta(mMap, rutaSeleccionada);
 
-                /*Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaInicial().getLatitud());
-                Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaInicial().getLongitud());
-                Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaFinal().getLatitud());
-                Log.d("Ruta devuelve: ", rutaSeleccionada.getParadaFinal().getLongitud());*/
                 moveToBounds(rutaSeleccionada.getParadaInicial(), rutaSeleccionada.getParadaFinal());
 
             }
@@ -291,7 +287,7 @@ public class RutasActivity extends ActionBarActivity {
 
         @Override
         protected String doInBackground(Void...params) {
-            return mUsuario.obtenerToken(mUsuario.getEmail(), mUsuario.getEncrypted_password());
+            return mUsuario.obtenerToken();
         }
         /**
          * metodo que se ejecuta después de obtener la respuesta

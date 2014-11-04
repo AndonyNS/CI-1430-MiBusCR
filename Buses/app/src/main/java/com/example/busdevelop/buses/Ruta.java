@@ -1,14 +1,19 @@
 package com.example.busdevelop.buses;
-import java.util.ArrayList;
+
+import android.util.Log;
+
+import org.apache.http.entity.StringEntity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Crea un objeto ruta con los datos almacenados
  * en la base de datos del servidor
  */
-public class Ruta {
+public class Ruta implements ClassToRest{
     private String id;
     private String nombre;
     private String frecuencia;
@@ -17,6 +22,8 @@ public class Ruta {
     private Parada paradaInicial;
     private Parada paradaFinal;
     private ArrayList<Parada> paradasIntermedias;
+    private ArrayList<Bus> listaDeBuses;
+
     public Ruta(){
     }
     public Ruta(String id, String nombre, String frecuencia,
@@ -64,6 +71,8 @@ public class Ruta {
      */
     public void setParadas(String token){
         String resultado = "";
+        ListaParadas listParadas = ListaParadas.getInstancia();
+        Parada parada;
         if(id != null && id != "") {
             paradasIntermedias = new ArrayList<Parada>();
             resultado = requestHttpApi("rutas/"+id, token);
@@ -71,24 +80,17 @@ public class Ruta {
                 JSONObject ruta = new JSONObject(resultado);
                 JSONArray paradas = new JSONArray(ruta.getString("ruta_parada"));
                 for(int i = 0; i < paradas.length(); i++){
-                    resultado = requestHttpApi("paradas/"+ paradas.getJSONObject(i).getString("parada_id"),token);
-                    Parada parada = new Parada();
-                    JSONObject paradaJSON = new JSONObject(resultado);
-                    parada.setId(paradaJSON.getString("id"));
-                    parada.setNombre(paradaJSON.getString("nombre"));
-                    parada.setLatitud(paradaJSON.getString("latitud"));
-                    parada.setLongitud(paradaJSON.getString("longitud"));
-                    parada.setTecho(Boolean.parseBoolean(paradaJSON.getString("techo")));
-                    String algo = paradas.getJSONObject(i).getString("tipo");
-                    if(algo.equals("0")) {
+                    parada = listParadas.getParada(paradas.getJSONObject(i).getString("parada_id"), token);
+                    String tipo = paradas.getJSONObject(i).getString("tipo");
+                    if(tipo.equals("0")) {
                         paradasIntermedias.add(parada);
                     }
                     else{
-                        if(algo.equals("1")) {
+                        if(tipo.equals("1")) {
                             paradaInicial = parada;
                         }
                         else {
-                            if(algo.equals("-1")) {
+                            if(tipo.equals("-1")) {
                                 paradaFinal = parada;
                             }
                         }
@@ -111,12 +113,45 @@ public class Ruta {
     public Parada getParadaFinal(){
         return paradaFinal;
     }
+
     /**
      * @return Las paradas intermedias que posee la ruta
      */
     public ArrayList<Parada> getParadasIntermedias() {
         return paradasIntermedias;
     }
+
+
+    public void setBuses(String token){
+        String resultado = "";
+        if(id != null && id != "") {
+            listaDeBuses = new ArrayList<Bus>();
+            resultado = requestHttpApi("rutas/"+id, token);
+            try{
+                JSONObject ruta = new JSONObject(resultado);
+                JSONArray buses = new JSONArray(ruta.getString("bus"));
+                for(int i = 0; i < buses.length(); i++){
+                    resultado = requestHttpApi("buses/"+ buses.getJSONObject(i).getString("id"),token);
+                    Bus bus = new Bus();
+                    JSONObject busJSON = new JSONObject(resultado);
+                    Log.d("Devuelve:",busJSON.toString());
+                    bus.setId(busJSON.getInt("id"));
+                    bus.setPlaca(busJSON.getString("placa"));
+                    JSONObject gpsJSON = busJSON.getJSONObject("gps");
+                    bus.setGpsId(gpsJSON.getString("id_gps"));
+                    //bus.setRampa(Boolean.parseBoolean(busJSON.getString("rampa")));
+                    listaDeBuses.add(bus);
+                }
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public ArrayList<Bus> getBuses() {
+        return listaDeBuses;
+    }
+
     /**
      *
      * @param end final del request http
@@ -126,5 +161,31 @@ public class Ruta {
     private String requestHttpApi(String end, String token){
         String resultado = ApiManager.httpGet("https://murmuring-anchorage-1614.herokuapp.com/"+end,token);
         return resultado;
+    }
+
+    @Override
+    public StringEntity JsonAcumulator() {
+        StringEntity se = null;
+        try {
+            String json = "";
+
+            //Construir el objeto json
+            JSONObject jsonObject = new JSONObject();
+
+            // se acumulan los campos necesarios, el primer parametro
+            // es la etiqueta json que tendran los campos de la base
+            jsonObject.accumulate("ruta_id", getId());
+
+
+            // Convertir el objeto Json a String
+            json = jsonObject.toString();
+
+            // setear json al stringEntity
+            se = new StringEntity(json);
+
+        }catch (Exception e){
+            Log.d("String to json error", e.getLocalizedMessage());
+        }
+        return se;
     }
 }

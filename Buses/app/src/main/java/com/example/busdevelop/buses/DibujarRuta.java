@@ -49,8 +49,8 @@ public class DibujarRuta {
         MarkerOptions paradas;
 
         //Agregar parada inicial
-        mMarkerParadas.add(new LatLng(Double.parseDouble(rutaName.getParadaInicial().getLatitud().substring(0,7).replaceAll(" ",".")),
-                Double.parseDouble(rutaName.getParadaInicial().getLongitud().substring(0, 7).replaceAll(" ", "."))));
+        mMarkerParadas.add(new LatLng(Double.parseDouble(rutaName.getParadaInicial().getLatitud().replaceAll(" ",".")),
+                Double.parseDouble(rutaName.getParadaInicial().getLongitud().replaceAll(" ", "."))));
         // Poner marcador de parada inicial rojo
         paradas = new MarkerOptions();
         paradas.position(mMarkerParadas.get(0));
@@ -59,8 +59,8 @@ public class DibujarRuta {
         mMarkerRuta.add(m);
 
         //Agregar parada final verde
-        mMarkerParadas.add(new LatLng(Double.parseDouble(rutaName.getParadaFinal().getLatitud().substring(0,7).replaceAll(" ",".")),
-                Double.parseDouble(rutaName.getParadaFinal().getLongitud().substring(0,7).replaceAll(" ","."))));
+        mMarkerParadas.add(new LatLng(Double.parseDouble(rutaName.getParadaFinal().getLatitud().replaceAll(" ",".")),
+                Double.parseDouble(rutaName.getParadaFinal().getLongitud().replaceAll(" ","."))));
         // Poner marcador de parada inicial
         paradas = new MarkerOptions();
         paradas.position(mMarkerParadas.get(1));
@@ -75,14 +75,19 @@ public class DibujarRuta {
             String s = p.getLatitud();
             String s2 = p.getLongitud();
             mMarkerParadas.add(new LatLng(Double.parseDouble(p.getLatitud().replaceAll(" ",".")),
-                    Double.parseDouble(p.getLongitud().substring(0,7).replaceAll(" ","."))));
+                    Double.parseDouble(p.getLongitud().replaceAll(" ","."))));
             // Poner marcadores de paradas intermedias
             paradas = new MarkerOptions();
             paradas.position(new LatLng(Double.parseDouble(p.getLatitud().replaceAll(" ",".")),
-                    Double.parseDouble(p.getLongitud().substring(0,7).replaceAll(" ","."))));
+                    Double.parseDouble(p.getLongitud().replaceAll(" ","."))));
             paradas.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
             mMap.addMarker(paradas);
             mMarkerRuta.add(m);
+        }
+
+        //Muestra los buses de la ruta
+        if(rutaName.getBuses().size() != 0){
+            new ShowBuses(mMap,rutaName.getBuses());
         }
 
         String url = getDirectionsUrl();
