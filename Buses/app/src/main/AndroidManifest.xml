@@ -90,6 +90,10 @@
             android:name=".EventosActivity"
             android:label="@string/title_activity_eventos" >
         </activity>
+        <activity
+            android:name=".EventoItemActivity"
+            android:label="@string/title_activity_evento_item" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

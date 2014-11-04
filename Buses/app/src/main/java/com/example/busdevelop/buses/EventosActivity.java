@@ -118,8 +118,8 @@ public class EventosActivity extends ActionBarActivity {
                     evento.setTipo(Integer.toString(datosEvento.getJSONObject(i).getInt("tipo")));
                     evento.setFecha(datosEvento.getJSONObject(i).getString("dia_y_hora"));
                     evento.setLugar(datosEvento.getJSONObject(i).getString("lugar"));
-                    evento.setLatitud(Integer.toString(datosEvento.getJSONObject(i).getInt("latitud")));
-                    evento.setLongitud(Integer.toString(datosEvento.getJSONObject(i).getInt("longitud")));
+                    evento.setLatitud(Double.toString(datosEvento.getJSONObject(i).getDouble("latitud")));
+                    evento.setLongitud(Double.toString(datosEvento.getJSONObject(i).getDouble("longitud")));
                     mEventosArray.add(evento);
                 }
 
@@ -134,7 +134,7 @@ public class EventosActivity extends ActionBarActivity {
             // se enlaza el adaptador con el ListView
             mList.setAdapter(mAdapter);
 
-            //prueba6.setText(mEventosArray.get(0).getLatitud());
+            prueba6.setText(mEventosArray.get(0).getLongitud());
 
 
         }
