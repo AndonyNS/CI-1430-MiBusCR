@@ -134,7 +134,7 @@ public class EventosActivity extends ActionBarActivity {
             // se enlaza el adaptador con el ListView
             mList.setAdapter(mAdapter);
 
-            prueba6.setText(mEventosArray.get(0).getLongitud());
+
 
 
         }
