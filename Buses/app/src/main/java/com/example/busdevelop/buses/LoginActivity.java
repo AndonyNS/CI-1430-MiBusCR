@@ -81,6 +81,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
         }
     };
     private UiLifecycleHelper uiHelper;
+    private GraphUser usuarioFacebook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +123,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
                         public void onCompleted(GraphUser user, Response response) {
                             if (user != null) {
                                 Toast.makeText(getBaseContext(), "Hola " + user.getName() + "!", Toast.LENGTH_SHORT).show();
+                                usuarioFacebook = user;
 
                             }
 
@@ -155,8 +157,47 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
         mConnectionProgressDialog.dismiss();
         Toast.makeText(getBaseContext(), "Bienvenido " + Plus.PeopleApi
                 .getCurrentPerson(mGoogleApiClient.getGoogleApiClient()).getDisplayName(), Toast.LENGTH_SHORT).show();
-        //iniciarMainActivity();
+        String email = Plus.AccountApi.getAccountName(mGoogleApiClient.getGoogleApiClient());
+        String nombre = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient.getGoogleApiClient()).getDisplayName();
+        String password = "123456";
+        String fechaNacimiento = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient.getGoogleApiClient()).getBirthday();
+        String ciudad = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient.getGoogleApiClient()).getCurrentLocation();
+        CrearCuentaRedSocial crearCuenta = new CrearCuentaRedSocial(email, nombre, password, this);
+        crearCuenta.crearUsuario();
+        guardarUsuario();
 
+
+        /*mAuthTask = new UserLoginTask(Plus.AccountApi.getAccountName(mGoogleApiClient.getGoogleApiClient()), "123456");
+        Log.d("tiene:",Plus.AccountApi.getAccountName(mGoogleApiClient.getGoogleApiClient())+" "+"123456");
+        mAuthTask.execute();*/
+        iniciarMainActivity();
+
+    }
+
+    //Guarda dentro del SharedPreferences el email del usuario para saber que ya ingreso correctamente
+    private void guardarUsuario(){
+        SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("UserEmail",mUsuario.getEmail());
+        editor.putString("UserPass",mUsuario.getEncrypted_password());
+        editor.putBoolean("SinRegistrar",false);
+        editor.commit();
+
+        // Aqui se indica si el usuario se conecto mediante una red social
+        SharedPreferences tipoUsuario = getSharedPreferences("MyPrefsFile", 0);
+        SharedPreferences.Editor editorTipo = tipoUsuario.edit();
+        if(mGoogleApiClient.getGoogleApiClient().isConnected()) {
+            // 1 indica que el usuario se conecto con G+
+            editorTipo.putInt("Tipo", 1);
+
+        } else if(usuarioFacebook != null) {
+            // 2 indica que el usuario se conecto con Facebook
+            editorTipo.putInt("Tipo", 2);
+
+        } else {
+            // 0 indica que el usuario se conecto sin usar redes sociales
+            editorTipo.putInt("Tipo", 0);
+        }
     }
 
     @Override
@@ -572,6 +613,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
             editor.putBoolean("SinRegistrar",false);
             editor.putString("UserPass",mPassword);
             editor.commit();
+
+            // Aqui se indica si el usuario se conecto mediante una red social
+            SharedPreferences tipoUsuario = getSharedPreferences("MyPrefsFile", 0);
+            SharedPreferences.Editor editorTipo = tipoUsuario.edit();
+
         }
     }
 }
