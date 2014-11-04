@@ -86,6 +86,10 @@
             android:name=".EventosActivity"
             android:label="@string/title_activity_eventos" >
         </activity>
+        <activity
+            android:name=".EventoItemActivity"
+            android:label="@string/title_activity_evento_item" >
+        </activity>
     </application>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->

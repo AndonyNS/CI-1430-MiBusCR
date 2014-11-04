@@ -17,8 +17,7 @@
     <string name="editar_cuenta">Editar cuenta</string>
     <string name="title_activity_favoritos_detail">FavoritosDetail</string>
     <string name="signin_other_error">an issue with sign in, please try again later.</string>
-
     <string name="title_activity_eventos">EventosActivity</string>
-
+    <string name="title_activity_evento_item">EventoItemActivity</string>
 
 </resources>

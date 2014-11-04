@@ -117,6 +117,18 @@ public class EventoAdapter extends BaseAdapter {
             @Override
             public void onClick(View arg0) {
 
+                Intent intent = new Intent(mContext, EventoItemActivity.class);
+                // Pasar los atributos de evento
+                intent.putExtra("nombre",(mEventosArray.get(position).getNombre()));
+                intent.putExtra("descripcion",(mEventosArray.get(position).getDescripcion()));
+                intent.putExtra("tipo",(mEventosArray.get(position).getTipo()));
+                intent.putExtra("fecha",(mEventosArray.get(position).getFecha()));
+                intent.putExtra("lugar",(mEventosArray.get(position).getLugar()));
+                intent.putExtra("latitud",(mEventosArray.get(position).getLatitud()));
+                intent.putExtra("longitud",(mEventosArray.get(position).getLongitud()));
+
+                // llamar a la actividad con la ruta elegida
+                mContext.startActivity(intent);
 
             }
         });
