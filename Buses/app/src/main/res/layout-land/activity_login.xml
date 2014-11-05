@@ -105,7 +105,8 @@
         android:background="@drawable/g_plus"
         android:layout_below="@+id/password"
         android:layout_alignLeft="@+id/password"
-        android:layout_alignStart="@+id/password" />
+        android:layout_alignStart="@+id/password"
+        android:layout_marginTop="10dp" />
 
     <com.facebook.widget.LoginButton
         xmlns:fb="http://schemas.android.com/apk/res-auto"
@@ -119,5 +120,6 @@
         style="@style/FacebookLoginButton"
         android:layout_below="@+id/password"
         android:layout_alignRight="@+id/password"
-        android:layout_alignEnd="@+id/password" />
+        android:layout_alignEnd="@+id/password"
+        android:layout_marginTop="10dp" />
 </RelativeLayout>
