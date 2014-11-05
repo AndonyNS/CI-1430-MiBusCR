@@ -126,6 +126,7 @@ public class EventoAdapter extends BaseAdapter {
                 intent.putExtra("lugar",(mEventosArray.get(position).getLugar()));
                 intent.putExtra("latitud",(mEventosArray.get(position).getLatitud()));
                 intent.putExtra("longitud",(mEventosArray.get(position).getLongitud()));
+                intent.putExtra("position", (Integer.toString(position)));
 
                 // llamar a la actividad con la ruta elegida
                 mContext.startActivity(intent);

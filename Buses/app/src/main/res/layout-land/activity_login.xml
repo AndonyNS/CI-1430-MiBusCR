@@ -96,4 +96,28 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+
+    <!-- Google sign-in button -->
+    <Button
+        android:id="@+id/googleplus_sign_in_button"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/g_plus"
+        android:layout_below="@+id/password"
+        android:layout_alignLeft="@+id/password"
+        android:layout_alignStart="@+id/password" />
+
+    <com.facebook.widget.LoginButton
+        xmlns:fb="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/authButton"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/fb"
+        fb:login_text=""
+        fb:logout_text=""
+        style="@style/FacebookLoginButton"
+        android:layout_below="@+id/password"
+        android:layout_alignRight="@+id/password"
+        android:layout_alignEnd="@+id/password" />
 </RelativeLayout>

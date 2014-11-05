@@ -388,7 +388,10 @@ public class FavoritosActivity extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... urls) {
-            try{
+
+            ManejadorRutas manejador = ManejadorRutas.getInstancia(mUsuario.getToken());
+            mFavoritosArray = manejador.getListaRutas();
+            /*try{
                 // una vez recibido el string con  el json
                 //  se parsea guardando en un array
                 JSONObject rutas = new JSONObject(GET(urls[0]));
@@ -429,7 +432,7 @@ public class FavoritosActivity extends ActionBarActivity {
 
             }catch(JSONException e){
                 e.printStackTrace();
-            }
+            }*/
             return "Rutas Obtenidas!";
         }
 
