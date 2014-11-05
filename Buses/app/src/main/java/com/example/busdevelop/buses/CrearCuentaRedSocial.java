@@ -49,7 +49,9 @@ public class CrearCuentaRedSocial {
             mUsuario.setEmail(mEmailUsuario);
             mUsuario.setNombre(mNombreUsuario);
             mUsuario.setEncrypted_password(mPasswordUsuario);
-            if(mFechaNacUsuario != null) {
+            mUsuario.setFechaNac("");
+            mUsuario.setCiudad("");
+/*            if(mFechaNacUsuario != null) {
                 mUsuario.setFechaNac(mFechaNacUsuario);
             } else {
                 mUsuario.setFechaNac("");
@@ -60,7 +62,7 @@ public class CrearCuentaRedSocial {
             }  else {
                 mUsuario.setCiudad("");
             }
-
+*/
             return Post(urls[0],mUsuario);
         }
 

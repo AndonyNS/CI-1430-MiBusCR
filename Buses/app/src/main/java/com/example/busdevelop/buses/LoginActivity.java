@@ -155,13 +155,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
     @Override
     public void onConnected(Bundle bundle) {
         mConnectionProgressDialog.dismiss();
-        Toast.makeText(getBaseContext(), "Bienvenido " + Plus.PeopleApi
-                .getCurrentPerson(mGoogleApiClient.getGoogleApiClient()).getDisplayName(), Toast.LENGTH_SHORT).show();
-        String email = Plus.AccountApi.getAccountName(mGoogleApiClient.getGoogleApiClient());
         String nombre = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient.getGoogleApiClient()).getDisplayName();
+        Toast.makeText(getBaseContext(), "Bienvenido " + nombre, Toast.LENGTH_SHORT).show();
+        String email = Plus.AccountApi.getAccountName(mGoogleApiClient.getGoogleApiClient());
         String password = "123456";
-        String fechaNacimiento = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient.getGoogleApiClient()).getBirthday();
-        String ciudad = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient.getGoogleApiClient()).getCurrentLocation();
         CrearCuentaRedSocial crearCuenta = new CrearCuentaRedSocial(email, nombre, password, this);
         crearCuenta.crearUsuario();
         guardarUsuario();
