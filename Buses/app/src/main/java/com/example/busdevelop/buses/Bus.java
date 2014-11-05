@@ -8,6 +8,7 @@ public class Bus {
     private String placa;
     private boolean rampa;
     private String gps_id;
+    private boolean dibujado = false;
 
     public Bus(){
         id = 0;
@@ -50,6 +51,14 @@ public class Bus {
 
     public void setGpsId(String gps_id) {
         this.gps_id = gps_id;
+    }
+
+    public void setDibujado(){
+        dibujado = true;
+    }
+
+    public boolean fueDibujado(){
+        return dibujado;
     }
 
     @Override
