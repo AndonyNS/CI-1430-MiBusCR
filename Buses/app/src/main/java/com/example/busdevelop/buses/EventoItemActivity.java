@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,6 +24,12 @@ public class EventoItemActivity extends ActionBarActivity {
     GoogleMap mMapa;
     Evento mEvento;
     MarkerOptions mMarcadorEvento;
+    ImageView mImagenEvento;
+    TextView mNombreEvento;
+    TextView mTipoEvento;
+    TextView mFechaEvento;
+    TextView mDescripcionEvento;
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +46,15 @@ public class EventoItemActivity extends ActionBarActivity {
         mEvento.setLugar(i.getStringExtra("lugar"));
         mEvento.setLatitud(i.getStringExtra("latitud"));
         mEvento.setLongitud(i.getStringExtra("longitud"));
+
+        position = Integer.parseInt(i.getStringExtra("position"));
+
+        // Localizar los vie en activity_evento_item.xml
+        mImagenEvento = (ImageView) findViewById(R.id.imagenEvento);
+        mNombreEvento = (TextView) findViewById(R.id.nombreEvento);
+        mTipoEvento = (TextView) findViewById(R.id.tipoEvento);
+        mFechaEvento = (TextView) findViewById(R.id.fechaEvento);
+        mDescripcionEvento = (TextView) findViewById(R.id.descripcionEvento);
 
         try {
             if (mMapa == null) {
@@ -76,6 +93,10 @@ public class EventoItemActivity extends ActionBarActivity {
             e.printStackTrace();
             Log.e("Mapa", "exception", e);
         }
+
+        // Mostrar Infromación del evento
+        datosEvento();
+
     }
 
 
@@ -107,4 +128,53 @@ public class EventoItemActivity extends ActionBarActivity {
         mMapa.animateCamera(zoom);
     }
 
+
+    /**
+     * Metodo que llena los datos del evento y los despliega en layout
+     * encima del mapa
+     */
+
+    public void datosEvento(){
+        mNombreEvento.setText(mEvento.getNombre());
+        mFechaEvento.setText("Fecha: " + mEvento.getFecha());
+        mDescripcionEvento.setText("Descripción: " + mEvento.getDescripcion());
+
+        // switch para agregar el tipo
+        switch (Integer.parseInt(mEvento.getTipo())){
+            case 1: // Artistico
+                mTipoEvento.setText("Tipo de Evento: Artístico");
+                if(position  == 0){
+                    mImagenEvento.setImageResource(R.drawable.arte2);
+                } else{
+                    mImagenEvento.setImageResource(R.drawable.arte1);
+                }
+
+                break;
+            case 2: // Deportivo
+                mTipoEvento.setText("Tipo de Evento: Deportivo");
+                mImagenEvento.setImageResource(R.drawable.deportes2);
+                break;
+            case 3: // Fiesta
+                mTipoEvento.setText("Tipo de Evento: Entretenimiento, Fiesta");
+                if(position % 2 == 0){
+                    mImagenEvento.setImageResource(R.drawable.fiesta2);
+                }else{
+                    mImagenEvento.setImageResource(R.drawable.fiesta3);
+                }
+
+                break;
+            case 4: // Concierto
+                mTipoEvento.setText("Tipo de Evento: Concierto");
+                if(position % 2 != 0) {
+                    mImagenEvento.setImageResource(R.drawable.concierto2);
+                }else{
+                    mImagenEvento.setImageResource(R.drawable.concierto4);
+                }
+                break;
+            case 5: // Exposicion
+                mTipoEvento.setText("Tipo de Evento: Exposicion, Charla");
+                mImagenEvento.setImageResource(R.drawable.arte2);
+                break;
+        }
+    }
 }
