@@ -63,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" Eventos "
-        android:onClick="iniciarUnderContruction"
+        android:onClick="iniciarEventos"
         android:drawableTop="@drawable/evento"
         android:id="@+id/Eventosbutton"
         android:padding="30dp"
