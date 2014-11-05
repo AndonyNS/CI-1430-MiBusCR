@@ -1,5 +1,6 @@
 package com.example.busdevelop.buses;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,17 +12,32 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 
 public class EventoItemActivity extends ActionBarActivity {
 
     GoogleMap mMapa;
+    Evento mEvento;
+    MarkerOptions mMarcadorEvento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evento_item);
+         // recuperar los datos del evento que manda al
+        // hacer click en un elemento de la lista
+        Intent i = getIntent();
+        mEvento = new Evento();
+        mEvento.setNombre(i.getStringExtra("nombre"));
+        mEvento.setDescripcion(i.getStringExtra("descripcion"));
+        mEvento.setTipo(i.getStringExtra("tipo"));
+        mEvento.setFecha(i.getStringExtra("fecha"));
+        mEvento.setLugar(i.getStringExtra("lugar"));
+        mEvento.setLatitud(i.getStringExtra("latitud"));
+        mEvento.setLongitud(i.getStringExtra("longitud"));
 
         try {
             if (mMapa == null) {
@@ -41,6 +57,19 @@ public class EventoItemActivity extends ActionBarActivity {
                 latlng = new LatLng(9.9200652,-84.0846053);
             }
             moveToLocation(latlng, 13);
+
+            // moverse a la localizacion del evento
+            latlng = new LatLng(Double.parseDouble(mEvento.getLatitud()) ,
+                    Double.parseDouble(mEvento.getLongitud()));
+
+            moveToLocation(latlng, 15);
+
+            // agregar marcador a mapa en localización de evento
+            mMarcadorEvento = new MarkerOptions();
+            mMarcadorEvento.position(latlng);
+            mMarcadorEvento.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+            mMarcadorEvento.title(mEvento.getLugar());
+            mMapa.addMarker(mMarcadorEvento);
 
         } catch (Exception e) {
 
