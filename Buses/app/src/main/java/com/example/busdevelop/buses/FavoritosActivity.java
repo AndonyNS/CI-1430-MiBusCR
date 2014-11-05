@@ -56,6 +56,7 @@ public class FavoritosActivity extends ActionBarActivity {
     private String mUrlFavorita= "https://murmuring-anchorage-1614.herokuapp.com/favoritas";
     private List<String> ids = new ArrayList<String>();
     private final String mPrefs_Name = "MyPrefsFile";
+    
 
 
 
@@ -289,6 +290,7 @@ public class FavoritosActivity extends ActionBarActivity {
 
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
         Activity mActivity;
+        ManejadorRutas manejador;
         private HttpAsyncTask(Activity activity){
             this.mActivity = activity;
         }
@@ -309,7 +311,7 @@ public class FavoritosActivity extends ActionBarActivity {
                 //  Strings. Se guarda una ruta en el arreglo de rutas
 
                 for (int i = 0; i < rutas.length(); i++) {
-                    Ruta favoritos = new Ruta();
+                   
                     ids.add(Integer.toString(rutas.getJSONObject(i).getInt("ruta_id")));
 
 
@@ -322,6 +324,7 @@ public class FavoritosActivity extends ActionBarActivity {
                    // mFavoritosArray.add(favoritos);
                    // Toast.makeText(getBaseContext(), nombre, Toast.LENGTH_LONG).show();
                 }
+                manejador = ManejadorRutas.getInstancia(mUsuario.getToken());
 
                 //llamar al otro asyntask
 
@@ -352,10 +355,11 @@ public class FavoritosActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(String resultado) {
 
-
+            
+            ArrayList<Ruta> auxiliar = manejador.getListaRutas(); 
             // una vez obtenido el token se pide las rutas
             for(String id : ids) {
-                new HttpAsyncTaskRutas(mActivity).execute(mUrlRuta+id);
+                mFavoritosArray.add(auxiliar.get(Integer.parseInt(id)-1));
             }
         }
 
