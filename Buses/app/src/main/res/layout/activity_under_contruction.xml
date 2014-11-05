@@ -12,5 +12,5 @@
         android:id="@+id/imageView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/underconstruction" />
+        android:background="@drawable/g_plus" />
 </RelativeLayout>
