@@ -45,6 +45,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -81,7 +82,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
         }
     };
     private UiLifecycleHelper uiHelper;
-    private GraphUser usuarioFacebook;
+    private GraphUser mUsuarioFacebook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +108,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
 
         this.findViewById(R.id.googleplus_sign_in_button).setOnClickListener(this);
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int responseCode, Intent intent) {
+        super.onActivityResult(requestCode, responseCode, intent);
+
+        List<String> permissions = new ArrayList<String>();
+        permissions.add("email");
         // start Facebook Login
         Session.openActiveSession(this, true, new Session.StatusCallback() {
 
@@ -123,7 +132,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
                         public void onCompleted(GraphUser user, Response response) {
                             if (user != null) {
                                 Toast.makeText(getBaseContext(), "Hola " + user.getName() + "!", Toast.LENGTH_SHORT).show();
-                                usuarioFacebook = user;
+                                String nombre = user.getName();
+                                String email = user.asMap().get("email").toString();
+                                String password = "123456";
+                                CrearCuentaRedSocial crearCuenta = new CrearCuentaRedSocial(email, nombre, password, "", "", getBaseContext());
+                                mUsuario = crearCuenta.crearUsuario();
+                                guardarUsuario();
+                                iniciarMainActivity();
 
                             }
 
@@ -133,11 +148,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
 
             }
         });
-    }
 
-    @Override
-    public void onActivityResult(int requestCode, int responseCode, Intent intent) {
-        super.onActivityResult(requestCode, responseCode, intent);
         uiHelper.onActivityResult(requestCode, responseCode, intent);
         Session.getActiveSession().onActivityResult(this, requestCode, responseCode, intent);
         if (requestCode == REQUEST_CODE_RESOLVE_ERR) {
@@ -157,29 +168,17 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
         mConnectionProgressDialog.dismiss();
         String nombre = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient.getGoogleApiClient()).getDisplayName();
         Toast.makeText(getBaseContext(), "Bienvenido " + nombre, Toast.LENGTH_SHORT).show();
-        String email = Plus.AccountApi.getAccountName(mGoogleApiClient.getGoogleApiClient());
+        String email  = Plus.AccountApi.getAccountName(mGoogleApiClient.getGoogleApiClient());
         String password = "123456";
-        CrearCuentaRedSocial crearCuenta = new CrearCuentaRedSocial(email, nombre, password, this);
-        crearCuenta.crearUsuario();
+        CrearCuentaRedSocial crearCuenta = new CrearCuentaRedSocial(email, nombre, password, "", "", this);
+        mUsuario = crearCuenta.crearUsuario();
         guardarUsuario();
-
-
-        /*mAuthTask = new UserLoginTask(Plus.AccountApi.getAccountName(mGoogleApiClient.getGoogleApiClient()), "123456");
-        Log.d("tiene:",Plus.AccountApi.getAccountName(mGoogleApiClient.getGoogleApiClient())+" "+"123456");
-        mAuthTask.execute();*/
         iniciarMainActivity();
 
     }
 
     //Guarda dentro del SharedPreferences el email del usuario para saber que ya ingreso correctamente
     private void guardarUsuario(){
-        SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("UserEmail",mUsuario.getEmail());
-        editor.putString("UserPass",mUsuario.getEncrypted_password());
-        editor.putBoolean("SinRegistrar",false);
-        editor.commit();
-
         // Aqui se indica si el usuario se conecto mediante una red social
         SharedPreferences tipoUsuario = getSharedPreferences("MyPrefsFile", 0);
         SharedPreferences.Editor editorTipo = tipoUsuario.edit();
@@ -187,7 +186,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
             // 1 indica que el usuario se conecto con G+
             editorTipo.putInt("Tipo", 1);
 
-        } else if(usuarioFacebook != null) {
+        } else if(mUsuarioFacebook != null) {
             // 2 indica que el usuario se conecto con Facebook
             editorTipo.putInt("Tipo", 2);
 
@@ -195,6 +194,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
             // 0 indica que el usuario se conecto sin usar redes sociales
             editorTipo.putInt("Tipo", 0);
         }
+        editorTipo.commit();
     }
 
     @Override
@@ -280,16 +280,62 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_login, container, false);
         LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
+        authButton.setReadPermissions(Arrays.asList("email"));
         return view;
 
     }
 
     private void onSessionStateChange(Session session, SessionState state, Exception exception) {
-        if (state.isOpened()) {
-            Log.i(TAG, "Logged in...");
-        } else if (state.isClosed()) {
-            Log.i(TAG, "Logged out...");
+            List<String> permissions = new ArrayList<String>();
+            permissions.add("email");
+
+            //Start Facebook session
+/*            openActiveSession(this, true, new Session.StatusCallback() {
+                @Override
+                public void call(Session session, SessionState state, Exception exception) {
+                    if (session.isOpened()) {
+                        //make request to the /me API
+                        Log.e("sessionopened", "true");
+                        // make request to the /me API
+                        Request request = Request.newMeRequest(session,
+                                new Request.GraphUserCallback() {
+                                    // callback after Graph API response with user object
+
+                                    @Override
+                                    public void onCompleted(GraphUser user, Response response) {
+                                        if (user != null) {
+                                            mUsuarioFacebook = user;
+
+                                        }
+                                    }
+                                });
+                    }
+                }
+
+            }, permissions);
+
+            if (mUsuarioFacebook != null) {
+                String nombre = mUsuarioFacebook.getName();
+                Toast.makeText(getBaseContext(), "Bienvenido " + nombre, Toast.LENGTH_SHORT).show();
+                String email = mUsuarioFacebook.getProperty("email").toString();
+                String password = "123456";
+                CrearCuentaRedSocial crearCuenta = new CrearCuentaRedSocial(email, nombre, password, "", "", this);
+                mUsuario = crearCuenta.crearUsuario();
+                guardarUsuario();
+                iniciarMainActivity();
+            }*/
+
         }
+
+    private static Session openActiveSession(Activity activity, boolean allowLoginUI, Session.StatusCallback callback, List<String> permissions) {
+        Session.OpenRequest openRequest = new Session.OpenRequest(activity).setPermissions(permissions).setCallback(callback);
+        Session session = new Session.Builder(activity).build();
+        if (SessionState.CREATED_TOKEN_LOADED.equals(session.getState()) || allowLoginUI) {
+            Session.setActiveSession(session);
+            session.openForRead(openRequest);
+            return session;
+        }
+        return null;
     }
 
     @Override
@@ -300,9 +346,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
         // session is not null, the session state change notification
         // may not be triggered. Trigger it if it's open/closed.
         Session session = Session.getActiveSession();
-        if (session != null &&
-                (session.isOpened() || session.isClosed()) ) {
-            onSessionStateChange(session, session.getState(), null);
+        if (session != null) {
+            if (session.isOpened() || session.isClosed()) {
+                onSessionStateChange(session, session.getState(), null);
+            }
         }
 
         uiHelper.onResume();
