@@ -361,6 +361,9 @@ public class FavoritosActivity extends ActionBarActivity {
             for(String id : ids) {
                 mFavoritosArray.add(auxiliar.get(Integer.parseInt(id)-1));
             }
+            
+            
+            createListView();
         }
 
 
