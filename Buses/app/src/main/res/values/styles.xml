@@ -5,4 +5,8 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="FacebookLoginButton">
+        <item name="android:background">@drawable/fb</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
 </resources>
