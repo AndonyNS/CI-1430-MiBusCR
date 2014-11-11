@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 20141018035818) do
   create_table "gps_s", force: true do |t|
     t.integer  "bus_id"
     t.string   "id_gps"
+    t.float    "latitud"
+    t.float    "longitud"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -76,7 +78,9 @@ ActiveRecord::Schema.define(version: 20141018035818) do
     t.string   "nombre"
     t.date     "fechaNac"
     t.string   "ciudad"
+    t.string   "salt"
     t.string   "token"
+    t.boolean  "admin"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
