@@ -19,7 +19,12 @@ class BusesController < ApplicationController
   # POST /buses
   # POST /buses.json
   def create
-    head :unauthorized
+    @bus = Bus.find_by_placa(params[:placa])
+    if !params[:ruta].nil?
+      @bus.ruta = Ruta.find(params[:ruta])
+      @bus.save
+    end
+    render json: @bus.as_json(only: [:id, :placa],include: [ruta:{only: [:id]}])
   end
 
   # PATCH/PUT /buses/1
@@ -35,10 +40,6 @@ class BusesController < ApplicationController
   end
 
   private
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def bus_params
-      params.require(:bus).permit(:placa)
-    end
 
     def set_bus
       begin  

@@ -7,19 +7,27 @@ class GpsSController < ApplicationController
   def index
     @gps_s = Gps.all
 
-    render json: @gps_s.as_json(only: [:id, :id_gps])
+    render json: @gps_s.as_json(only: [:id, :id_gps,:latitud,:longitud])
   end
 
   # GET /gps_s/1
   # GET /gps_s/1.json
   def show
-    render json: @gps.as_json(only: [:id, :id_gps])
+    render json: @gps.as_json(only: [:id, :id_gps,:latitud,:longitud])
   end
 
   # POST /gps_s
   # POST /gps_s.json
   def create
-    head :unauthorized
+    @gps = Gps.find_by_id_gps(params[:id_gps])
+    if params[:latitud] != ""
+      @gps.latitud = params[:latitud]
+    end
+    if params[:longitud]
+      @gps.longitud = params[:longitud]
+    end
+    @gps.save
+    render json: @gps.as_json(only: [:id, :id_gps,:latitud,:longitud])
   end
 
   # PATCH/PUT /gps_s/1
