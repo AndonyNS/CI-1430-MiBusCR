@@ -1,4 +1,4 @@
-package com.example.sendlocation;
+package com.example.busdevelop.sendlocation;
 
 import android.content.Context;
 
