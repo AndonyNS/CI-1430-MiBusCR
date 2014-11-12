@@ -1,9 +1,14 @@
 package com.example.busdevelop.buses;
 
+import android.util.Log;
+
+import org.apache.http.entity.StringEntity;
+import org.json.JSONObject;
+
 /**
  * Created by Andony on 28/10/2014.
  */
-public class Bus {
+public class Bus implements ClassToRest{
     private int id;
     private String placa;
     private boolean rampa;
@@ -81,6 +86,32 @@ public class Bus {
         } else if (this.id != other.getId())
             return false;
         return true;
+    }
+
+    @Override
+    public StringEntity JsonAcumulator() {
+        StringEntity se = null;
+        try {
+            String json = "";
+
+            //Construir el objeto json
+            JSONObject jsonObject = new JSONObject();
+
+            // se acumulan los campos necesarios, el primer parametro
+            // es la etiqueta json que tendran los campos de la base
+            jsonObject.accumulate("id", getId());
+            jsonObject.accumulate("placa",getPlaca());
+
+            // Convertir el objeto Json a String
+            json = jsonObject.toString();
+
+            // setear json al stringEntity
+            se = new StringEntity(json);
+
+        }catch (Exception e){
+            Log.d("String to json error", e.getLocalizedMessage());
+        }
+        return se;
     }
 
 }

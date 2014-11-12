@@ -180,7 +180,7 @@ public class RutasActivity extends ActionBarActivity {
                 Ruta rutaSeleccionada = mListaRutas.get(position);
 
                 //Llama a la clase que dibuja la ruta,
-                new DibujarRuta(mMap, rutaSeleccionada);
+                new DibujarRuta(mUsuario,mMap, rutaSeleccionada);
 
                 moveToBounds(rutaSeleccionada.getParadaInicial(), rutaSeleccionada.getParadaFinal());
 

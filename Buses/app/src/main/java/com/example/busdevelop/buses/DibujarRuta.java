@@ -27,7 +27,7 @@ public class DibujarRuta {
 
     private List<LatLng> mMarkerParadas;
     private List<Marker> mMarkerRuta;
-
+    private Usuario mUsuario;
     private GoogleMap mMap;
 
     /*
@@ -36,7 +36,8 @@ public class DibujarRuta {
     * la lista de rutas y de paradas
     *
     */
-    public DibujarRuta(GoogleMap map,Ruta rutaName){
+    public DibujarRuta(Usuario usuario, GoogleMap map,Ruta rutaName){
+        mUsuario = usuario;
         mMap = map;
         mMap.clear();
         mMarkerParadas = new ArrayList<LatLng>();
@@ -87,7 +88,7 @@ public class DibujarRuta {
 
         //Muestra los buses de la ruta
         if(rutaName.getBuses().size() != 0){
-            new ShowBuses(mMap,rutaName.getBuses());
+            new ShowBuses(mUsuario,mMap,rutaName.getBuses());
         }
 
         String url = getDirectionsUrl();

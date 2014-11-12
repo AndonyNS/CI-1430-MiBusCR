@@ -454,7 +454,7 @@ public class MiUbicacionActivity extends ActionBarActivity implements LocationLi
                 Ruta  itemValue = mListaRutas.get(position);
                 //Toast.makeText(getBaseContext(), "Rutas Obtenidas!", Toast.LENGTH_LONG).show();
 
-                new DibujarRuta(mMap,itemValue);
+                new DibujarRuta(mUsuario,mMap,itemValue);
             }
         });
     }
