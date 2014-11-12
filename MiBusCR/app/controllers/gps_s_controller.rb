@@ -20,6 +20,10 @@ class GpsSController < ApplicationController
   # POST /gps_s.json
   def create
     @gps = Gps.find_by_id_gps(params[:id_gps])
+    if @gps.nil?
+      @gps = Gps.new()
+      @gps.id_gps = params[:id_gps]
+    end
     if params[:latitud] != ""
       @gps.latitud = params[:latitud]
     end
