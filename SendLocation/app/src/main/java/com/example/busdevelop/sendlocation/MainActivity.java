@@ -1,4 +1,4 @@
-package com.example.sendlocation;
+package com.example.busdevelop.sendlocation;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,19 +9,21 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
 
     private final String mPrefs_Name = "MyPrefsFile";
     String currentLocation;
+    double currentLatitude;
+    double currentLongitude;
     long lastUpdate;
     long updateFrequency;
     serverUpdate server;
@@ -33,17 +35,27 @@ public class MainActivity extends Activity {
 
         lastUpdate = System.nanoTime();
         //Frecuencia de actualización, cada 3 minutos
-        updateFrequency = min2nano(3);
+        updateFrequency = min2nano(1);
 
         //Crea la instancia de firebase, es de tipo server, para que pueda ser usado con otros servidores en caso de que sea desee cambiar
-        server = new firebaseUpdate(getApplicationContext());
-        continueButtonListener();
-        stopButtonListener();
+        server = new ApiUpdate(getApplicationContext(),this);
+        try {
+            continueButtonListener();
+            stopButtonListener();
 
-        SharedPreferences settings = getSharedPreferences(mPrefs_Name, 0);
-        checkSettings(settings);
+            SharedPreferences settings = getSharedPreferences(mPrefs_Name, 0);
+            checkSettings(settings);
+
+
+
+        }catch(NullPointerException e){
+            Log.e("casi se cae",""+e.getMessage());
+        }
+
         configureServiceManager();
 	}
+
+
 
     /*Debido a que se trabaja con nanoTime, que devuelve nanosegundos, este método es para convertir
      minutos a nanosegundos*/
@@ -55,7 +67,7 @@ public class MainActivity extends Activity {
     private void checkSettings(SharedPreferences settings){
         //Si no ha marcado que quiere dejar de recibir la notificación al principio, seguirá apareciendo cada vez que inicie
         if (settings.getBoolean("show_agreement", true)){
-            View v = (View)findViewById(R.id.warningDialog);
+            View v = findViewById(R.id.warningDialog);
             v.setVisibility(View.VISIBLE);
         }
     }
@@ -118,14 +130,15 @@ public class MainActivity extends Activity {
 	{
 
     public MyLocationListener(){
-        currentLocation = null;
+
     }
 	@Override
 	public void onLocationChanged(Location loc)
 	{
 	  	/*String Text = "Mi ubicación actual es: " + "Latitud = " + loc.getLatitude() +
 	  	" Longitud = " + loc.getLongitude();*/
-		currentLocation = loc.getLatitude() + " " + loc.getLongitude();
+        currentLatitude = loc.getLatitude();
+        currentLongitude = loc.getLongitude();
         attemptUpdate();
 	}
 
@@ -135,8 +148,8 @@ public class MainActivity extends Activity {
          */
          long currentTime = System.nanoTime();
          if(currentTime-lastUpdate> updateFrequency){
-             server.update(currentLocation);
-             Toast.makeText(getApplicationContext(), getResources().getString(R.string.update_message), Toast.LENGTH_SHORT).show();
+             server.update(currentLatitude,currentLongitude);
+             //Toast.makeText(getApplicationContext(), getResources().getString(R.string.update_message), Toast.LENGTH_SHORT).show();
              lastUpdate = System.nanoTime();
          }
      }

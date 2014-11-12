@@ -1,8 +1,9 @@
-package com.example.sendlocation;
+package com.example.busdevelop.sendlocation;
 
-import android.content.Context;
+/*import android.content.Context;
 
 import com.firebase.client.Firebase;
+
 
 public class firebaseUpdate implements serverUpdate {
     Firebase firebaseRef;
@@ -13,10 +14,10 @@ public class firebaseUpdate implements serverUpdate {
         UUID = Installation.id(context);
         firebaseRef = new Firebase("https://blazing-fire-9075.firebaseio.com/Device-"+ UUID);
     }
-    public void update(String currentLocation){
+    public void update(double currentLatitude,double currentLongitude){
         //Pone en firebase el id del dispositivo con su ubicación actual, que se llama con el onLocationChanged
         firebaseRef.child("GpsID").setValue(UUID);
-        firebaseRef.child("Location").setValue(currentLocation);
+        firebaseRef.child("Location").setValue(currentLatitude+","+currentLongitude);
 
         //Log.d("Info","Actualizando id:" + UUID);
     }
@@ -26,3 +27,4 @@ public class firebaseUpdate implements serverUpdate {
     }
 
 }
+*/
