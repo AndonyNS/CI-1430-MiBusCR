@@ -33,8 +33,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.Request;
-import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
@@ -114,7 +112,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
     public void onActivityResult(int requestCode, int responseCode, Intent intent) {
         super.onActivityResult(requestCode, responseCode, intent);
 
-        List<String> permissions = new ArrayList<String>();
+/*        List<String> permissions = new ArrayList<String>();
         permissions.add("email");
         // start Facebook Login
         Session.openActiveSession(this, true, new Session.StatusCallback() {
@@ -151,7 +149,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
 
         uiHelper.onActivityResult(requestCode, responseCode, intent);
         Session.getActiveSession().onActivityResult(this, requestCode, responseCode, intent);
-        if (requestCode == REQUEST_CODE_RESOLVE_ERR) {
+*/        if (requestCode == REQUEST_CODE_RESOLVE_ERR) {
             Log.i("tag", "requestCode == REQUEST_CODE_RESOLVE_ERR. responseCode = " + responseCode);
             if(responseCode == Activity.RESULT_OK) {
                 if(mGoogleApiClient != null) {
@@ -286,11 +284,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
     }
 
     private void onSessionStateChange(Session session, SessionState state, Exception exception) {
-            List<String> permissions = new ArrayList<String>();
+/*            List<String> permissions = new ArrayList<String>();
             permissions.add("email");
 
             //Start Facebook session
-/*            openActiveSession(this, true, new Session.StatusCallback() {
+            openActiveSession(this, true, new Session.StatusCallback() {
                 @Override
                 public void call(Session session, SessionState state, Exception exception) {
                     if (session.isOpened()) {

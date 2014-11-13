@@ -60,14 +60,9 @@ public class CrearCuentaRedSocial {
             mUsuario.setEncrypted_password(mPasswordUsuario);
             mUsuario.setFechaNac(mFechaNacUsuario);
             mUsuario.setCiudad(mCiudad);
-
-            return Post(urls[0],mUsuario);
-        }
-
-        @Override
-        protected void onPostExecute(String resultado){
             guardarUsuario();
 
+            return Post(urls[0],mUsuario);
         }
 
     }
