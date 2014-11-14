@@ -27,6 +27,7 @@ public class DibujarBus {
         mBus = bus;
         mLatitude = location.getLatitude();
         mLongitude = location.getLongitude();
+        myMarker = new Marker();
     }
 
     public void dibujar(){
@@ -41,6 +42,11 @@ public class DibujarBus {
             myMarker.remove();
             setMarker();
         }
+    }
+
+    public void setLocation(Location location){
+        mLatitude = location.getLatitude();
+        mLongitude = location.getLongitude();
     }
 
     private void setMarker(){

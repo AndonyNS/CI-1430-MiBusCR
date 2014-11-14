@@ -40,17 +40,6 @@ public class Gps implements ClassToRest {
         this.longitud = longitud;
     }
 
-    /**
-     *
-     * @param end final del request http
-     * @param token del usuario
-     * @return devuelve un string con el request solicitado.
-     */
-    public String getFromApi(String end, String token){
-        String resultado = ApiManager.httpGet("https://murmuring-anchorage-1614.herokuapp.com/" + end, token);
-        return resultado;
-    }
-
     @Override
     public StringEntity JsonAcumulator() {
         StringEntity se = null;

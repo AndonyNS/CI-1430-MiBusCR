@@ -138,7 +138,7 @@ public class Ruta implements ClassToRest{
                     bus.setId(busJSON.getInt("id"));
                     bus.setPlaca(busJSON.getString("placa"));
                     JSONObject gpsJSON = busJSON.getJSONObject("gps");
-                    bus.setGpsId(gpsJSON.getString("id_gps"));
+                    bus.setGpsId(gpsJSON.getString("id"));
                     //bus.setRampa(Boolean.parseBoolean(busJSON.getString("rampa")));
                     listaDeBuses.add(bus);
                 }

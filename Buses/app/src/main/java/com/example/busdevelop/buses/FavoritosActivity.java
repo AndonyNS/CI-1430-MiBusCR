@@ -221,12 +221,6 @@ public class FavoritosActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
-
-
-
-
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
         Activity mActivity;
         ManejadorRutas manejador;
