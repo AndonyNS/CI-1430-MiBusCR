@@ -17,8 +17,10 @@
         android:layout_width="260dp"
         android:layout_height="120dp"
         android:layout_gravity="center_horizontal|bottom"
-        android:background="@color/white"
-        android:visibility="gone"/>
+        android:background="@drawable/layout_border_2"
+        android:visibility="gone"
+        android:divider="#EE485574"
+        android:dividerHeight="1dp"/>
 
 
 </FrameLayout>
