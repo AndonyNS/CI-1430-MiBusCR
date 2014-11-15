@@ -2,7 +2,6 @@ package com.example.busdevelop.buses;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -11,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,28 +17,14 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Locale;
 
 
 public class FavoritosActivity extends ActionBarActivity {
@@ -98,7 +82,6 @@ public class FavoritosActivity extends ActionBarActivity {
 
 
         getRutas();
-        showBuses();
 
 
        }
@@ -113,50 +96,6 @@ public class FavoritosActivity extends ActionBarActivity {
         new HttpAsyncTaskToken(this).execute();
     }
 
-    /* TODO: Muestra los buses*/
-    public void showBuses() {
-        /*Firebase firebaseRef = new Firebase(mFIREBASE_URL);
-
-        firebaseRef.addChildEventListener(new ChildEventListener() {
-
-            @Override
-            public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
-
-
-
-                Location location = new Location("dummyprovider");
-
-                mGps = (String) snapshot.child("GpsID").getValue();
-                mLocation = (String) snapshot.child("Location").getValue();
-                String[] parts = mLocation.split(" ");
-                mLatitud = Double.parseDouble(parts[0]);
-                mLongitud = Double.parseDouble(parts[1]);
-                location.setLatitude(mLatitud);
-                location.setLongitude(mLongitud);
-                onLocationChanged(location);
-                mMarcadorBus = mMarcadorUpdate;
-
-            }
-
-            @Override
-            public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot snapshot) {
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("The read failed: " + firebaseError.getMessage());
-            }
-
-        });*/
-    }
 
     private void createListView(){
 
@@ -201,7 +140,7 @@ public class FavoritosActivity extends ActionBarActivity {
                     }
                     //itemValue.setParadas(mUsuario.getToken());
                     //Llama a la clase que dibuja la ruta
-                    new DibujarRuta(mGoogleMap, itemValue);
+                    new DibujarRuta(mUsuario, mGoogleMap, itemValue);
 
                     moveToBounds(itemValue.getParadaInicial(), itemValue.getParadaFinal());
 
@@ -281,12 +220,6 @@ public class FavoritosActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
-
-
 
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
         Activity mActivity;

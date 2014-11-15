@@ -43,6 +43,11 @@ public class DibujarBus {
         }
     }
 
+    public void setLocation(Location location){
+        mLatitude = location.getLatitude();
+        mLongitude = location.getLongitude();
+    }
+
     private void setMarker(){
         LatLng latitudLongitud = new LatLng(mLatitude,mLongitude);
         myMarker = mMap.addMarker(new MarkerOptions()
