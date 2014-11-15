@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ubicacion"
-            android:onClick="iniciarUnderContruction"
+            android:onClick="iniciarMiUbicacion"
             android:drawableTop="@drawable/ubicacion"
             android:id="@+id/Ubicacionbutton"
             android:padding="30dp"
