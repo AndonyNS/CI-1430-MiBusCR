@@ -13,7 +13,7 @@ class BusesController < ApplicationController
   # GET /buses/1
   # GET /buses/1.json
   def show
-    render json: @bus.as_json(only: [:id, :placa],include: [gps:{only: [:id_gps]}])
+    render json: @bus.as_json(only: [:id, :placa],include: [gps:{only: [:id]}])
   end
 
   # POST /buses

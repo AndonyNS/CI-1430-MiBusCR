@@ -7,13 +7,13 @@ class GpsSController < ApplicationController
   def index
     @gps_s = Gps.all
 
-    render json: @gps_s.as_json(only: [:id, :id_gps,:latitud,:longitud])
+    render json: @gps_s.as_json(only: [:id, :id_gps,:latitud,:longitud, :siguiente])
   end
 
   # GET /gps_s/1
   # GET /gps_s/1.json
   def show
-    render json: @gps.as_json(only: [:id, :id_gps,:latitud,:longitud])
+    render json: @gps.as_json(only: [:id, :id_gps,:latitud,:longitud, :siguiente])
   end
 
   # POST /gps_s
@@ -27,11 +27,13 @@ class GpsSController < ApplicationController
     if params[:latitud] != ""
       @gps.latitud = params[:latitud]
     end
-    if params[:longitud]
+    if params[:longitud] != ""
       @gps.longitud = params[:longitud]
     end
+    if params[:siguiente] != ""
+      @gps.siguiente = params[:siguiente]
+    end
     @gps.save
-    render json: @gps.as_json(only: [:id, :id_gps,:latitud,:longitud])
   end
 
   # PATCH/PUT /gps_s/1
@@ -48,9 +50,6 @@ class GpsSController < ApplicationController
 
   private
     # Never trust parameters from the scary internet, only allow the white list through.
-    def gps_params
-      params.permit(:id_gps)
-    end
 
     def set_gps
       begin  
