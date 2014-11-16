@@ -30,7 +30,7 @@ public class ShowBuses {
     }
 
 
-    //Obtiene de firebase la ubicación de los buses
+    //Obtiene la ubicación de los buses
     public void actualizarPosBuses() {
 
         for (Bus bus : mBuses) {
@@ -38,10 +38,16 @@ public class ShowBuses {
             GetBusLocation busLocation = new GetBusLocation(bus,mUsuario.getToken());
             busLocation.updateLocation();
 
-            Location location = busLocation.getLastKnown();
-            while(location.getLatitude()==0.0&&location.getLongitude()==0.0) {
+            /*
+            Solución parcial al siguiente problema:
+            updateLocation tiene el get de la base de datos, el problema es que el get
+            dura más de lo que dura la ejecución del código, por lo tanto, el do
+            while "le da tiempo" al get de ejecutarse en su totalidad
+             */
+            Location location;
+            do {
                 location = busLocation.getLastKnown();
-            }
+            }while(location.getLatitude()==0.0&&location.getLongitude()==0.0);
                 Log.e("devuelve", ""+location.getLatitude());
 
                 DibujarBus db = new DibujarBus(mMap,bus,location);

@@ -43,7 +43,7 @@ public class Usuario implements ClassToRest {
     }
 
     public String getToken() {
-        return token.getToken();
+            return token.getToken();
     }
 
     public Token getClassToken() {
