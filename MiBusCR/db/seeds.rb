@@ -8,9 +8,11 @@
 
 Parada.create({nombre: 'UCR-Cartago',techo: true, latitud:9.935521, longitud:-84.050252 })
 
-Parada.create({nombre: 'UCR-Pavas',techo: true, latitud:9.934813, longitud:-84.051813 }) 
+Parada.create({nombre: 'UCR-Pavas',techo: true, latitud:9.934813, longitud:-84.051813 })
+ 
+Evento.create({nombre: "Exposicion garabito" ,descripcion: "Exposicion de arte garabito en el paseo de las flores", latitud:9.98571, longitud:-84.10994, tipo:1, dia_y_hora: "2014-8-11 14:00:00", lugar: "Paseo de las flores"})
 
-u = User.create({email: 'Api@MiBusCR.co.cr', password: "?$jMEyp5P_9=E7L", nombre: "ApiManager", fechaNac: "2014-10-4",ciudad: "san jose"})
+u = User.create({email: 'Api@MiBusCR.co.cr', password: "?$jMEyp5P_9=E7L", nombre: "ApiManager", fechaNac: "2014-10-4",ciudad: "san jose", admin: true})
 
 u.token = "b0936d7e239775e770ce002307f0acda"
 
@@ -30,7 +32,7 @@ r2 = Ruta.create({nombre: 'UCR-Hatillo', frecuencia: '30 min',precio: 330,horari
 
 #agrega relacion entre UCR-Alajuela y las paradas UCR-Alajuela Alajuela-Final
 rp11 = RutaParada.create({tipo:1})
-rp12 = RutaParada.create({tipo:-1})
+rp12 = RutaParada.create({tipo:2})
 rp11.parada = p1
 rp11.ruta = r1
 rp11.save
@@ -40,7 +42,7 @@ rp12.save
 
 #agrega relacion entre UCR-hatillo y las paradas UCR-hatillo Biblioteca-Hatillo
 rp21 = RutaParada.create({tipo:1})
-rp22 = RutaParada.create({tipo:-1})
+rp22 = RutaParada.create({tipo:2})
 rp21.parada = p3
 rp21.ruta = r2
 rp21.save

@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20141018035818) do
 
   create_table "buses", force: true do |t|
     t.integer  "ruta_id"
+    t.integer  "siguiente"
     t.string   "placa"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -35,6 +36,7 @@ ActiveRecord::Schema.define(version: 20141018035818) do
   create_table "gps_s", force: true do |t|
     t.integer  "bus_id"
     t.string   "id_gps"
+    t.integer  "siguiente"
     t.float    "latitud"
     t.float    "longitud"
     t.datetime "created_at"
