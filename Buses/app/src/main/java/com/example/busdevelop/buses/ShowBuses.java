@@ -6,7 +6,9 @@ import android.util.Log;
 import com.google.android.gms.maps.GoogleMap;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Andony on 31/10/2014.
@@ -16,13 +18,13 @@ public class ShowBuses {
     Usuario mUsuario;
     GoogleMap mMap;
     List<Bus> mBuses;
-    List<DibujarBus> mBusesDibujados;
+    Map<DibujarBus,Location> mBusesDibujados;
 
     public ShowBuses(Usuario usuario,GoogleMap map, ArrayList<Bus> buses) {
         this.mUsuario = usuario;
         this.mMap = map;
         this.mBuses = buses;
-        mBusesDibujados = new ArrayList<DibujarBus>();
+        mBusesDibujados = new HashMap<DibujarBus,Location>();
 
         actualizarPosBuses();
     }
@@ -37,24 +39,15 @@ public class ShowBuses {
             busLocation.updateLocation();
 
             Location location = busLocation.getLastKnown();
-            Log.e("devuelve", ""+location.getLatitude());
+            while(location.getLatitude()==0.0&&location.getLongitude()==0.0) {
+                location = busLocation.getLastKnown();
+            }
+                Log.e("devuelve", ""+location.getLatitude());
 
-            DibujarBus db;
-            /*Log.e("DA", mBusesDibujados.toString());
-            if (mBusesDibujados.contains(new DibujarBus(bus))) {
-                Log.e("1", "1");
-                db = mBusesDibujados.get(mBusesDibujados.indexOf(new DibujarBus(bus)));
-                db.setLocation(location);
+                DibujarBus db = new DibujarBus(mMap,bus,location);
                 db.dibujar();
-            } else {
-                Log.e("2", "2");
-                db = new DibujarBus(mMap, bus, location);
-                db.dibujar();
-                mBusesDibujados.add(db);
-            }*/
-            db = new DibujarBus(mMap, bus, location);
-            db.dibujar();
 
+                mBusesDibujados.put(db,location);
 
         }
     }
