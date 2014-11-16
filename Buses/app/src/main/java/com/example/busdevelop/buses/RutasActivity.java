@@ -85,6 +85,7 @@ public class RutasActivity extends ActionBarActivity {
             Log.e("Mapa", "exception", e);
         }
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void getRutas(){
