@@ -85,7 +85,7 @@ public class ObtRutasActivity extends ActionBarActivity {
             }
         });
 
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 

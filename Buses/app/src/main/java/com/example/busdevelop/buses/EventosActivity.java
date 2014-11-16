@@ -44,6 +44,7 @@ public class EventosActivity extends ActionBarActivity {
 
         // obtener el token
         new HttpAsyncTaskToken(this).execute();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 

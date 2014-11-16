@@ -24,6 +24,8 @@ public class UnderConstructionActivity extends ActionBarActivity {
         SharedPreferences sharedPref = getSharedPreferences(mPrefs_Name, 0);
         mUsuario.setEmail(sharedPref.getString("UserEmail", ""));
         mUsuario.setEncrypted_password(sharedPref.getString("UserPass", ""));
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

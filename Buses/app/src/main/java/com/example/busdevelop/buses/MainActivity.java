@@ -3,6 +3,7 @@ package com.example.busdevelop.buses;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -31,8 +32,12 @@ public class MainActivity extends ActionBarActivity {
     private String[] mOpcionesMenu;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    // ActionBarDrawerToggle indicates the presence of Navigation Drawer in the action bar
+    private ActionBarDrawerToggle mDrawerToggle;
     private InterstitialAd interstitial;
     private GoogleApiClientSing mGoogleApiClient;
+    // Title of the action bar
+    private String mTitle;
 
 
     @Override
@@ -42,16 +47,48 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mTitle = "Menu Principal";
+        getActionBar().setTitle(mTitle);
+
 
         mOpcionesMenu = new String[]{"Editar cuenta", "Buscar", "Cerrar Sesión"};
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // Getting reference to the ActionBarDrawerToggle
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.drawable.ic_drawer, R.string.drawer_open,
+                R.string.drawer_close) {
+
+            /** Called when drawer is closed */
+            public void onDrawerClosed(View view) {
+                getActionBar().setTitle(mTitle);
+                invalidateOptionsMenu();
+
+            }
+
+            /** Called when a drawer is opened */
+            public void onDrawerOpened(View drawerView) {
+                getActionBar().setTitle("MiBusCR");
+                invalidateOptionsMenu();
+            }
+
+        };
+
+        // Setting DrawerToggle on DrawerLayout
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         mDrawerList.setAdapter(new ArrayAdapter<String>(
                 getSupportActionBar().getThemedContext(),
 //                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) ?
 //                android.R.layout.simple_list_item_activated_1 :
                 android.R.layout.simple_list_item_1, mOpcionesMenu));
+
+        // Enabling Home button
+        getActionBar().setHomeButtonEnabled(true);
+
+        // Enabling Up navigation
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -115,7 +152,11 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -134,7 +175,21 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
 
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    /** Called whenever we call invalidateOptionsMenu() */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // If the drawer is open, hide action items related to the content view
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+
+        menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     public void iniciarRutas(View view){

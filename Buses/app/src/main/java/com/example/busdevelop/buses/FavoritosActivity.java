@@ -83,6 +83,7 @@ public class FavoritosActivity extends ActionBarActivity {
 
         getRutas();
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
        }
 

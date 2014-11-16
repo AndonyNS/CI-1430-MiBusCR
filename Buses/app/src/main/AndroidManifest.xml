@@ -44,13 +44,9 @@
             android:label="@string/title_activity_rutas" >
             android:windowSoftInputMode="stat Hidden" >
             android:theme="@style/AppTheme"
-            <!--
-            intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter
-            -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.busdevelop.buses.MainActivity" />
         </activity>
         <activity
             android:name=".CrearCuentaActivity"
@@ -59,6 +55,9 @@
         <activity
             android:name=".ObtRutasActivity"
             android:label="Lista de Rutas" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.busdevelop.buses.MainActivity" />
         </activity>
         <activity
             android:name=".SingleItemView"
@@ -71,10 +70,16 @@
         <activity
             android:name=".FavoritosActivity"
             android:label="Mis rutas favoritas" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.busdevelop.buses.MainActivity" />
         </activity>
         <activity
             android:name=".UnderConstructionActivity"
             android:label="Under Construction" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.busdevelop.buses.MainActivity" />
         </activity>
 
         <!-- Include the AdActivity configChanges and theme. -->
@@ -85,6 +90,9 @@
         <activity
             android:name=".EventosActivity"
             android:label="@string/title_activity_eventos" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.busdevelop.buses.MainActivity" />
         </activity>
         <activity
             android:name=".EventoItemActivity"
@@ -93,6 +101,9 @@
         <activity
             android:name=".MiUbicacionActivity"
             android:label="@string/title_activity_mi_ubicacion" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.busdevelop.buses.MainActivity" />
         </activity>
     </application>
 
