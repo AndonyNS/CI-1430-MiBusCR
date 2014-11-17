@@ -88,6 +88,8 @@ public class DibujarRuta {
 
         //Muestra los buses de la ruta
         if(rutaName.getBuses().size() != 0){
+            MainActivity.busesActuales.clear();
+            MainActivity.busesActuales = rutaName.getBuses();
             new ShowBuses(mUsuario,mMap,rutaName.getBuses());
         }
 

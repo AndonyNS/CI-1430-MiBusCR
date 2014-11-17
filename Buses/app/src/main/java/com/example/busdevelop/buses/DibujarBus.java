@@ -17,7 +17,7 @@ public class DibujarBus {
     Bus mBus;
     double mLatitude;
     double mLongitude;
-    Marker myMarker;
+    private Marker myMarker;
 
     public DibujarBus(Bus bus){
         mBus = bus;
@@ -31,16 +31,13 @@ public class DibujarBus {
 
     public void dibujar(){
         Log.e("Dibujando bus", mBus.toString() + mLatitude + mLongitude);
-
-
-        if(myMarker==null){
-            Log.e("3","3");
-            setMarker();
-        }else{
-            Log.e("4","4");
+        try{
             myMarker.remove();
-            setMarker();
+            Log.e("Modifica uno nuevo",mBus.toString());
+        }catch(NullPointerException e){
+            Log.e("Agrega uno nuevo",mBus.toString());
         }
+        setMarker();
     }
 
     public void setLocation(Location location){
@@ -65,10 +62,14 @@ public class DibujarBus {
         return mBus;
     }
 
+    public Marker getMarker(){
+        return myMarker;
+    }
+
     @Override
     public boolean equals(Object obj) {
         DibujarBus other = (DibujarBus) obj;
-        if(this.mBus==other.getBus())
+        if(this.myMarker==other.getMarker())
         {
             return true;
         }else{
