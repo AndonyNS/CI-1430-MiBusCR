@@ -6,6 +6,8 @@ import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /**
  *
  * Clase que guardara los datos de un usuario
@@ -155,7 +157,8 @@ public class Usuario implements ClassToRest {
     public String obtenerToken() {
         String urlToken = "https://murmuring-anchorage-1614.herokuapp.com/tokens";
         String resultado = ApiManager.httpPost(urlToken,"",token);
-        return resultado;
+        this.guardarTokenId(resultado);
+        return this.getToken();
     }
 
 
