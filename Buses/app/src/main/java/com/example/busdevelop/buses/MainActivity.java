@@ -2,6 +2,7 @@ package com.example.busdevelop.buses;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -24,9 +25,11 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.plus.Plus;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -42,7 +45,7 @@ public class MainActivity extends ActionBarActivity {
     private GoogleApiClientSing mGoogleApiClient;
     // Title of the action bar
     private String mTitle;
-    public static List<Bus> busesActuales;
+    public static Map<Bus,Location> busesActuales;
     private ScheduledExecutorService scheduleTaskExecutor;
 
 
@@ -53,7 +56,6 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        busesActuales = new ArrayList<Bus>();
         mTitle = "Menu Principal";
         getActionBar().setTitle(mTitle);
 
@@ -79,7 +81,6 @@ public class MainActivity extends ActionBarActivity {
                 getActionBar().setTitle("MiBusCR");
                 invalidateOptionsMenu();
             }
-
         };
 
         // Setting DrawerToggle on DrawerLayout
@@ -152,16 +153,14 @@ public class MainActivity extends ActionBarActivity {
             spubIni = false;
         }
 
-        /* El código siguiente, debería de ser el que revisa la actualización
-         de la posición de los buses, el problema es que se ocupa solo un mapa
-         en showBuses para poder actualizarlo
+        busesActuales = new HashMap<Bus, Location>();
         scheduleTaskExecutor = Executors.newScheduledThreadPool(2);
         scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {
+            UpdateBuses ub = new UpdateBuses("b0936d7e239775e770ce002307f0acda");
             public void run() {
-                new ShowBuses(mUsuario,mMap,busesActuales);
+                ub.update();
             }
         }, 0, 30, TimeUnit.SECONDS);
-        */
 
 
     }
