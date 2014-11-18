@@ -237,9 +237,6 @@ public class FavoritosActivity extends ActionBarActivity {
                 // una vez recibido el string con  el json
                 //  se parsea guardando en un array
                 JSONArray rutas = new JSONArray(GetFavoritos(mUrlFavorita));
-                String nombre;
-
-
 
                 //  cada i corresponderia a una diferente ruta
                 // se obtiene el objetoJson de esa posicion
@@ -248,7 +245,7 @@ public class FavoritosActivity extends ActionBarActivity {
 
                 for (int i = 0; i < rutas.length(); i++) {
                    
-                    ids.add(Integer.toString(rutas.getJSONObject(i).getInt("ruta_id")));
+                    ids.add(rutas.getJSONObject(i).getString("ruta_id"));
 
                 }
                 manejador = ManejadorRutas.getInstancia(mUsuario.getToken());
