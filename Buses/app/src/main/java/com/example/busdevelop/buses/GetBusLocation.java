@@ -24,11 +24,11 @@ public class GetBusLocation {
 
     public void updateLocation(){
         new HttpAsyncTask().execute();
-        //Log.d("ubicacion",ubicacion.toString());
+        Log.d("ubicacion",ubicacion.toString());
     }
 
     public Location getLastKnown(){
-        return ubicacion;
+            return ubicacion;
     }
 
     /**
@@ -46,6 +46,7 @@ public class GetBusLocation {
 
         @Override
         protected String doInBackground(Void... urls) {
+            Log.e("Exjecutando doIn b","si");
             String resultado = getFromApi();
             try {
                 JSONObject locationJSON = new JSONObject(resultado);
