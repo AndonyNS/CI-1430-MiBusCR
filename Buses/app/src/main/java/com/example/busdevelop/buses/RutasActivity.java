@@ -22,6 +22,9 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +34,8 @@ public class RutasActivity extends ActionBarActivity {
     private Usuario mUsuario;
     private ListView listViewRutas;
     private List<Ruta> mListaRutas;
+    private List<String> mFavIds = new ArrayList<String>();
+    private String mUrlFavorita= "https://murmuring-anchorage-1614.herokuapp.com/favoritas";
 
 
 
@@ -158,6 +163,9 @@ public class RutasActivity extends ActionBarActivity {
         for ( Ruta r : mListaRutas){
             row = new Row();
             row.setTitle(r.getNombre());
+            if(mFavIds.contains(r.getId())){
+                row.setChecked(true);
+            }
             rows.add(row);
             //nombresRutas.add(r.getNombre());
             Log.d("Prueba", r.getNombre());
@@ -317,6 +325,18 @@ public class RutasActivity extends ActionBarActivity {
         protected String doInBackground(String... urls) {
             ManejadorRutas manejador = ManejadorRutas.getInstancia(mUsuario.getToken());
             mListaRutas = manejador.getListaRutas();
+            try{
+                JSONArray rutas = new JSONArray(ApiManager.httpGet(mUrlFavorita,mUsuario.getToken()));
+                for (int i = 0; i < rutas.length(); i++) {
+
+                    mFavIds.add(rutas.getJSONObject(i).getString("ruta_id"));
+
+                }
+
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
+
             return "Rutas Obtenidas!";
         }
 

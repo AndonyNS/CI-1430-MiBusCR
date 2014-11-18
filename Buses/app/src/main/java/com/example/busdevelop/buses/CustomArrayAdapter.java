@@ -31,7 +31,7 @@ public class CustomArrayAdapter extends ArrayAdapter<Row>
     private Ruta mRutaSeleccionada;
     private Usuario mUsuario;
     private String mUrl = "https://murmuring-anchorage-1614.herokuapp.com/favoritas";
- 
+
     public CustomArrayAdapter(Context context, List<Row> objects,Activity activity,List<Ruta> array, Usuario usuario)
     {
         super(context, 0, objects);
@@ -40,7 +40,7 @@ public class CustomArrayAdapter extends ArrayAdapter<Row>
         this.mRutas = array;
         this.mUsuario = usuario;
     }
- 
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent)
     {

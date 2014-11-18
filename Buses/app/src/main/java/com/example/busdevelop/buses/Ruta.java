@@ -79,23 +79,16 @@ public class Ruta implements ClassToRest{
             try{
                 JSONObject ruta = new JSONObject(resultado);
                 JSONArray paradas = new JSONArray(ruta.getString("ruta_parada"));
-                for(int i = 0; i < paradas.length(); i++){
+                for(int i = 1; i < paradas.length()-1; i++){
                     parada = listParadas.getParada(paradas.getJSONObject(i).getString("parada_id"), token);
                     String tipo = paradas.getJSONObject(i).getString("tipo");
-                    if(tipo.equals("0")) {
-                        paradasIntermedias.add(parada);
-                    }
-                    else{
-                        if(tipo.equals("1")) {
-                            paradaInicial = parada;
-                        }
-                        else {
-                            if(tipo.equals("-1")) {
-                                paradaFinal = parada;
-                            }
-                        }
-                    }
+                    paradasIntermedias.add(parada);
                 }
+                parada = listParadas.getParada(paradas.getJSONObject(0).getString("parada_id"), token);
+                paradaInicial = parada;
+                parada = listParadas.getParada(paradas.getJSONObject(paradas.length()-1).getString("parada_id"), token);
+                paradaFinal = parada;
+
             }catch(JSONException e){
                 e.printStackTrace();
             }
