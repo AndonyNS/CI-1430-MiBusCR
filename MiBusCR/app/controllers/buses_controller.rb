@@ -13,18 +13,17 @@ class BusesController < ApplicationController
   # GET /buses/1
   # GET /buses/1.json
   def show
-    render json: @bus.as_json(only: [:id, :placa],include: [gps:{only: [:id]}])
+    render json: @bus.as_json(only: [:id, :placa],include: {gps:{only: [:id]}, ruta:{only: [:id]}})
   end
 
   # POST /buses
   # POST /buses.json
   def create
     @bus = Bus.find_by_placa(params[:placa])
-    if !params[:ruta].nil?
+    if !params[:ruta].nil? and !@bus.nil?
       @bus.ruta = Ruta.find(params[:ruta])
       @bus.save
     end
-    render json: @bus.as_json(only: [:id, :placa],include: [ruta:{only: [:id]}])
   end
 
   # PATCH/PUT /buses/1
