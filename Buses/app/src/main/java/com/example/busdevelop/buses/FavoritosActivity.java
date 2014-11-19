@@ -36,7 +36,7 @@ public class FavoritosActivity extends ActionBarActivity {
     private List<LatLng> mMarkerParadas;
     private Usuario mUsuario;
     private String mUrlFavorita= "https://murmuring-anchorage-1614.herokuapp.com/favoritas";
-    private List<String> ids = new ArrayList<String>();
+    private List<String> ids;
     private final String mPrefs_Name = "MyPrefsFile";
     
 
@@ -45,6 +45,7 @@ public class FavoritosActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ids = new ArrayList<String>();
         setContentView(R.layout.activity_favoritos);
 
         mMarkerParadas = new ArrayList<LatLng>();

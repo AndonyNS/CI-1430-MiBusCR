@@ -567,11 +567,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
 
         mEmailView.setAdapter(adapter);
     }
-
-    public boolean validarDatos(String value,String email, String password){
-        UserLoginTask u = new UserLoginTask(email,password);
-        return u.validateData(value);
-    }
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
@@ -592,15 +587,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
         protected Boolean doInBackground(Void... params) {
 
             // Will contain the raw JSON response as a string.
-            String usersJsonStr = null;
+            String token = null;
 
             // HAce un post a request para obtener el token
             mUsuario = new Usuario();
             mUsuario.setEmail(mEmail);
             mUsuario.setEncrypted_password(mPassword);
-            usersJsonStr = mUsuario.obtenerToken();
-
-            mValid = validateData(usersJsonStr);
+            token = mUsuario.obtenerToken();
+            mValid = token !=null;
             if(mValid)
                 saveUser();
 
@@ -629,21 +623,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
             showProgress(false);
         }
 
-        //Valida si los datos están dentro del json de todos los usuarios
-        private boolean validateData(String jsonString){
-            boolean existe;
-
-            if(jsonString.contains("token")){
-                existe = true;
-                return existe;
-            }else{
-                existe = false;
-                return existe;
-            }
-
-
-
-        }
 
         public boolean validUser(){
             return mValid;
