@@ -160,7 +160,7 @@ public class MainActivity extends ActionBarActivity {
             public void run() {
                 ub.update();
             }
-        }, 0, 30, TimeUnit.SECONDS);
+        }, 0, 3, TimeUnit.MINUTES);
 
 
     }
