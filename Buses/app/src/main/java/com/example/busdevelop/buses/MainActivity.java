@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.facebook.Session;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -174,6 +175,26 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void logoutAndRestart(){
+        // Cerrar sesion de facebook
+        Session session = Session.getActiveSession();
+        if (session != null) {
+
+            if (!session.isClosed()) {
+                session.closeAndClearTokenInformation();
+                //clear your preferences if saved
+                Toast.makeText(getBaseContext(), "Sesion de Facebook finalizada", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+
+            session = new Session(this);
+            Session.setActiveSession(session);
+
+            session.closeAndClearTokenInformation();
+            //clear your preferences if saved
+            Toast.makeText(getBaseContext(), "Sesion de Facebook finalizada", Toast.LENGTH_SHORT).show();
+
+        }
+
         // Cerrar sesion de google
         mGoogleApiClient = GoogleApiClientSing.getInstancia();
         if(mGoogleApiClient.getGoogleApiClient() != null) {

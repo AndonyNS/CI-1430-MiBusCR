@@ -33,6 +33,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.Request;
+import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
@@ -90,7 +92,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
         setUp();
 
         uiHelper = new UiLifecycleHelper(this, callback);
-        //uiHelper.onCreate(savedInstanceState);
+        uiHelper.onCreate(savedInstanceState);
 
         mGoogleApiClient = GoogleApiClientSing.getInstancia();
         mGoogleApiClient.setGoogleApiClient(new GoogleApiClient.Builder(this)
@@ -106,50 +108,58 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
 
         this.findViewById(R.id.googleplus_sign_in_button).setOnClickListener(this);
 
+        LoginButton authButton = (LoginButton)findViewById(R.id.authButton);
+        final Activity login = this;
+        authButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<String> permissions = new ArrayList<String>();
+                permissions.add("email");
+
+                //Start Facebook session
+                openActiveSession(login, true, new Session.StatusCallback() {
+
+                    // callback when session changes state
+                    @Override
+                    public void call(Session session, SessionState state, Exception exception) {
+                        if (session.isOpened()) {
+
+                            // make request to the /me API
+                            Request.newMeRequest(session, new Request.GraphUserCallback() {
+
+                                // callback after Graph API response with user object
+                                @Override
+                                public void onCompleted(GraphUser user, Response response) {
+                                    if (user != null) {
+                                        Toast.makeText(getBaseContext(), "Hola " + user.getName() + "!", Toast.LENGTH_SHORT).show();
+                                        mUsuarioFacebook = user;
+                                        String nombre = user.getName();
+                                        String email = user.asMap().get("email").toString();
+                                        String password = user.getId();
+                                        CrearCuentaRedSocial crearCuenta = new CrearCuentaRedSocial(email, nombre, password, "", "", getBaseContext());
+                                        mUsuario = crearCuenta.crearUsuario();
+                                        guardarUsuario();
+                                        iniciarMainActivity();
+
+                                    }
+
+                                }
+                            }).executeAsync();
+                        }
+
+                    }
+                }, permissions);
+            }
+        });
+
     }
 
     @Override
     public void onActivityResult(int requestCode, int responseCode, Intent intent) {
         super.onActivityResult(requestCode, responseCode, intent);
-
-/*        List<String> permissions = new ArrayList<String>();
-        permissions.add("email");
-        // start Facebook Login
-        Session.openActiveSession(this, true, new Session.StatusCallback() {
-
-            // callback when session changes state
-            @Override
-            public void call(Session session, SessionState state, Exception exception) {
-                if (session.isOpened()) {
-
-                    // make request to the /me API
-                    Request.newMeRequest(session, new Request.GraphUserCallback() {
-
-                        // callback after Graph API response with user object
-                        @Override
-                        public void onCompleted(GraphUser user, Response response) {
-                            if (user != null) {
-                                Toast.makeText(getBaseContext(), "Hola " + user.getName() + "!", Toast.LENGTH_SHORT).show();
-                                String nombre = user.getName();
-                                String email = user.asMap().get("email").toString();
-                                String password = "123456";
-                                CrearCuentaRedSocial crearCuenta = new CrearCuentaRedSocial(email, nombre, password, "", "", getBaseContext());
-                                mUsuario = crearCuenta.crearUsuario();
-                                guardarUsuario();
-                                iniciarMainActivity();
-
-                            }
-
-                        }
-                    }).executeAsync();
-                }
-
-            }
-        });
-
         uiHelper.onActivityResult(requestCode, responseCode, intent);
         Session.getActiveSession().onActivityResult(this, requestCode, responseCode, intent);
-*/        if (requestCode == REQUEST_CODE_RESOLVE_ERR) {
+        if (requestCode == REQUEST_CODE_RESOLVE_ERR) {
             Log.i("tag", "requestCode == REQUEST_CODE_RESOLVE_ERR. responseCode = " + responseCode);
             if(responseCode == Activity.RESULT_OK) {
                 if(mGoogleApiClient != null) {
@@ -284,46 +294,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
     }
 
     private void onSessionStateChange(Session session, SessionState state, Exception exception) {
-/*            List<String> permissions = new ArrayList<String>();
-            permissions.add("email");
-
-            //Start Facebook session
-            openActiveSession(this, true, new Session.StatusCallback() {
-                @Override
-                public void call(Session session, SessionState state, Exception exception) {
-                    if (session.isOpened()) {
-                        //make request to the /me API
-                        Log.e("sessionopened", "true");
-                        // make request to the /me API
-                        Request request = Request.newMeRequest(session,
-                                new Request.GraphUserCallback() {
-                                    // callback after Graph API response with user object
-
-                                    @Override
-                                    public void onCompleted(GraphUser user, Response response) {
-                                        if (user != null) {
-                                            mUsuarioFacebook = user;
-
-                                        }
-                                    }
-                                });
-                    }
-                }
-
-            }, permissions);
-
-            if (mUsuarioFacebook != null) {
-                String nombre = mUsuarioFacebook.getName();
-                Toast.makeText(getBaseContext(), "Bienvenido " + nombre, Toast.LENGTH_SHORT).show();
-                String email = mUsuarioFacebook.getProperty("email").toString();
-                String password = "123456";
-                CrearCuentaRedSocial crearCuenta = new CrearCuentaRedSocial(email, nombre, password, "", "", this);
-                mUsuario = crearCuenta.crearUsuario();
-                guardarUsuario();
-                iniciarMainActivity();
-            }*/
-
+        if (state.isOpened()) {
+            Log.i(TAG, "Logged in...");
+        } else if (state.isClosed()) {
+            Log.i(TAG, "Logged out...");
         }
+
+    }
 
     private static Session openActiveSession(Activity activity, boolean allowLoginUI, Session.StatusCallback callback, List<String> permissions) {
         Session.OpenRequest openRequest = new Session.OpenRequest(activity).setPermissions(permissions).setCallback(callback);
