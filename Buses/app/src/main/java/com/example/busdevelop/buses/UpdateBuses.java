@@ -16,7 +16,7 @@ public class UpdateBuses {
 
     public void update(){
 
-        Iterator it = MainActivity.busesActuales.values().iterator();
+        Iterator it = MainActivity.busesActuales.entrySet().iterator();
         while(it.hasNext()){
             Map.Entry pares = (Map.Entry)it.next();
             Bus bus = (Bus)pares.getKey();
