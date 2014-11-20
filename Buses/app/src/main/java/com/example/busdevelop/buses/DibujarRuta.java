@@ -65,7 +65,7 @@ public class DibujarRuta {
         // Poner marcador de parada inicial
         paradas = new MarkerOptions();
         paradas.position(mMarkerParadas.get(1));
-        paradas.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+        paradas.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         mMap.addMarker(paradas);
         mMarkerRuta.add(m);
 
@@ -81,7 +81,7 @@ public class DibujarRuta {
             paradas = new MarkerOptions();
             paradas.position(new LatLng(Double.parseDouble(p.getLatitud().replaceAll(" ",".")),
                     Double.parseDouble(p.getLongitud().replaceAll(" ","."))));
-            paradas.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+            paradas.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
             mMap.addMarker(paradas);
             mMarkerRuta.add(m);
         }

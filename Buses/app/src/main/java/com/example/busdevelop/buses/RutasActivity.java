@@ -34,7 +34,7 @@ public class RutasActivity extends ActionBarActivity {
     private Usuario mUsuario;
     private ListView listViewRutas;
     private List<Ruta> mListaRutas;
-    private List<String> mFavIds = new ArrayList<String>();
+    private List<String> mFavIds;
     private String mUrlFavorita= "https://murmuring-anchorage-1614.herokuapp.com/favoritas";
 
 
@@ -43,7 +43,7 @@ public class RutasActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rutas);
-
+        mFavIds = new ArrayList<String>();
         mListaRutas = new ArrayList<Ruta>();
 
         getRutas();
