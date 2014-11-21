@@ -1,6 +1,7 @@
 package com.example.busdevelop.buses;
 
 import android.graphics.Color;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -86,18 +87,22 @@ public class DibujarRuta {
             mMarkerRuta.add(m);
         }
 
-        //Muestra los buses de la ruta
-        if(rutaName.getBuses().size() != 0){
-            MainActivity.busesActuales.clear();
-            MainActivity.busesActuales = rutaName.getBuses();
-            new ShowBuses(mUsuario,mMap,rutaName.getBuses());
-        }
+        MainActivity.busesActuales.clear();
+        inicializar(rutaName.getBuses());
+        //new ShowBuses(mUsuario,mMap,rutaName.getBuses());
 
         String url = getDirectionsUrl();
         DownloadTask downloadTask = new DownloadTask();
 
         // Start downloading json data from Google Directions API
         downloadTask.execute(url);
+    }
+
+    private void inicializar(ArrayList<Bus> buses){
+        for(Bus bus : buses){
+            Location ubicacion = new Location("dummyprovider");
+            MainActivity.busesActuales.put(bus,ubicacion);
+        }
     }
 
     private String getDirectionsUrl(){

@@ -58,6 +58,9 @@ public class MiUbicacionActivity extends ActionBarActivity implements LocationLi
             mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             mLocationManager.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER, 5000, 20, this);
+
+            MainActivity.currentMap = mMapa;
+
         } catch (Exception e) {
             e.printStackTrace();
             Log.e("Mapa", "exception", e);

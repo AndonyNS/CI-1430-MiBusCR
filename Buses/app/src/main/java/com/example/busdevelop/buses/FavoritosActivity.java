@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -73,6 +72,8 @@ public class FavoritosActivity extends ActionBarActivity {
 
 
         mGoogleMap.setTrafficEnabled(true);
+
+        MainActivity.currentMap = mGoogleMap;
 
         } catch (Exception e) {
             e.printStackTrace();
