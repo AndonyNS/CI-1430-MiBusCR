@@ -5,9 +5,7 @@ import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,41 +13,28 @@ import java.util.Map;
  */
 public class ShowBuses {
 
-    Usuario mUsuario;
     GoogleMap mMap;
-    List<Bus> mBuses;
 
-    public ShowBuses(Usuario usuario,GoogleMap map,ArrayList<Bus> buses) {
-        this.mUsuario = usuario;
+    public ShowBuses(GoogleMap map) {
         this.mMap = map;
-        this.mBuses = buses;
 
-        if(MainActivity.busesActuales.isEmpty()) {
-            inicializar();
-        }
         actualizarPosBuses();
-    }
-
-    public void inicializar(){
-        for(Bus bus : mBuses){
-            Location ubicacion = new Location("dummyprovider");
-            MainActivity.busesActuales.put(bus,ubicacion);
-        }
     }
     //Obtiene la ubicación de los buses
     public void actualizarPosBuses() {
 
-        Iterator it = MainActivity.busesActuales.entrySet().iterator();
+        Map currentBuses = MainActivity.busesActuales;
+        Iterator it = currentBuses.entrySet().iterator();
         while(it.hasNext()){
             Map.Entry pares = (Map.Entry)it.next();
             Bus bus = (Bus)pares.getKey();
             Log.d("Procesando bus",bus.toString());
 
             Location location = (Location)pares.getValue();
-            if(location.getLongitude()+location.getLatitude()!=0.0) {
+            //if(location.getLongitude()+location.getLatitude()!=0.0) {
                 DibujarBus db = new DibujarBus(mMap, bus, location);
                 db.dibujar();
-            }
+            //}
 
             it.remove();
             /*GetBusLocation busLocation = new GetBusLocation(bus,mUsuario.getToken());

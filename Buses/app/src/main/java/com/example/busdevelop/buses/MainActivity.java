@@ -23,6 +23,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.plus.Plus;
 
 import java.util.HashMap;
@@ -45,8 +46,9 @@ public class MainActivity extends ActionBarActivity {
     private GoogleApiClientSing mGoogleApiClient;
     // Title of the action bar
     private String mTitle;
-    public static Map<Bus,Location> busesActuales;
     private ScheduledExecutorService scheduleTaskExecutor;
+    public static Map<Bus,Location> busesActuales;
+    public static GoogleMap currentMap;
 
 
     @Override
@@ -97,6 +99,7 @@ public class MainActivity extends ActionBarActivity {
 
         // Enabling Up navigation
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -157,10 +160,13 @@ public class MainActivity extends ActionBarActivity {
         scheduleTaskExecutor = Executors.newScheduledThreadPool(2);
         scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {
             UpdateBuses ub = new UpdateBuses("b0936d7e239775e770ce002307f0acda");
+            ShowBuses sb = new ShowBuses(currentMap);
             public void run() {
+                Log.d("Corriendo","va a actualizar");
+                sb.actualizarPosBuses();
                 ub.update();
             }
-        }, 0, 3, TimeUnit.MINUTES);
+        }, 0, 30, TimeUnit.SECONDS);
 
 
     }
@@ -237,8 +243,6 @@ public class MainActivity extends ActionBarActivity {
         Intent intent = new Intent(this, EventosActivity.class);
         startActivity(intent);
     }
-
-
 
     public void iniciarActivityMenu(Class activityClass){
 
