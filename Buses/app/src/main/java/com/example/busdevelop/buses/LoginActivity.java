@@ -177,7 +177,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,
         String nombre = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient.getGoogleApiClient()).getDisplayName();
         Toast.makeText(getBaseContext(), "Bienvenido " + nombre, Toast.LENGTH_SHORT).show();
         String email  = Plus.AccountApi.getAccountName(mGoogleApiClient.getGoogleApiClient());
-        String password = "123456";
+        String password = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient.getGoogleApiClient()).getId();
         CrearCuentaRedSocial crearCuenta = new CrearCuentaRedSocial(email, nombre, password, "", "", this);
         mUsuario = crearCuenta.crearUsuario();
         guardarUsuario();
