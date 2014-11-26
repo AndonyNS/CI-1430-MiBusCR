@@ -52,6 +52,18 @@
                 android:id="@+id/nombreEvento"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
+
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="24dp"
+                android:text="Ir"
+                android:background="#ee182452"
+                android:textColor="@color/white"
+                android:id="@+id/button"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/nombreEvento"
+                android:layout_marginLeft="100dp"
+                android:layout_toEndOf="@+id/nombreEvento" />
         </RelativeLayout>
 
         <RelativeLayout
