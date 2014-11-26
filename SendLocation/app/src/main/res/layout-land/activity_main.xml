@@ -106,7 +106,7 @@
             android:text="Cambiar Ruta"
             android:id="@+id/Cambiar_Ruta"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="70dp"
+            android:layout_marginLeft="180dp"
             android:onClick="cambiarRuta" />
 
 </RelativeLayout>
