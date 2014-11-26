@@ -105,14 +105,30 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.busdevelop.buses.MainActivity" />
         </activity>
+        <activity
+            android:name=".CrearAlarmaActivity"
+            android:label="Nueva alarma" >
+        </activity>
+        <activity
+            android:name=".AlarmasActivity"
+            android:label="Alarmas" >
+        </activity>
+        <receiver android:name="com.example.busdevelop.buses.AlarmReceiver"
+                  android:permission="com.example.busdevelop.buses.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.example.busdevelop.buses" />
+            </intent-filter>
+        </receiver>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
 </manifest>

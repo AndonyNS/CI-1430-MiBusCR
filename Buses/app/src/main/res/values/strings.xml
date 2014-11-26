@@ -21,8 +21,8 @@
     <string name="title_activity_eventos">EventosActivity</string>
     <string name="title_activity_evento_item">EventoItemActivity</string>
     <string name="title_activity_mi_ubicacion">MiUbicacionActivity</string>
-
     <string name="drawer_open">Open Drawer</string>
     <string name="drawer_close">Close Drawer</string>
+    <string name="dialog_title">Nueva alarma</string>
 
 </resources>
