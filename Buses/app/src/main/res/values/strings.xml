@@ -20,5 +20,6 @@
     <string name="app_id">1501445056787017</string>
     <string name="title_activity_eventos">EventosActivity</string>
     <string name="title_activity_evento_item">EventoItemActivity</string>
+    <string name="dialog_title">Nueva alarma</string>
 
 </resources>

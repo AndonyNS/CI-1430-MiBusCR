@@ -94,6 +94,20 @@
             android:name=".EventoItemActivity"
             android:label="@string/title_activity_evento_item" >
         </activity>
+        <activity
+            android:name=".CrearAlarmaActivity"
+            android:label="Nueva alarma" >
+        </activity>
+        <activity
+            android:name=".AlarmasActivity"
+            android:label="Alarmas" >
+        </activity>
+        <receiver android:name="com.example.busdevelop.buses.AlarmReceiver"
+                  android:permission="com.example.busdevelop.buses.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.example.busdevelop.buses" />
+            </intent-filter>
+        </receiver>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
