@@ -20,10 +20,15 @@ public class ShowBuses {
 
         actualizarPosBuses();
     }
+
+    public GoogleMap getMap(){
+        return mMap;
+    }
     //Obtiene la ubicación de los buses
-    public void actualizarPosBuses() {
+    public synchronized void actualizarPosBuses() {
 
         Map currentBuses = MainActivity.busesActuales;
+        Log.e("3333333333","4444444444");
         Iterator it = currentBuses.entrySet().iterator();
         while(it.hasNext()){
             Map.Entry pares = (Map.Entry)it.next();
@@ -36,6 +41,7 @@ public class ShowBuses {
                 db.dibujar();
             //}
 
+            Log.e(bus.toString(),location.toString());
             it.remove();
             /*GetBusLocation busLocation = new GetBusLocation(bus,mUsuario.getToken());
             busLocation.updateLocation();*(

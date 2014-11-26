@@ -30,14 +30,18 @@ public class DibujarBus {
     }
 
     public void dibujar(){
-        Log.e("Dibujando bus", mBus.toString() + mLatitude + mLongitude);
-        try{
-            myMarker.remove();
-            Log.e("Modifica uno nuevo",mBus.toString());
-        }catch(NullPointerException e){
-            Log.e("Agrega uno nuevo",mBus.toString());
+        if(mMap == null){
+            Log.e("El mapa es nulo","mejor suerte la proxima");
+        }else {
+            Log.e("Dibujando bus", mBus.toString() + mLatitude + mLongitude);
+            try {
+                myMarker.remove();
+                Log.e("Modifica uno nuevo", mBus.toString());
+            } catch (NullPointerException e) {
+                Log.e("Agrega uno nuevo", mBus.toString());
+            }
+            setMarker();
         }
-        setMarker();
     }
 
     public void setLocation(Location location){

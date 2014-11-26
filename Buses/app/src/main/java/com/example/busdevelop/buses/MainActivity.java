@@ -49,7 +49,7 @@ public class MainActivity extends ActionBarActivity {
     private String mTitle;
     private ScheduledExecutorService scheduleTaskExecutor;
     public static Map<Bus,Location> busesActuales;
-    public static GoogleMap currentMap;
+    public static GoogleMap currentMap = null;
 
 
     @Override
@@ -158,16 +158,21 @@ public class MainActivity extends ActionBarActivity {
         }
 
         busesActuales = new HashMap<Bus, Location>();
-        scheduleTaskExecutor = Executors.newScheduledThreadPool(2);
+        scheduleTaskExecutor = Executors.newScheduledThreadPool(5);
         scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {
             UpdateBuses ub = new UpdateBuses("b0936d7e239775e770ce002307f0acda");
-            ShowBuses sb = new ShowBuses(currentMap);
             public void run() {
                 Log.d("Corriendo","va a actualizar");
-                sb.actualizarPosBuses();
-                ub.update();
+                if(currentMap==null){
+                    Log.e("El mapa es nulo","no lo hace");
+                }else{
+                    Log.d("El mapa es",currentMap.toString());
+                    ShowBuses sb = new ShowBuses(currentMap);
+                    sb.actualizarPosBuses();
+                    ub.update();
+                }
             }
-        }, 0, 30, TimeUnit.SECONDS);
+        }, 0, 1, TimeUnit.MINUTES);
 
 
     }
