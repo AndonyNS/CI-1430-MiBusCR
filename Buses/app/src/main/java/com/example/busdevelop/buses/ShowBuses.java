@@ -20,6 +20,10 @@ public class ShowBuses {
 
         actualizarPosBuses();
     }
+
+    public GoogleMap getMap(){
+        return mMap;
+    }
     //Obtiene la ubicación de los buses
     public void actualizarPosBuses() {
 
