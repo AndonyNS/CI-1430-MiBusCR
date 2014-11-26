@@ -7,13 +7,13 @@ class GpsSController < ApplicationController
   def index
     @gps_s = Gps.all
 
-    render json: @gps_s.as_json(only: [:id, :id_gps,:latitud,:longitud, :siguiente])
+    render json: @gps_s.as_json(only: [:id, :id_gps,:latitud,:longitud, :siguiente],include:{bus:{ include: {ruta:{only: [:id]}}}})
   end
 
   # GET /gps_s/1
   # GET /gps_s/1.json
   def show
-    render json: @gps.as_json(only: [:id, :id_gps,:latitud,:longitud, :siguiente])
+    render json: @gps.as_json(only: [:id, :id_gps,:latitud,:longitud, :siguiente],include:{bus:{ include: {ruta:{only: [:id]}}}})
   end
 
   # POST /gps_s
@@ -33,7 +33,13 @@ class GpsSController < ApplicationController
     if params[:siguiente] != ""
       @gps.siguiente = params[:siguiente]
     end
+    if params[:ruta] != "" and !@gps.bus.nil?
+      @bus = @gps.bus
+      @bus.ruta = Ruta.find(params[:ruta])
+      @bus.save
+    end
     @gps.save
+    head 200
   end
 
   # PATCH/PUT /gps_s/1

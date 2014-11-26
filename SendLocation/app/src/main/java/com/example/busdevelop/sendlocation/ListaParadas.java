@@ -1,4 +1,4 @@
-package com.example.busdevelop.buses;
+package com.example.busdevelop.sendlocation;
 
 /**
  * Created by Manuel on 11/2/14.

@@ -11,6 +11,7 @@ import org.json.JSONObject;
  */
 public class Gps implements ClassToRest {
     private String id_gps;
+    private String ruta;
     private double latitud;
     private double longitud;
 
@@ -18,8 +19,9 @@ public class Gps implements ClassToRest {
         this.id_gps = id;
     }
 
-    public Gps(String id_gps, double latitud, double longitud) {
+    public Gps(String id_gps, double latitud, double longitud, String ruta) {
         this.id_gps = id_gps;
+        this.ruta = ruta;
         this.latitud=latitud;
         this.longitud=longitud;
 
@@ -31,9 +33,14 @@ public class Gps implements ClassToRest {
     public void setId(String id) {
         this.id_gps = id;
     }
-    public String getUbicacion() {
-        return (latitud+","+longitud);
+
+    public String getRuta() {
+        return ruta;
     }
+    public void setRuta(String ruta) {
+        this.ruta = ruta;
+    }
+
 
     public void setUbicacion(double latitud,double longitud) {
         this.latitud = latitud;
@@ -63,6 +70,9 @@ public class Gps implements ClassToRest {
             // se acumulan los campos necesarios, el primer parametro
             // es la etiqueta json que tendran los campos de la base
             jsonObject.accumulate("id_gps", getId());
+            if(ruta != null) {
+                jsonObject.accumulate("ruta", this.ruta);
+            }
             jsonObject.accumulate("latitud",this.latitud);
             jsonObject.accumulate("longitud",this.longitud);
 
