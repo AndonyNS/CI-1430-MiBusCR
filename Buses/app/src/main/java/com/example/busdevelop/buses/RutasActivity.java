@@ -84,7 +84,6 @@ public class RutasActivity extends ActionBarActivity {
             mMap.setTrafficEnabled(true);
 
             MainActivity.currentMap = mMap;
-            showBuses();
 
         } catch (Exception e) {
 
