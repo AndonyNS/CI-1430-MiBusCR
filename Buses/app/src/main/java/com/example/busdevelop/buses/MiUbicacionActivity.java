@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -35,8 +36,16 @@ public class MiUbicacionActivity extends ActionBarActivity implements LocationLi
     private Usuario mUsuario;
     private ListView mListViewRutasCercanas;
     private List<Ruta> mListaRutas;
-    private ArrayList<Ruta> mListaRutasCercanas;
     private ListViewAdapter mAdapter;
+
+    // para obtener paradas a analizar de cada ruta
+    private Parada mParadaInicial;
+    private Parada mParadaFinal;
+    private ArrayList<Parada> mParadasIntermedias;
+    private boolean mRutaEnRango;  // para calcular
+    private boolean mParadaEnRango;
+    private Location mMiUbicacion;  // coordenadas de donde se encuentra el usuario
+    private ArrayList<Ruta> mListaRutasCercanas = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +53,7 @@ public class MiUbicacionActivity extends ActionBarActivity implements LocationLi
         setContentView(R.layout.activity_mi_ubicacion);
 
         getRutas();
+        mListaRutasCercanas = new ArrayList<Ruta>();
         try {
             if (mMapa == null) {
                 // soportado en ultimas apis
@@ -92,6 +102,7 @@ public class MiUbicacionActivity extends ActionBarActivity implements LocationLi
     public void onLocationChanged(Location posicion) {
         LatLng latitudLongitud = new LatLng(posicion.getLatitude(),
                 posicion.getLongitude());
+        mMiUbicacion = posicion;
 
         if (mMarcadorUpdate == null) {
             mMarcadorUpdate = mMapa.addMarker(new MarkerOptions()
@@ -189,7 +200,7 @@ public class MiUbicacionActivity extends ActionBarActivity implements LocationLi
         protected String doInBackground(String... urls) {
             ManejadorRutas manejador = ManejadorRutas.getInstancia(mUsuario.getToken());
             mListaRutas = manejador.getListaRutas();
-            return "Rutas Obtenidas!";
+            return "Calculando Rutas cercanas";
         }
 
         /**
@@ -204,16 +215,89 @@ public class MiUbicacionActivity extends ActionBarActivity implements LocationLi
                 Toast.makeText(getBaseContext(), result, Toast.LENGTH_LONG).show();
                 // createListView();
                 // TODO: Calcular las rutas cercanas
-                mListViewRutasCercanas = (ListView) findViewById(R.id.listaDeRutas);
-                // Pasar las rutas al  ListViewAdapter
-                mAdapter = new ListViewAdapter(mActivity,(ArrayList) mListaRutas);
+                // por cada ruta se fija en las paradas cercanas
+                double distancia;
+                Location miUbicacion = new Location("Mi ubicacion");
+                miUbicacion.setLatitude(mMiUbicacion.getLatitude());
+                miUbicacion.setLongitude(mMiUbicacion.getLongitude());
 
-                // enlazar el adaptador con el listView
-                mListViewRutasCercanas.setAdapter(mAdapter);
+                // Guardara la informacion de la parada a verificar
+                Location paradaCercana = new Location("Evaluar Parada");
+
+                for(Ruta ruta : mListaRutas){
+                    mRutaEnRango = false;
+
+                    /**************************************
+                     * Verificar ruta inicial
+                     **************************************/
+                    mParadaInicial = ruta.getParadaInicial();
+                    paradaCercana.setLatitude(Double.parseDouble(mParadaInicial.getLatitud()));
+                    paradaCercana.setLongitude(Double.parseDouble(mParadaInicial.getLongitud()));
+                    distancia = miUbicacion.distanceTo(paradaCercana);
+                    Toast.makeText(getBaseContext(), Double.toString(distancia), Toast.LENGTH_LONG).show();
+
+                    if (distancia<= 500){
+                        mListaRutasCercanas.add(ruta);
+                        continue; // como ya agrego esta ruta no es necesario evaluar mas paradas
+                    }
+
+
+                    /**************************************
+                     * Si no verifica parada final
+                     **************************************/
+                    mParadaFinal = ruta.getParadaFinal();
+                    paradaCercana.setLatitude(Double.parseDouble(mParadaFinal.getLatitud()));
+                    paradaCercana.setLongitude(Double.parseDouble(mParadaFinal.getLongitud()));
+                    distancia = miUbicacion.distanceTo(paradaCercana);
+                    if (distancia< 500){
+                        mListaRutasCercanas.add(ruta);
+                        continue; // como ya agrego esta ruta no es necesario evaluar mas paradas
+                    }
+
+                    /****************************************************
+                     * El útimo caso sería verificar paradas intermedias
+                     ****************************************************/
+                    mParadasIntermedias= ruta.getParadasIntermedias();
+                    for(Parada parada: mParadasIntermedias ){
+                        paradaCercana.setLatitude(Double.parseDouble(parada.getLatitud()));
+                        paradaCercana.setLongitude(Double.parseDouble(parada.getLongitud()));
+                        distancia = miUbicacion.distanceTo(paradaCercana);
+                        if (distancia< 500){
+                            mListaRutasCercanas.add(ruta);
+                            break; // como ya agrego esta ruta no es necesario evaluar mas paradas
+                        }
+                    }
+                }
+
+
+                mListViewRutasCercanas = (ListView) findViewById(R.id.listaDeRutas);
+
+                /**
+                 * Si hay rutas cercanas las muestra en un listview
+                 * Si no le informa al usuario que no hay rutas cercanas
+                 * a su ubicación
+                 */
+                if(mListaRutasCercanas != null){
+                    mListViewRutasCercanas.setVisibility(View.VISIBLE);
+                    // Pasar las rutas al  ListViewAdapter
+                    // mAdapter = new ListViewAdapter(mActivity,(ArrayList) mListaRutas);
+                    mAdapter = new ListViewAdapter(mActivity,mListaRutasCercanas);
+
+                    // enlazar el adaptador con el listView
+                    mListViewRutasCercanas.setAdapter(mAdapter);
+                }else{
+                    Toast.makeText(getBaseContext(), "No hay rutas cercanas a su ubicación :(", Toast.LENGTH_LONG).show();
+                }
+
+
             } catch(IllegalArgumentException i){
                 Log.e("Error de argumento",""+i.getMessage());
             }
         }
     }
+
+    /**
+     * Metodo calcular distancias
+     */
 
 }
