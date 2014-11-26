@@ -121,6 +121,7 @@ public class MiUbicacionActivity extends ActionBarActivity implements LocationLi
 
             mMapa.animateCamera(CameraUpdateFactory.newLatLng(latitudLongitud));
         }
+        getRutas();
     }
 
     @Override
@@ -223,7 +224,7 @@ public class MiUbicacionActivity extends ActionBarActivity implements LocationLi
 
                 // Guardara la informacion de la parada a verificar
                 Location paradaCercana = new Location("Evaluar Parada");
-
+                mListaRutasCercanas.clear();
                 for(Ruta ruta : mListaRutas){
                     mRutaEnRango = false;
 
@@ -234,7 +235,6 @@ public class MiUbicacionActivity extends ActionBarActivity implements LocationLi
                     paradaCercana.setLatitude(Double.parseDouble(mParadaInicial.getLatitud()));
                     paradaCercana.setLongitude(Double.parseDouble(mParadaInicial.getLongitud()));
                     distancia = miUbicacion.distanceTo(paradaCercana);
-                    Toast.makeText(getBaseContext(), Double.toString(distancia), Toast.LENGTH_LONG).show();
 
                     if (distancia<= 500){
                         mListaRutasCercanas.add(ruta);

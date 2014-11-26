@@ -2,6 +2,7 @@ package com.example.busdevelop.sendlocation;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
@@ -21,7 +22,6 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
     private final String mPrefs_Name = "MyPrefsFile";
-    String currentLocation;
     double currentLatitude;
     double currentLongitude;
     long lastUpdate;
@@ -38,7 +38,8 @@ public class MainActivity extends Activity {
         updateFrequency = min2nano(1);
 
         //Crea la instancia de firebase, es de tipo server, para que pueda ser usado con otros servidores en caso de que sea desee cambiar
-        server = new ApiUpdate(getApplicationContext(),this);
+        ApiUpdate temp = new ApiUpdate(getApplicationContext(),this);
+        server = temp;
         try {
             continueButtonListener();
             stopButtonListener();
@@ -51,7 +52,11 @@ public class MainActivity extends Activity {
         }catch(NullPointerException e){
             Log.e("casi se cae",""+e.getMessage());
         }
-
+        Intent i = getIntent();
+        if(i != null) {
+            String id = i.getStringExtra("id");
+            temp.miGps.setRuta(id);
+        }
         configureServiceManager();
 	}
 
@@ -112,6 +117,12 @@ public class MainActivity extends Activity {
                 settings.edit().putBoolean("show_agreement", false).commit();
             }
         }
+    }
+
+
+    public void cambiarRuta(View v){
+        Intent intent = new Intent(this, ObtRutasActivity.class);
+        startActivity(intent);
     }
 
     private void continueButtonListener(){
