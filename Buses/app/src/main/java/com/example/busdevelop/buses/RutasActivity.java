@@ -83,7 +83,10 @@ public class RutasActivity extends ActionBarActivity {
 
             mMap.setTrafficEnabled(true);
 
+            Thread.sleep(5);
+            Log.d("El mapa que va a escribir es",mMap.toString());
             MainActivity.currentMap = mMap;
+            Log.d("Ahora current map es",MainActivity.currentMap.toString());
 
         } catch (Exception e) {
 

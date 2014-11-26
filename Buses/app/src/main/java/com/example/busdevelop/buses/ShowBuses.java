@@ -25,7 +25,7 @@ public class ShowBuses {
         return mMap;
     }
     //Obtiene la ubicación de los buses
-    public void actualizarPosBuses() {
+    public synchronized void actualizarPosBuses() {
 
         Map currentBuses = MainActivity.busesActuales;
         Log.e("3333333333","4444444444");
