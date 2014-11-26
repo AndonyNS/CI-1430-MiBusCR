@@ -21,6 +21,7 @@
         android:background="@drawable/layout_border_2"
         android:divider="#EE485574"
         android:dividerHeight="1dp"
+        android:visibility="gone"
        />
 
 
