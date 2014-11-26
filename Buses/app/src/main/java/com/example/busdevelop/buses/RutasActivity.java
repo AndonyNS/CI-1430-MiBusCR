@@ -1,7 +1,10 @@
 package com.example.busdevelop.buses;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -34,8 +37,10 @@ public class RutasActivity extends ActionBarActivity {
     private Usuario mUsuario;
     private ListView listViewRutas;
     private List<Ruta> mListaRutas;
+    private ArrayList<Ruta> mListaRutasCercanas = null;
     private List<String> mFavIds;
     private String mUrlFavorita= "https://murmuring-anchorage-1614.herokuapp.com/favoritas";
+    private Location mUbicacion;
 
 
 
@@ -47,6 +52,8 @@ public class RutasActivity extends ActionBarActivity {
         mListaRutas = new ArrayList<Ruta>();
 
         getRutas();
+
+        mUbicacion = new Location("Aqui estoy");
 
         try {
             if (mMap == null) {
@@ -72,12 +79,13 @@ public class RutasActivity extends ActionBarActivity {
             }
             moveToLocation(latlng, 13);
 
-            // The map will be cleared on long click
+            // The map will ask to see if you want to go there
             mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                 @Override
                 public void onMapLongClick(LatLng point) {
-                    // Removes all the points from Google Map
-                    mMap.clear();
+                    mUbicacion.setLatitude(point.latitude);
+                    mUbicacion.setLongitude(point.longitude);
+                    confirmacionDeIr();
                 }
             });
 
@@ -113,6 +121,35 @@ public class RutasActivity extends ActionBarActivity {
         CameraUpdate zoom = CameraUpdateFactory.zoomTo(zoomDistance);
         mMap.moveCamera(ubicacion);
         mMap.animateCamera(zoom);
+    }
+
+    private void confirmacionDeIr(){
+        AlertDialog.Builder confirmar = new AlertDialog.Builder(this);
+        confirmar.setTitle("Navegar");
+        confirmar.setMessage("¿Desea saber como llegar a este punto?");
+
+
+        //Poner la ubicacion
+        confirmar.setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Log.d("SI","va a calcular");
+                        new HttpAsyncTaskRutasCercanas().execute();
+                    }
+                }
+                );
+
+        confirmar.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Log.d("NO","va a cerrar");
+
+                        dialogInterface.dismiss();
+                    }
+                }
+                );
+
+
     }
 
     /* Método que mueve la cámara a los límites establecidos por
@@ -157,14 +194,14 @@ public class RutasActivity extends ActionBarActivity {
         mMap.animateCamera(CameraUpdateFactory.zoomTo(mMap.getCameraPosition().zoom-1));
     }
 
-    private void createListView(){
+    private void createListView(ListView listView, final List<Ruta> listRutas){
         // Get ListView object from xml
-        listViewRutas = (ListView) findViewById(R.id.rutaslist);
+        listView = (ListView) findViewById(R.id.rutaslist);
         List<Row> rows = new ArrayList<Row>();
 
         Row row;
         //Llena toda las filas del listview con las listas obtenidas
-        for ( Ruta r : mListaRutas){
+        for ( Ruta r : listRutas){
             row = new Row();
             row.setTitle(r.getNombre());
             if(mFavIds.contains(r.getId())){
@@ -175,22 +212,22 @@ public class RutasActivity extends ActionBarActivity {
             Log.d("Prueba", r.getNombre());
         }
         if(!rows.isEmpty()) {
-            listViewRutas.setVisibility(View.VISIBLE);
+            listView.setVisibility(View.VISIBLE);
         }
 
         //Le envía al array adapter personalizado el contexto del cual va a llamarlo y el ArrayList de filas
-        CustomArrayAdapter adapter = new CustomArrayAdapter(this, rows,this,mListaRutas,mUsuario);
+        CustomArrayAdapter adapter = new CustomArrayAdapter(this, rows,this,listRutas,mUsuario);
 
-        listViewRutas.setAdapter(adapter);
+        listView.setAdapter(adapter);
 
-        listViewRutas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(getApplicationContext(), rows.get(position).getTitle(), Toast.LENGTH_SHORT).show();
                 view.setSelected(true);
                 // Obtiene la ruta seleccionada
-                Ruta rutaSeleccionada = mListaRutas.get(position);
+                Ruta rutaSeleccionada = listRutas.get(position);
 
                 //Llama a la clase que dibuja la ruta,
                 new DibujarRuta(mUsuario,mMap, rutaSeleccionada);
@@ -199,59 +236,6 @@ public class RutasActivity extends ActionBarActivity {
 
             }
         });
-    }
-
-    /**
-     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
-     * just add a marker near Africa.
-     * <p>
-     * This should only be called once and when we are sure that {@link #mMap} is not null.
-     */
-    private void setUpMap() {
-        //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-    }
-
-    /* TODO: Muestra los buses*/
-    public void showBuses() {
-        /*Firebase firebaseRef = new Firebase(mFIREBASE_URL);
-
-        firebaseRef.addChildEventListener(new ChildEventListener() {
-
-            @Override
-            public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
-
-                Location location = new Location("dummyprovider");
-
-                mGps = (String) snapshot.child("GpsID").getValue();
-                mLocation = (String) snapshot.child("Location").getValue();
-                String[] parts = mLocation.split(" ");
-                mLatitud = Double.parseDouble(parts[0]);
-                mLongitud = Double.parseDouble(parts[1]);
-                location.setLatitude(mLatitud);
-                location.setLongitude(mLongitud);
-                onLocationChanged(location);
-                mMarcadorBus = mMarcadorUpdate;
-
-            }
-
-            @Override
-            public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot snapshot) {
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("The read failed: " + firebaseError.getMessage());
-            }
-
-        });*/
     }
 
     @Override
@@ -354,7 +338,103 @@ public class RutasActivity extends ActionBarActivity {
 
             try{
                 Toast.makeText(getBaseContext(), result, Toast.LENGTH_LONG).show();
-                createListView();
+                createListView(listViewRutas,mListaRutas);
+            } catch(IllegalArgumentException i){
+                Log.e("Error de argumento",""+i.getMessage());
+            }
+        }
+    }
+
+    private class HttpAsyncTaskRutasCercanas extends AsyncTask<String, Void, String> {
+        private HttpAsyncTaskRutasCercanas(){
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            ManejadorRutas manejador = ManejadorRutas.getInstancia(mUsuario.getToken());
+            mListaRutas = manejador.getListaRutas();
+            return "Calculando Rutas cercanas";
+        }
+
+        /**
+         * metodo que se ejecuta después de obtener la respuesta
+         * al request get
+         * @param result
+         */
+        @Override
+        protected void onPostExecute(String result) {
+
+            try{
+                Toast.makeText(getBaseContext(), result, Toast.LENGTH_LONG).show();
+                // createListView();
+                // por cada ruta se fija en las paradas cercanas
+                double distancia;
+
+                //mUbicacionActual = new Location("Evento Ubicacion");
+                //mUbicacionActual.setLatitude(Double.parseDouble(mEvento.getLatitud()));
+                //mUbicacionEvento.setLongitude(Double.parseDouble(mEvento.getLongitud()));
+
+                // Guardara la informacion de la parada a verificar
+                Location paradaCercana = new Location("Evaluar Parada");
+                for(Ruta ruta : mListaRutas){
+                    // mListaRutasCercanas.add(ruta);
+                    /**************************************
+                     * Verificar ruta inicial
+                     **************************************/
+                    Parada mParadaInicial = ruta.getParadaInicial();
+                    paradaCercana.setLatitude(Double.parseDouble(mParadaInicial.getLatitud()));
+                    paradaCercana.setLongitude(Double.parseDouble(mParadaInicial.getLongitud()));
+                    distancia = mUbicacion.distanceTo(paradaCercana);
+
+                    if (distancia<= 500){
+                        mListaRutasCercanas.add(ruta);
+                        continue; // como ya agrego esta ruta no es necesario evaluar mas paradas
+                    }
+
+
+                    /**************************************
+                     * Si no verifica parada final
+                     **************************************/
+                    Parada mParadaFinal = ruta.getParadaFinal();
+                    paradaCercana.setLatitude(Double.parseDouble(mParadaFinal.getLatitud()));
+                    paradaCercana.setLongitude(Double.parseDouble(mParadaFinal.getLongitud()));
+                    distancia = mUbicacion.distanceTo(paradaCercana);
+                    if (distancia< 500){
+                        mListaRutasCercanas.add(ruta);
+                        continue; // como ya agrego esta ruta no es necesario evaluar mas paradas
+                    }
+
+                    /****************************************************
+                     * El útimo caso sería verificar paradas intermedias
+                     ****************************************************/
+                    List<Parada> mParadasIntermedias= ruta.getParadasIntermedias();
+                    for(Parada parada: mParadasIntermedias ){
+                        paradaCercana.setLatitude(Double.parseDouble(parada.getLatitud()));
+                        paradaCercana.setLongitude(Double.parseDouble(parada.getLongitud()));
+                        distancia = mUbicacion.distanceTo(paradaCercana);
+                        if (distancia< 500){
+                            mListaRutasCercanas.add(ruta);
+                            break; // como ya agrego esta ruta no es necesario evaluar mas paradas
+                        }
+                    }
+                }
+
+
+                listViewRutas = (ListView) findViewById(R.id.rutaslist);
+
+                /**
+                 * Si hay rutas cercanas las muestra en un listview
+                 * Si no le informa al usuario que no hay rutas cercanas
+                 * a su ubicación
+                 */
+                if(mListaRutasCercanas != null){
+                    listViewRutas.setVisibility(View.VISIBLE);
+                    createListView(listViewRutas,mListaRutas);
+                }else{
+                    Toast.makeText(getBaseContext(), "No hay rutas cercanas para llegar al evento", Toast.LENGTH_LONG).show();
+                }
+
+
             } catch(IllegalArgumentException i){
                 Log.e("Error de argumento",""+i.getMessage());
             }
