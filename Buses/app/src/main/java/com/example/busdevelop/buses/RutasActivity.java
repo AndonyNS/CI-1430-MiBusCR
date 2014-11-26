@@ -186,7 +186,7 @@ public class RutasActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(getApplicationContext(), rows.get(position).getTitle(), Toast.LENGTH_SHORT).show();
-
+                view.setSelected(true);
                 // Obtiene la ruta seleccionada
                 Ruta rutaSeleccionada = mListaRutas.get(position);
 

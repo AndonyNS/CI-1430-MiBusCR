@@ -131,7 +131,7 @@ public class FavoritosActivity extends ActionBarActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                view.setSelected(true);
                 Ruta itemValue = mFavoritosArray.get(position);
 
                 Log.d("obtuve la seleccionada", itemValue.getNombre());

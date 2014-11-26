@@ -20,7 +20,8 @@
         android:background="@drawable/layout_border_2"
         android:visibility="gone"
         android:divider="#EE485574"
-        android:dividerHeight="1dp"/>
+        android:dividerHeight="1dp"
+        android:listSelector="#eeb64f4f"/>
 
 
 </FrameLayout>
